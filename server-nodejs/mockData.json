@@ -1,0 +1,12 @@
+{
+    "user": {
+        "display_name": "Toan",
+        "email": "toan@gmail.com",
+        "phone": "0348625050",
+        "birthday": "30-08-1998",
+        "gender": "Nam",
+        "avatar": "avatar",
+        "address": "Phu tho",
+        "password": "123456"
+    }
+}
