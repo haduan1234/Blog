@@ -1,27 +1,28 @@
+const { post } = require(".")
+
 module.exports = (sequelize, Sequelize, DataTypes) => {
     const Post = sequelize.define(
       "posts", // Model name
       {
-          post_id: {
+          id: {
             type: DataTypes.UUID,
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true
           },
-          post_name: {
+          name: {
               type: DataTypes.STRING,
               unique: true
           },
-          post_content: {
-              type: DataTypes.STRING,
-              unique: true
+          contentId: {
+              type: DataTypes.STRING
           },
-          post_time: {
+          time: {
             type: DataTypes.BIGINT
           },
-          post_updateTime: {
+          updateTime: {
             type: DataTypes.BIGINT
           },
-          post_deleteTime: {
+          deleteTime: {
             type: DataTypes.BIGINT
           }
       },
@@ -33,4 +34,5 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         updatedAt: "updated_at"
       }
     )
+    return Post;
 }

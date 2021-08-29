@@ -32,7 +32,12 @@ db.scheduler = require("./scheduler.model.js")(sequelize, Sequelize, DataTypes)
 db.recipients_schedule = require("./recipients_schedule.model.js")(sequelize, Sequelize, DataTypes)
 db.label = require("./label.model.js")(sequelize, Sequelize, DataTypes)
 
+
 db.post = require("./post.model.js")(sequelize, Sequelize, DataTypes)
+db.blogger= require("./blogger.model.js")(sequelize, Sequelize, DataTypes)
+// db.comment= require("./comment.model.js")(sequelize, Sequelize, DataTypes)
+// db.content= require("./content.model.js")(sequelize, Sequelize, DataTypes)
+// db.group= require("./group.model.js")(sequelize, Sequelize, DataTypes)
 
 // reference scheduler with label
 db.label.hasMany(db.scheduler)
@@ -68,6 +73,11 @@ db.role.hasMany(db.user)
 //   foreignKey: "user_id",
 //   otherKey: "role_id"
 // });
+
+// reference 
+
+db.post.belongsTo(db.blogger)
+db.blogger.hasMany(db.post)
 
 db.ROLES = ["user", "admin"]
 db.PERMISSIONS = ["read", "add", "edit", "delete", "no_permission"]
