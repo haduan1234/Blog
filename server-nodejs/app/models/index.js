@@ -31,6 +31,9 @@ db.permission = require("./permission.model.js")(sequelize, Sequelize, DataTypes
 db.scheduler = require("./scheduler.model.js")(sequelize, Sequelize, DataTypes)
 db.recipients_schedule = require("./recipients_schedule.model.js")(sequelize, Sequelize, DataTypes)
 db.label = require("./label.model.js")(sequelize, Sequelize, DataTypes)
+
+db.post = require("./post.model.js")(sequelize, Sequelize, DataTypes)
+
 // reference scheduler with label
 db.label.hasMany(db.scheduler)
 db.scheduler.belongsTo(db.label)

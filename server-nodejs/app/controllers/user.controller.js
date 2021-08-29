@@ -69,9 +69,11 @@ exports.updatePassWord = async (req, res) => {
 
 }
 
+
+
 exports.findAll = (req, res) => {
   const display_name = req.query.display_name
-  const { page, size } = req.query
+  const { page, size }  = req.query
   const { limit, offset } = getPagination(page, size)
 
   var condition = display_name ? { display_name: { [Op.eq]: display_name } } : null
