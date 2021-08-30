@@ -79,6 +79,7 @@ require("./app/routes/recipients_schedule.routes")(app)
 require("./app/routes/label.routes")(app)
 
 require("./app/routes/post.routes")(app)
+require("./app/routes/blogger.routes")(app)
 
 // set port, listen for requests
 const PORT = config.PORT
