@@ -5,5 +5,10 @@ module.exports = app => {
     router.get('/', controller.findAll)
     router.post('/', controller.create)
 
+    router.put("/:id", controller.update)
+    router.get("/:id", controller.findOne)
+    router.delete("/:id", controller.delete)
+    router.delete("/", controller.deleteAll)
+
     app.use('/api/post', router);
 }
