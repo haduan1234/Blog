@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -28,9 +28,29 @@ import Delete from './delete/delete';
 import { Link } from 'react-router-dom';
 import { red } from '@material-ui/core/colors';
 
+import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
+
 
 const Manages = () => {
   const [visible, setVisible] = useState(false)
+  const [users, setUsers] = useState([])
+
+  const fetchUsers = async () => {
+    try {
+      let res = await getUsers()
+      if(!!res.data) {
+        setUsers(res.data)
+      }
+    }
+    catch(error) {
+      alert(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
   return (
     <CCol>
       <CCard className="m-1">
