@@ -61,6 +61,11 @@ exports.findOne = (req, res) => {
         where : { id : id } 
     })
     .then(data => {
+        if(data.length == 0){
+            res.send({
+                message:" Can not find Post with id =" +id
+            })
+        }
         res.send(data);
     })
     .catch(err => {

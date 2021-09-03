@@ -48,18 +48,26 @@ exports.create = (req, res) => {
 
 exports.findOne = (req, res) => {
     const id = req.params.id;
-
-    Blogger.findOne({
+   Blogger.findOne({
         where: { id:  id}
     })
     .then(data=> {
-        res.send(data);
+      if(data.length == 0){
+        res.send({
+          message:" Can not find Blogger with id ="+id
+        })
+      }else{
+        res.send(data)
+      }
+       
     })
     .catch(err => {
         res.status(500).send({
             message: `Error find Blogger with id=${id} `
         })
     })
+
+   
 }
 
 exports.update = (req, res) => {
