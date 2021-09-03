@@ -3,6 +3,9 @@ import React from 'react'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
+const Posts = React.lazy(() => import('./views/theme/posts/Post'))
+const Users = React.lazy(() => import('./views/theme/users/User'))
+const Manages = React.lazy(() => import('./views/theme/manages/Manage'))
 
 // Base
 const Accordion = React.lazy(() => import('./views/components/base/accordion/Accordion'))
@@ -59,6 +62,10 @@ const routes = [
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },
+  { path: '/admin', name: 'Admin', component: Posts, exact: true },
+  { path: '/admin/manage', name: 'Manages', component: Manages },
+  { path: '/admin/posts', name: 'Posts', component: Posts },
+  { path: '/admin/users', name: 'Users', component: Users },
   { path: '/base', name: 'Base', component: Cards, exact: true },
   { path: '/base/accordion', name: 'Accordion', component: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', component: Breadcrumbs },

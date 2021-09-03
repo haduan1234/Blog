@@ -1,5 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
+
 import {
   cilBell,
   cilCalculator,
@@ -11,6 +12,9 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilUser,
+  cilAddressBook,
+  cibLetsEncrypt
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -40,6 +44,28 @@ const _nav = [
     name: 'Typography',
     to: '/theme/typography',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Admin',
+  },
+  {
+    component: CNavItem,
+    name: 'Manages',
+    to: '/admin/manage',
+    icon: <CIcon icon={cibLetsEncrypt} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: 'Posts',
+    to: '/admin/posts',
+    icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Users',
+    to: '/admin/users',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
