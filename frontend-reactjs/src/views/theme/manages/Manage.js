@@ -18,25 +18,21 @@ import {
   CModalTitle,
   CFormInput,
 } from '@coreui/react'
-
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 
 
-import avatar1 from '../manages/avatar/anh.jpg'
 import avatar2 from './../../../assets/images/avatars/1.jpg'
 
 import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
-
 const Manages = () => {
   const [visible, setVisible] = useState(false)
   const [users, setUsers] = useState([])
+  const [search, setSearch] = useState(undefined)
   
-  
-
-  const fetchUsers = async () => {
+  const fetchUsers = async (search = undefined) => {
     try {
-      let res = await getUsers()
+      let res = await getUsers(search)
       if(!!res.data) {
         setUsers([...res.data.items])
       }
@@ -50,7 +46,12 @@ const Manages = () => {
     fetchUsers()
   }, [])
 
-console.log("data", users)
+  const onSearchEnter = (e) => {
+    if(e.key == 'Enter') {
+      fetchUsers(search)
+    }
+  }
+
   return (
     <CCol>
       <CCard className="m-1">
@@ -71,6 +72,8 @@ console.log("data", users)
             type="text"
             id="validationServer01"
             placeholder="Search"
+            onKeyDown={onSearchEnter}
+            onChange={e => setSearch(e.target.value)}
           />
         </div>
         <CCardBody  xs={12} style={{fontSize: 10}}>
