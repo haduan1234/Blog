@@ -6,14 +6,18 @@ const { messageError } = require("../helpers/messageError");
 
 
 exports.findAll = (req, res) => {
-    const name = req.query.name;
-    const gender = req.query.gender;
+    const search = req.query.search;
     const { page, size } = req.query;
     const { limit, offset } =  getPagination(page, size);
-if(typeof name !=="undefined"){
-      var condition = name ? { name: { [Op.like]: '%' + name + '%'} } : null;
-
-     Blogger.findAndCountAll({ where: condition, limit, offset })
+    var condition = search ? { 
+      [Op.or]: [
+        { name: { [Op.like]: '%' + search + '%'}}, 
+        { gender: { [Op.like]: '%' + search + '%'}},
+        { age: { [Op.like]: '%' + search + '%'}},
+        { address: { [Op.like]: '%' + search + '%'}}
+      ]
+    } : null;
+    Blogger.findAndCountAll({ where: condition, limit, offset })
     .then(data => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -21,20 +25,8 @@ if(typeof name !=="undefined"){
     .catch(err => {
       messageError(res, err)
     });
-}else{
-     var condition = gender ? { gender: { [Op.like]: '%' + gender + '%'} } : null;
-
-    Blogger.findAndCountAll({ where: condition, limit, offset })
-  .then(data => {
-    const response = getPagingData(data, page, limit);
-    res.send(response);
-  })
-  .catch(err => {
-    messageError(res, err)
-  });
-
 }
-}
+
 
 exports.create = (req, res) => {
     Blogger.create(req.body)

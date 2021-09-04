@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
               type: DataTypes.BIGINT,
               unique: true
           },
-          addess: {
+          address: {
               type: DataTypes.STRING,
               unique: true
           },

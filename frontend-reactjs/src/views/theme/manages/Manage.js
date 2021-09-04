@@ -24,9 +24,6 @@ import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 
 import avatar1 from '../manages/avatar/anh.jpg'
 import avatar2 from './../../../assets/images/avatars/1.jpg'
-import Delete from './delete/delete';
-import { Link } from 'react-router-dom';
-import { red } from '@material-ui/core/colors';
 
 import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
@@ -34,12 +31,14 @@ import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../..
 const Manages = () => {
   const [visible, setVisible] = useState(false)
   const [users, setUsers] = useState([])
+  
+  
 
   const fetchUsers = async () => {
     try {
       let res = await getUsers()
       if(!!res.data) {
-        setUsers(res.data)
+        setUsers([...res.data.items])
       }
     }
     catch(error) {
@@ -51,6 +50,7 @@ const Manages = () => {
     fetchUsers()
   }, [])
 
+console.log("data", users)
   return (
     <CCol>
       <CCard className="m-1">
@@ -92,14 +92,15 @@ const Manages = () => {
               </CTableRow>
             </CTableHead>
             <CTableBody>
-              <CTableRow>
-                <CTableHeaderCell scope="row">1</CTableHeaderCell>
-                <CTableDataCell>Ha Duan</CTableDataCell>
-                <CTableDataCell>23</CTableDataCell>
-                <CTableDataCell>Phu Tho</CTableDataCell>
-                <CTableDataCell>Nam</CTableDataCell>
+            {!!users && users.map((user, index) =>
+              <CTableRow key={index}>
+                <CTableHeaderCell scope="row">{index+1} </CTableHeaderCell>
+                <CTableDataCell>{user.name} </CTableDataCell>
+                <CTableDataCell>{user.age}</CTableDataCell>
+                <CTableDataCell>{user.address}</CTableDataCell>
+                <CTableDataCell>{user.gender} </CTableDataCell>
                 <CTableDataCell>
-                  <img scr={avatar2} alt="avata" style={{
+                  <img scr={user.avatar} alt="avata" style={{
                     width: 30,
                     height: 30
                   }} />
@@ -132,6 +133,7 @@ const Manages = () => {
                   <FaPencilAlt />
                 </CTableDataCell>
               </CTableRow>
+            )}
             </CTableBody>
           </CTable>
         </CCardBody>

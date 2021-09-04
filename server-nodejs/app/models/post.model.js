@@ -13,17 +13,8 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
               type: DataTypes.STRING,
               unique: true
           },
-          contentId: {
+          content: {
               type: DataTypes.STRING
-          },
-          time: {
-            type: DataTypes.BIGINT
-          },
-          updateTime: {
-            type: DataTypes.BIGINT
-          },
-          deleteTime: {
-            type: DataTypes.BIGINT
           }
       },
       {

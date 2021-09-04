@@ -1,7 +1,7 @@
 import { BASE_URL } from "./constants"
 import axios from 'axios';
 
-const USER_URL = `${BASE_URL}/user`
+const USER_URL = `${BASE_URL}/blogger`
 export const getUsers = () => {
     return axios.get(`${USER_URL}`);
 }

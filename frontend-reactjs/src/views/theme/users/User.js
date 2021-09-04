@@ -20,10 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import vi from 'date-fns/locale/vi';
 registerLocale('vi', vi)
 import { registerLocale, setDefaultLocale } from  "react-datepicker";
-
-const fileStyle = {
-   with: auto
-  };
+import avatar2 from './../../../assets/images/avatars/1.jpg'
 
 const Users = () => {
  
