@@ -9,25 +9,20 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           },
           name: {
               type: DataTypes.STRING,
-              unique: true
           },
           birthDay: {
               type: DataTypes.BIGINT,
-              unique: true
           },
           address: {
               type: DataTypes.STRING,
-              unique: true
           },
           gender: {
               type: DataTypes.STRING,
-              unique:  true
           },
           position: {
               type: DataTypes.STRING,
-              unique: true
           },
-          avata: {
+          avatar: {
               type: DataTypes.STRING
           },
           age: {

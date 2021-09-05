@@ -17,7 +17,7 @@ const { Server } = require("socket.io")
 const io = new Server(server)
 
 const corsOptions = {
-  origin: "http://localhost:4200"
+  origin: "http://localhost:3000"
 }
 
 app.use(cors(corsOptions))

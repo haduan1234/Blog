@@ -19,6 +19,7 @@ import {
   CFormInput,
 } from '@coreui/react'
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 
 import avatar2 from './../../../assets/images/avatars/1.jpg'
@@ -30,6 +31,8 @@ const Manages = () => {
   const [visible, setVisible] = useState(false)
   const [users, setUsers] = useState([])
   const [search, setSearch] = useState(undefined)
+
+  const history = useHistory();
 
   const fetchUsers = async (search = undefined) => {
     try {
@@ -65,14 +68,11 @@ const Manages = () => {
             style={{
               color: 'white  '
             }}
+            onClick={() => {
+              history.push("/admin/users");
+            }}
           >
-            <Link to="/admin/users" style={{
-              textDecoration: 'none',
-              color:"wheat"
-            }}>
               Create
-            </Link>
-
           </button>
           <CFormInput
             class="col-6 my-2 mx-3 border border-light px-2 rounded "

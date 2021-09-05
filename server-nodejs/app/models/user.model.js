@@ -12,15 +12,13 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         type: DataTypes.STRING,
         unique: true
       },
-      token_notification: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       email: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true
       },
       phone: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true
       },
       birthday: {
         type: DataTypes.BIGINT

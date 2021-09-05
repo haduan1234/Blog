@@ -29,6 +29,7 @@ exports.findAll = (req, res) => {
 
 
 exports.create = (req, res) => {
+  console.log("req.body : ", req.body)
     Blogger.create(req.body)
     .then(data => {
         res.send(data);

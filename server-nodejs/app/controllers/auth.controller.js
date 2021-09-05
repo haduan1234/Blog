@@ -30,24 +30,6 @@ exports.signup = async (req, res) => {
   })
     .then(user => {
       res.send({ message: "User was registered successfully!" })
-      // if (req.body.roles) {
-      //   Role.findAll({
-      //     where: {
-      //       name: {
-      //         [Op.or]: req.body.roles
-      //       }
-      //     }
-      //   }).then(roles => {
-      //     user.setRoles(roles).then(() => {
-      //       res.send({ message: "User was registered successfully!" });
-      //     });
-      //   });
-      // } else {
-      //   // User role 1
-      //   user.setRoles([1]).then(() => {
-      //     res.send({ message: "User was registered successfully!" });
-      //   });
-      // }
     })
     .catch(err => {
       res.status(500).send({ message: err.message })
