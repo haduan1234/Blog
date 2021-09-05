@@ -51,21 +51,15 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Manages',
+    name: 'User',
     to: '/admin/manage',
-    icon: <CIcon icon={cibLetsEncrypt} customClassName="nav-icon" />
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />
   },
   {
     component: CNavItem,
     name: 'Posts',
     to: '/admin/posts',
     icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Users',
-    to: '/admin/users',
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,

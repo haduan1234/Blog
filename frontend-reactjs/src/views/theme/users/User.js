@@ -8,7 +8,6 @@ import {
     CForm,
     CFormCheck,
     CFormInput,
-    CFormSwitch,
     CFormFeedback,
     CFormLabel,
     CRow,
@@ -20,7 +19,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import vi from 'date-fns/locale/vi';
 registerLocale('vi', vi)
 import { registerLocale, setDefaultLocale } from  "react-datepicker";
-import avatar2 from './../../../assets/images/avatars/1.jpg'
+
+
+import {  createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
 const Users = () => {
  
@@ -36,38 +37,47 @@ const Users = () => {
         avata: ""
 
     })
-    const submitValue = () => {
-        const data = {
-            'User': blogger.name,
-            'BirthDay': blogger.birthDay,
-            'Address': blogger.address,
-            'Gender': blogger.gender,
-            'Position': blogger.position,
-            'Age': blogger.age,
-            'Avatar': blogger.avata
+   
+    const submitData = () => {
+      const body = {
+        'User': blogger.name,
+        'BirthDay': blogger.birthDay,
+        'Address': blogger.address,
+        'Gender': blogger.gender,
+        'Position': blogger.position,
+        'Age': blogger.age,
+        'Avatar': blogger.avata
+    }
+    }
+    const fetchCreate = async () => {
+      try{
+        let res = await createUser(body)
+      }
+      catch(error){
+        alert(error)
 
-
-        }
-        console.log(data)
+      }
     }
 
     useEffect(() => {
-        console.log("date ss: ", startDate)
+      fetchCreate()
+    } , [blogger])
+
+    useEffect(() => {
         setBlogger({
             ...blogger,
             birthDay: startDate
         })
     }, [startDate])
-//  console.log("dataBlogger", blogger)
     return(
         <CForm  className="row g-3 needs-validation">
         <CCol xs={12}>
         <CCard className="mb-4">
         <CCardHeader>
-               <strong>Create blogger </strong>
+               <strong>Create user </strong>
         </CCardHeader>
         <CCardBody>
-                <CCol md={12} className="d-flex justify-content-start">
+                <CCol  className="d-flex justify-content-start">
                 <CCol  className="d-flex flex-column p-2">
                   <CFormLabel htmlFor="validationServer01">User name</CFormLabel>
                   <CFormInput
@@ -83,15 +93,15 @@ const Users = () => {
                   <CCol  className="d-flex flex-column p-2">
                   <CFormLabel htmlFor="validationServer01">Birth Day </CFormLabel>
                   <DatePicker 
-                    dateFormat="dd/MM/yyyy h:mm aa" 
-                    showTimeSelect 
+                    dateFormat="dd/MM/yyyy " 
+                    // showTimeSelect 
                     // locale="vi" 
                     selected={startDate} 
                     onChange={(date) => setStartDate(date)} />
                   </CCol>
                 </CCol>
                 <div className="d-flex justify-content-start">
-                <CCol md={6} className="p-2">
+                <CCol  className="p-2">
                 <CFormLabel htmlFor="validationServer01"> Address</CFormLabel>
                   <CFormInput
                     type="text"
@@ -136,12 +146,12 @@ const Users = () => {
                 <CCol  className="d-flex flex-column p-2">
                   <CFormLabel htmlFor="validationServer01">Position</CFormLabel>
                   <CFormSelect 
+                  placeholder="Please choose position"
                   onChange= {e => setBlogger({
                       ...blogger,
                       position: e.target.value
                   })}
                   aria-label="Default select example">
-                <option>Please choose position</option>
                 <option value="1">User</option>
                 <option value="2">Blogger</option>
               </CFormSelect>
@@ -159,7 +169,7 @@ const Users = () => {
                   />
                   </CCol>
                 </CCol>
-                <CRow md={12} className="px-2">
+                <CRow className="px-2">
                 <CFormLabel htmlFor="validationServer01">Avatar</CFormLabel>
                 <div className="d-flex align-items-center">
                 <div className=" col-2 "  >
@@ -178,12 +188,12 @@ const Users = () => {
                   </div>
                   </CRow>
                   <CFormFeedback invalid>Example invalid form file feedback</CFormFeedback>
-                <div className="p-2">
+                <div className="px-2 py-3">
                 <CButton color="primary"
                 type="submit"
-                onClick={submitValue}
+                onClick={submitData}
                 >
-                Submit form
+                Save
                 </CButton> 
                 </div>
         </CCardBody>
