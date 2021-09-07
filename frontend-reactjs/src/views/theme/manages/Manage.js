@@ -28,6 +28,8 @@ import { useHistory , Link} from "react-router-dom";
 
 import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
+import DeleteModal from '../../components/modals/DeleteModal';
+
 const Manages = () => {
   const [visible, setVisible] = useState(false)
   const [users, setUsers] = useState([])
@@ -54,12 +56,13 @@ const Manages = () => {
   const fetchDelete = async () => {
     try {
       await deleteUser(id)
+      setVisible(false)
+      addToast(exampleToast)
+      fetchUsers()
     }
     catch (error) {
       alert(error)
     }
-    addToast(exampleToast),
-    fetchUsers()
   }
 
   useEffect(() => {
@@ -96,6 +99,15 @@ const Manages = () => {
 
   return (
     <CCol>
+      <CToaster ref={toaster} push={toast} placement="top-end" />
+      <DeleteModal
+        subTitle="Are you sure you want to delete this account ?"
+        title="Delete User"
+        visible={visible}
+        setVisible={setVisible}
+        onDelete={fetchDelete}
+      />
+
       <CCard className="m-1">
         <CCardHeader>
           <strong>Manages</strong>
@@ -151,23 +163,6 @@ const Manages = () => {
                     >
                       < FaTrashAlt />
                     </CButton>
-                    <CModal visible={visible} onDismiss={() => setVisible(false)}>
-                      <CModalHeader onDismiss={() => setVisible(false)}>
-                        <CModalTitle>Delete User</CModalTitle>
-                      </CModalHeader>
-                      <CModalBody>Are you sure you want to delete this account ?</CModalBody>
-                      <CModalFooter>
-                        <CButton color="secondary" onClick={() => setVisible(false)}>
-                          Close
-                        </CButton>
-                        <div>
-                          <Link to ="/admin/manage">
-                          <CButton className="btn btn-danger" onClick={fetchDelete}>Delete</CButton>
-                          </Link>
-                          <CToaster ref={toaster} push={toast} placement="top-end" />
-                        </div>
-                      </CModalFooter>
-                    </CModal>
                   </CTableDataCell>
                   <CTableDataCell>
                     <FaPencilAlt />

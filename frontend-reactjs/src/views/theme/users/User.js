@@ -17,6 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import vi from 'date-fns/locale/vi';
 registerLocale('vi', vi)
 import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { useParams } from "react-router-dom";
 
 import { useHistory , Link} from "react-router-dom";
 
@@ -35,6 +36,9 @@ const Users = () => {
     avata: "",
     password: ""
   })
+
+  const { id } = useParams();
+  console.log("id : ", id)
 
   const history = useHistory();
 
