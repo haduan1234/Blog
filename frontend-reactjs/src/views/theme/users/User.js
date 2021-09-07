@@ -8,7 +8,6 @@ import {
   CForm,
   CFormCheck,
   CFormInput,
-  CFormFeedback,
   CFormLabel,
   CRow,
   CFormSelect
@@ -23,27 +22,32 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 import { createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
 const Users = () => {
-  const [blogger, setBlogger] = useState({
-    name: "",
-    birthDay: new Date(),
-    address: "",
+  const [user, setUser] = useState({
+    display_name: "",
+    birthday: new Date(),
+    email: "",
+    phone: "",
     gender: "",
-    position: "user",
-    age: 0,
-    avata: ""
+    address: "",
+    // position: "user",
+    avata: "",
+    password: ""
   })
 
   const submitData = async () => {
     try {
       await createUser({
-        name: blogger.name,
-        address: blogger.address,
-        gender: blogger.gender,
-        position: blogger.position,
-        age: parseInt(blogger.age),
-        avatar: blogger.avata,
-        birthDay: blogger.birthDay.getTime()
+        display_name: user. display_name  ,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        gender: user.gender,
+        // position: user.position,
+        avatar: user.avata,
+        birthday: user.birthday.getTime(),
+        password: user.password
       })
+      console.log("data:", user)
     }
     catch (error) {
       alert(error)
@@ -59,82 +63,139 @@ const Users = () => {
           <CCardBody>
             <CCol className="d-flex justify-content-start">
               <CCol className="d-flex flex-column p-2">
-                <CFormLabel htmlFor="validationServer01">User name</CFormLabel>
+                <CFormLabel htmlFor="validationServer01">Name</CFormLabel>
                 <CFormInput
                   type="text"
                   id="validationServer01"
-                  placeholder="User name"
-                  onChange={e => setBlogger({
-                    ...blogger,
-                    name: e.target.value
+                  placeholder="Name"
+                  onChange={e => setUser({
+                    ...user,
+                    display_name: e.target.value
+                  })}
+                />
+              </CCol>
+              
+              <CCol className="d-flex flex-column p-2">
+                <CFormLabel htmlFor="validationServer02">Email</CFormLabel>
+                <CFormInput
+                  type="text"
+                  id="validationServer02"
+                  placeholder="Email"
+                  onChange={e => setUser({
+                    ...user,
+                    email: e.target.value
+                  })}
+                />
+              </CCol>
+            </CCol>
+            <CCol className="d-flex justify-content-start">
+              <CCol className="d-flex flex-column p-2">
+                <CFormLabel htmlFor="validationServer03">Phone number</CFormLabel>
+                <CFormInput
+                  type="text"
+                  id="validationServer03"
+                  placeholder="Phone number"
+                  onChange={e => setUser({
+                    ...user,
+                    phone: e.target.value
                   })}
                 />
               </CCol>
               <CCol className="d-flex flex-column p-2">
-                <CFormLabel htmlFor="validationServer01">Birth Day </CFormLabel>
-                <DatePicker
-                  dateFormat="dd/MM/yyyy "
-                  // showTimeSelect 
-                  // locale="vi" 
-                  selected={blogger.birthDay}
-                  onChange={(date) => setBlogger({
-                    ...blogger,
-                    birthDay: date
-
-                  })} />
+                <CFormLabel htmlFor="validationServer04">Password</CFormLabel>
+                <CFormInput
+                  type="Password"
+                  id="validationServer04"
+                  placeholder="Password"
+                  onChange={e => setUser({
+                    ...user,
+                    password: e.target.value
+                  })}
+                />
               </CCol>
             </CCol>
-            <div className="d-flex justify-content-start">
-              <CCol className="p-2" md={6}>
-                <CFormLabel htmlFor="validationServer01"> Address</CFormLabel>
+            <CCol className="d-flex justify-content-start">
+              <CCol className="d-flex flex-column p-2">
+                <CFormLabel htmlFor="validationServer05">Address</CFormLabel>
                 <CFormInput
-
                   type="text"
-                  id="validationServer01"
+                  id="validationServer05"
                   placeholder="Address"
-                  onChange={e => setBlogger({
-                    ...blogger,
+                  onChange={e => setUser({
+                    ...user,
                     address: e.target.value
                   })}
                 />
               </CCol>
-              <CRow className=" p-2  px-4 ">
-                <CFormLabel htmlFor="validationServer01"> Gender</CFormLabel>
+              <CCol className="d-flex flex-column p-2">
+                <CFormLabel htmlFor="validationServer06">Birth Day </CFormLabel>
+                <DatePicker
+                  placeholder="Birth Day"
+                  dateFormat="dd/MM/yyyy "
+                  // showTimeSelect 
+                  // locale="vi" 
+                  selected={user.birthday}
+                  onChange={(date) => setUser({
+                    ...user,
+                    birthday: date
+                  })} />
+              </CCol>
+            </CCol>
+            <CRow className="px-2">
+              <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
+              <div className="d-flex align-items-center">
+                <div className=" col-2 "  >
+                  <CFormInput
+                    type="file"
+                    id="validationTextarea"
+                    aria-label="file example"
+                    required
+                    onChange={e => setUser({
+                      ...user,
+                      avata: e.target.value
+                    })}
+                  />
+                </div>
+                {/* <img scr={user.avata} alt="avtar" className="px-3"></img> */}
+              </div>
+              <CCol className="py-2">
+                <CFormLabel htmlFor="validationServer08"> Gender</CFormLabel>
+                <div className="d-flex">
                 <CFormCheck
-                  className="col-auto"
+                  className="col-1"
                   type="radio"
                   name="flexRadioDisabled"
                   id="flexRadioDisabled"
                   value="Nam"
                   label="Nam"
                   defaultChecked
-                  onChange={e => setBlogger({
-                    ...blogger,
+                  onChange={e => setUser({
+                    ...user,
                     gender: e.target.value
                   })}
                 />
                 <CFormCheck
-                  className="col-auto"
+                  className="col-1"
                   type="radio"
                   name="flexRadioDisabled"
                   id="flexRadioCheckedDisabled"
                   value="Nữ"
                   label="Nữ"
-                  onChange={e => setBlogger({
-                    ...blogger,
+                  onChange={e => setUser({
+                    ...user,
                     gender: e.target.value
                   })}
                 />
-              </CRow>
-            </div>
-            <CCol md={12} className="d-flex justify-content-start">
-              <CCol className="d-flex flex-column p-2">
+                </div>
+              </CCol>
+            </CRow>
+            {/* <CCol className="d-flex flex-column p-2">
                 <CFormLabel htmlFor="validationServer01">Position</CFormLabel>
                 <CFormSelect
                   placeholder="Please choose position"
                   onChange={e => {
-                    setBlogger({
-                      ...blogger,
+                    setUser({
+                      ...user,
                       position: e.target.value
                     })
                   }}
@@ -143,38 +204,7 @@ const Users = () => {
                   <option value="blogger">Blogger</option>
                 </CFormSelect>
               </CCol>
-              <CCol className="d-flex flex-column p-2">
-                <CFormLabel htmlFor="validationServer01">age </CFormLabel>
-                <CFormInput
-                  type="text"
-                  id="validationServer01"
-                  placeholder="age"
-                  onChange={e => setBlogger({
-                    ...blogger,
-                    age: e.target.value
-                  })}
-                />
-              </CCol>
-            </CCol>
-            <CRow className="px-2">
-              <CFormLabel htmlFor="validationServer01">Avatar</CFormLabel>
-              <div className="d-flex align-items-center">
-                <div className=" col-2 "  >
-                  <CFormInput
-                    type="file"
-                    id="validationTextarea"
-                    aria-label="file example"
-                    required
-                    onChange={e => setBlogger({
-                      ...blogger,
-                      avata: e.target.value
-                    })}
-                  />
-                </div>
-                <img scr={blogger.avata} alt="avtar" className="px-3"></img>
-              </div>
-            </CRow>
-            <CFormFeedback invalid>Example invalid form file feedback</CFormFeedback>
+             */}
             <div className="px-2 py-3">
               <CButton color="primary"
                 type="submit"

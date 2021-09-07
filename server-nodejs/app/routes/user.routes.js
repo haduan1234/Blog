@@ -28,6 +28,8 @@ module.exports = function (app) {
 
   router.get("/getAllUserShareScheduleForMe", controller.getAllUserShareScheduleForMe)
 
+  router.post("/", controller.create)
+
   //api/teachers/3
   router.get("/:id", controller.findOne)
 

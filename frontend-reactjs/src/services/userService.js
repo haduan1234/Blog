@@ -1,7 +1,7 @@
 import { BASE_URL } from "./constants"
 import axios from 'axios';
 
-const USER_URL = `${BASE_URL}/blogger`
+const USER_URL = `${BASE_URL}/user`
 export const getUsers = (search) => {
     let url = !!search ? `${USER_URL}?search=${search}` : `${USER_URL}`
     return axios.get(url);

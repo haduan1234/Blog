@@ -62,7 +62,7 @@ const Toasts = () => {
               we require a single element to contain your “toasted” content and strongly encourage a
               dismiss button.
             </p>
-            <DocsExample href="components/toast">
+            {/* <DocsExample href="components/toast">
               <CToast title="CoreUI for React.js" autohide={false}>
                 <CToastHeader close>
                   <svg
@@ -81,8 +81,8 @@ const Toasts = () => {
                 </CToastHeader>
                 <CToastBody>Hello, world! This is a toast message.</CToastBody>
               </CToast>
-            </DocsExample>
-            <DocsExample href="components/toast">{ExampleToast()}</DocsExample>
+            </DocsExample> */}
+            <ExampleToast></ExampleToast>
           </CCardBody>
         </CCard>
       </CCol>

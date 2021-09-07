@@ -71,12 +71,28 @@ exports.updatePassWord = async (req, res) => {
 
 
 
+exports.create = (req, res) => {
+  console.log("body:", req.body)
+  User.create(req.body)
+  .then(data => {
+      res.send(data);
+  })
+  .catch(err => {
+      messageError(res, err)
+  });
+}
+
 exports.findAll = (req, res) => {
-  const display_name = req.query.display_name
+  const search = req.query.search
   const { page, size }  = req.query
   const { limit, offset } = getPagination(page, size)
 
-  var condition = display_name ? { display_name: { [Op.eq]: display_name } } : null
+  var condition = search ? {
+    [Op.or]: [
+      { display_name: { [Op.like]: '%' + search + '%'}}, 
+      { email: { [Op.like]: '%' + search + '%'}},
+    ]
+   } : null
 
   User.findAndCountAll({
     include: [
@@ -292,6 +308,7 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
+  
   const id = req.params.id
 
   User.destroy({
