@@ -58,7 +58,8 @@ const Manages = () => {
     catch (error) {
       alert(error)
     }
-    addToast(exampleToast)
+    addToast(exampleToast),
+    fetchUsers()
   }
 
   useEffect(() => {
@@ -141,7 +142,7 @@ const Manages = () => {
                   <CTableDataCell >
                     <CButton onClick={() => {
                       setId(user.id),
-                        setVisible(!visible)
+                      setVisible(!visible)
                     }}
                       class="border border-none"
                       style={{

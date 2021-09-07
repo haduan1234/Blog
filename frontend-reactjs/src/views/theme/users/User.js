@@ -18,6 +18,8 @@ import vi from 'date-fns/locale/vi';
 registerLocale('vi', vi)
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 
+import { useHistory , Link} from "react-router-dom";
+
 
 import { createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
@@ -34,6 +36,8 @@ const Users = () => {
     password: ""
   })
 
+  const history = useHistory();
+
   const submitData = async () => {
     try {
       await createUser({
@@ -46,8 +50,8 @@ const Users = () => {
         avatar: user.avata,
         birthday: user.birthday.getTime(),
         password: user.password
-      })
-      console.log("data:", user)
+      }),
+      history.push('/admin/manage')
     }
     catch (error) {
       alert(error)
