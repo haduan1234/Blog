@@ -11,20 +11,12 @@ import {
   CTableHeaderCell,
   CTableRow,
   CButton,
-  CModal,
-  CModalBody,
-  CModalFooter,
-  CModalHeader,
-  CModalTitle,
   CFormInput,
-  CToast,
-  CToastBody,
-  CToastHeader,
   CToaster,
 
 } from '@coreui/react'
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
-import { useHistory , Link} from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
@@ -58,7 +50,14 @@ const Users = () => {
     try {
       await deleteUser(id)
       setVisible(false)
-      addToast(ExampleToast)
+      addToast(
+        <ExampleToast
+          title="Delete user"
+          delay={2000}
+          nameToast="Delete user"
+          time="closes in 7 seconds"
+          body="Delete successfuly"
+        />)
       fetchUsers()
     }
     catch (error) {
@@ -76,37 +75,6 @@ const Users = () => {
     }
   }
 
-
-  // const exampleToast = (
-  //   <CToast title="CoreUI for React.js" delay={2000}>
-  //     <CToastHeader close>
-  //       <svg
-  //         className="rounded me-2"
-  //         width="20"
-  //         height="20"
-  //         xmlns="http://www.w3.org/2000/svg"
-  //         preserveAspectRatio="xMidYMid slice"
-  //         focusable="false"
-  //         role="img"
-  //       >
-  //         <rect width="100%" height="100%" fill="#007aff"></rect>
-  //       </svg>
-  //       <strong className="me-auto">CoreUI for React.js</strong>
-  //       <small>7 min ago</small>
-  //     </CToastHeader>
-  //     <CToastBody>You already delete successfully .</CToastBody>
-  //   </CToast>
-  // )
-
-  <ExampleToast 
-  title="Delete user"
-  delay={2000}
-  nameToast = {"Delete user"}
-  time= {"closes in 7 seconds"}
-  body= {"Delete successfuly"}
-
-  />
-
   return (
     <CCol>
       <CToaster ref={toaster} push={toast} placement="top-end" />
@@ -117,16 +85,16 @@ const Users = () => {
         setVisible={setVisible}
         onDelete={fetchDelete}
       />
-      
+
 
       <CCard className="m-1">
         <CCardHeader>
           <strong>Manages</strong>
         </CCardHeader>
         <div className="d-flex justify-content-between " xd={12}>
-          <Link to = "/admin/createUser" class=" mx-3 my-2 col-auto">
+          <Link to="/admin/createUser" class=" mx-3 my-2 col-auto">
             <button type="button"
-            className="btn btn-success"
+              className="btn btn-success"
               style={{
                 color: 'white ',
               }}
@@ -165,7 +133,7 @@ const Users = () => {
                   <CTableDataCell >
                     <CButton onClick={() => {
                       setId(user.id),
-                      setVisible(!visible)
+                        setVisible(!visible)
                     }}
                       class="border border-none"
                       style={{

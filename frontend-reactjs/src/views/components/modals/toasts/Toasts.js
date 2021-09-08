@@ -1,13 +1,13 @@
 import React from "react"
 import {
-    CToast,
-    CToastBody,
-    CToastHeader,
-  } from '@coreui/react'
+  CToast,
+  CToastBody,
+  CToastHeader,
+} from '@coreui/react'
 
 
-const ExampleToast = ({title, delay, nameToast, time, body }) =>{
-    return(
+const ExampleToast = ({ title, delay, nameToast, time, body }) => {
+  return (
     <CToast title={title} delay={delay}>
       <CToastHeader close>
         <svg

@@ -10,7 +10,6 @@ import {
   CFormInput,
   CFormLabel,
   CRow,
-  CFormSelect
 } from '@coreui/react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -55,7 +54,7 @@ const CreateUser = () => {
         birthday: user.birthday.getTime(),
         password: user.password
       }),
-      history.push('/admin/manage')
+      history.push('/admin/users')
     }
     catch (error) {
       alert(error)
