@@ -1,229 +1,192 @@
-import React from 'react'
-import { CCard, CCardHeader, CCardBody } from '@coreui/react'
-import { DocsLink } from 'src/components'
+import React, { useState, useEffect, useRef } from 'react'
+import {
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow,
+  CButton,
+  CModal,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
+  CFormInput,
+  CToast,
+  CToastBody,
+  CToastHeader,
+  CToaster,
 
-const Typography = () => {
+} from '@coreui/react'
+import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
+import { useHistory , Link} from "react-router-dom";
+
+import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
+
+import DeleteModal from '../../components/modals/DeleteModal';
+import ExampleToast from '../../components/modals/toasts/Toasts'
+
+const Users = () => {
+  const [visible, setVisible] = useState(false)
+  const [users, setUsers] = useState([])
+  const [search, setSearch] = useState(undefined)
+  const [id, setId] = useState(undefined)
+
+  const history = useHistory();
+
+  const [toast, addToast] = useState(false)
+  const toaster = useRef()
+
+  const fetchUsers = async (search = undefined) => {
+    try {
+      let res = await getUsers(search)
+      if (!!res.data) {
+        setUsers([...res.data.items])
+      }
+    }
+    catch (error) {
+      alert(error)
+    }
+  }
+
+  const fetchDelete = async () => {
+    try {
+      await deleteUser(id)
+      setVisible(false)
+      addToast(ExampleToast)
+      fetchUsers()
+    }
+    catch (error) {
+      alert(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  const onSearchEnter = (e) => {
+    if (e.key == 'Enter') {
+      fetchUsers(search)
+    }
+  }
+
+
+  // const exampleToast = (
+  //   <CToast title="CoreUI for React.js" delay={2000}>
+  //     <CToastHeader close>
+  //       <svg
+  //         className="rounded me-2"
+  //         width="20"
+  //         height="20"
+  //         xmlns="http://www.w3.org/2000/svg"
+  //         preserveAspectRatio="xMidYMid slice"
+  //         focusable="false"
+  //         role="img"
+  //       >
+  //         <rect width="100%" height="100%" fill="#007aff"></rect>
+  //       </svg>
+  //       <strong className="me-auto">CoreUI for React.js</strong>
+  //       <small>7 min ago</small>
+  //     </CToastHeader>
+  //     <CToastBody>You already delete successfully .</CToastBody>
+  //   </CToast>
+  // )
+
+  <ExampleToast 
+  title="Delete user"
+  delay={2000}
+  nameToast = {"Delete user"}
+  time= {"closes in 7 seconds"}
+  body= {"Delete successfuly"}
+
+  />
+
   return (
-    <>
-      <CCard className="mb-4">
+    <CCol>
+      <CToaster ref={toaster} push={toast} placement="top-end" />
+      <DeleteModal
+        subTitle="Are you sure you want to delete this account ?"
+        title="Delete User"
+        visible={visible}
+        setVisible={setVisible}
+        onDelete={fetchDelete}
+      />
+      
+
+      <CCard className="m-1">
         <CCardHeader>
-          Headings
-          <DocsLink href="https://coreui.io/docs/content/typography/" />
+          <strong>Manages</strong>
         </CCardHeader>
-        <CCardBody>
-          <p>
-            Documentation and examples for Bootstrap typography, including global settings,
-            headings, body text, lists, and more.
-          </p>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Heading</th>
-                <th>Example</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <p>
-                    <code className="highlighter-rouge">&lt;h1&gt;&lt;/h1&gt;</code>
-                  </p>
-                </td>
-                <td>
-                  <span className="h1">h1. Bootstrap heading</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>
-                    <code className="highlighter-rouge">&lt;h2&gt;&lt;/h2&gt;</code>
-                  </p>
-                </td>
-                <td>
-                  <span className="h2">h2. Bootstrap heading</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>
-                    <code className="highlighter-rouge">&lt;h3&gt;&lt;/h3&gt;</code>
-                  </p>
-                </td>
-                <td>
-                  <span className="h3">h3. Bootstrap heading</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>
-                    <code className="highlighter-rouge">&lt;h4&gt;&lt;/h4&gt;</code>
-                  </p>
-                </td>
-                <td>
-                  <span className="h4">h4. Bootstrap heading</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>
-                    <code className="highlighter-rouge">&lt;h5&gt;&lt;/h5&gt;</code>
-                  </p>
-                </td>
-                <td>
-                  <span className="h5">h5. Bootstrap heading</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>
-                    <code className="highlighter-rouge">&lt;h6&gt;&lt;/h6&gt;</code>
-                  </p>
-                </td>
-                <td>
-                  <span className="h6">h6. Bootstrap heading</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </CCardBody>
-      </CCard>
-      <CCard className="mb-4">
-        <CCardHeader>Headings</CCardHeader>
-        <CCardBody>
-          <p>
-            <code className="highlighter-rouge">.h1</code> through
-            <code className="highlighter-rouge">.h6</code>
-            classes are also available, for when you want to match the font styling of a heading but
-            cannot use the associated HTML element.
-          </p>
-          <div className="bd-example">
-            <p className="h1">h1. Bootstrap heading</p>
-            <p className="h2">h2. Bootstrap heading</p>
-            <p className="h3">h3. Bootstrap heading</p>
-            <p className="h4">h4. Bootstrap heading</p>
-            <p className="h5">h5. Bootstrap heading</p>
-            <p className="h6">h6. Bootstrap heading</p>
-          </div>
-        </CCardBody>
-      </CCard>
-      <CCard className="mb-4">
-        <div className="card-header">Display headings</div>
-        <div className="card-body">
-          <p>
-            Traditional heading elements are designed to work best in the meat of your page content.
-            When you need a heading to stand out, consider using a <strong>display heading</strong>
-            —a larger, slightly more opinionated heading style.
-          </p>
-          <div className="bd-example bd-example-type">
-            <table className="table">
-              <tbody>
-                <tr>
-                  <td>
-                    <span className="display-1">Display 1</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="display-2">Display 2</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="display-3">Display 3</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="display-4">Display 4</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div className="d-flex justify-content-between " xd={12}>
+          <Link to = "/admin/createUser" class=" mx-3 my-2 col-auto">
+            <button type="button"
+            className="btn btn-success"
+              style={{
+                color: 'white ',
+              }}
+            >
+              Create
+            </button>
+          </Link>
+          <CFormInput
+            class="col-6 my-2 mx-3 border border-light px-2 rounded "
+            type="text"
+            id="validationServer01"
+            placeholder="Search"
+            onKeyDown={onSearchEnter}
+            onChange={e => setSearch(e.target.value)}
+          />
         </div>
-      </CCard>
-      <CCard className="mb-4">
-        <CCardHeader>Inline text elements</CCardHeader>
-        <CCardBody>
-          <p>
-            Traditional heading elements are designed to work best in the meat of your page content.
-            When you need a heading to stand out, consider using a <strong>display heading</strong>
-            —a larger, slightly more opinionated heading style.
-          </p>
-          <div className="bd-example">
-            <p>
-              You can use the mark tag to <mark>highlight</mark> text.
-            </p>
-            <p>
-              <del>This line of text is meant to be treated as deleted text.</del>
-            </p>
-            <p>
-              <s>This line of text is meant to be treated as no longer accurate.</s>
-            </p>
-            <p>
-              <ins>This line of text is meant to be treated as an addition to the document.</ins>
-            </p>
-            <p>
-              <u>This line of text will render as underlined</u>
-            </p>
-            <p>
-              <small>This line of text is meant to be treated as fine print.</small>
-            </p>
-            <p>
-              <strong>This line rendered as bold text.</strong>
-            </p>
-            <p>
-              <em>This line rendered as italicized text.</em>
-            </p>
-          </div>
+        <CCardBody xs={12} style={{ fontSize: 15 }}>
+          <CTable class="table table-success table-striped table table-hover">
+            <CTableHead >
+              <CTableRow>
+                <CTableHeaderCell scope="col">#</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Email</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Gender</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Edit</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+            <CTableBody>
+              {!!users && users.map((user, index) =>
+                <CTableRow key={index}>
+                  <CTableHeaderCell scope="row">{index + 1}  </CTableHeaderCell>
+                  <CTableDataCell>{user.display_name} </CTableDataCell>
+                  <CTableDataCell>{user.email} </CTableDataCell>
+                  <CTableDataCell>{user.gender} </CTableDataCell>
+                  <CTableDataCell >
+                    <CButton onClick={() => {
+                      setId(user.id),
+                      setVisible(!visible)
+                    }}
+                      class="border border-none"
+                      style={{
+                        color: 'red',
+                      }}
+                    >
+                      < FaTrashAlt />
+                    </CButton>
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    <FaPencilAlt />
+                  </CTableDataCell>
+                </CTableRow>
+              )}
+            </CTableBody>
+          </CTable>
         </CCardBody>
       </CCard>
-      <CCard className="mb-4">
-        <CCardHeader>Description list alignment</CCardHeader>
-        <CCardBody>
-          <p>
-            Align terms and descriptions horizontally by using our grid system’s predefined classes
-            (or semantic mixins). For longer terms, you can optionally add a{' '}
-            <code className="highlighter-rouge">.text-truncate</code> class to truncate the text
-            with an ellipsis.
-          </p>
-          <div className="bd-example">
-            <dl className="row">
-              <dt className="col-sm-3">Description lists</dt>
-              <dd className="col-sm-9">A description list is perfect for defining terms.</dd>
+    </CCol>
 
-              <dt className="col-sm-3">Euismod</dt>
-              <dd className="col-sm-9">
-                <p>
-                  Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-                </p>
-                <p>Donec id elit non mi porta gravida at eget metus.</p>
-              </dd>
-
-              <dt className="col-sm-3">Malesuada porta</dt>
-              <dd className="col-sm-9">Etiam porta sem malesuada magna mollis euismod.</dd>
-
-              <dt className="col-sm-3 text-truncate">Truncated term is truncated</dt>
-              <dd className="col-sm-9">
-                Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                fermentum massa justo sit amet risus.
-              </dd>
-
-              <dt className="col-sm-3">Nesting</dt>
-              <dd className="col-sm-9">
-                <dl className="row">
-                  <dt className="col-sm-4">Nested definition list</dt>
-                  <dd className="col-sm-8">
-                    Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc.
-                  </dd>
-                </dl>
-              </dd>
-            </dl>
-          </div>
-        </CCardBody>
-      </CCard>
-    </>
   )
 }
 
-export default Typography
+export default Users

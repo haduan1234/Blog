@@ -24,7 +24,7 @@ import { useHistory , Link} from "react-router-dom";
 
 import { createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
-const Users = () => {
+const CreateUser = () => {
   const [user, setUser] = useState({
     display_name: "",
     birthday: new Date(),
@@ -228,4 +228,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default CreateUser
