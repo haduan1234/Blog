@@ -10,7 +10,6 @@ import {
   CFormInput,
   CFormLabel,
   CRow,
-  CFormSelect
 } from '@coreui/react'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -24,7 +23,7 @@ import { useHistory, Link } from "react-router-dom"
 
 import { createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
-const Users = () => {
+const CreateUser = () => {
   const [user, setUser] = useState({
     display_name: "",
     birthday: new Date(),
@@ -59,7 +58,7 @@ const Users = () => {
       else {
         await createUser(body)
       }
-      history.push('/admin/manage')
+      history.push('/admin/users')
     }
     catch (error) {
       alert(error)
@@ -265,4 +264,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default CreateUser

@@ -11,17 +11,13 @@ import {
   CTableHeaderCell,
   CTableRow,
   CButton,
-  CModal,
-  CModalBody,
-  CModalFooter,
-  CModalHeader,
-  CModalTitle,
   CFormInput,
   CToast,
   CToastBody,
   CToastHeader,
   CToaster,
-
+  CPagination,
+  CPaginationItem,
 } from '@coreui/react'
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa"
 import { useHistory, Link } from "react-router-dom"
@@ -36,6 +32,8 @@ const Manages = () => {
   const [search, setSearch] = useState(undefined)
   const [id, setId] = useState(undefined)
 
+  const [totalPages, setTotalPages] = useState(0)
+
   const history = useHistory()
 
   const [toast, addToast] = useState(0)
@@ -46,6 +44,7 @@ const Manages = () => {
       let res = await getUsers(search)
       if (!!res.data) {
         setUsers([...res.data.items])
+        setTotalPages(res.data?.totalPages)
       }
     }
     catch (error) {
@@ -73,6 +72,10 @@ const Manages = () => {
     if (e.key == 'Enter') {
       fetchUsers(search)
     }
+  }
+
+  const handlePageChange = (pageNumber) => {
+    this.setState({activePage: pageNumber});
   }
 
 
@@ -173,6 +176,19 @@ const Manages = () => {
               )}
             </CTableBody>
           </CTable>
+          <CPagination aria-label="Page navigation example" className="d-flex justify-content-end">
+            <CPaginationItem aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </CPaginationItem>
+            {
+              totalPages.map((page, index) => 
+                <CPaginationItem key={index}>1</CPaginationItem>
+              )
+            }
+            <CPaginationItem aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </CPaginationItem>
+          </CPagination>
         </CCardBody>
       </CCard>
     </CCol>
