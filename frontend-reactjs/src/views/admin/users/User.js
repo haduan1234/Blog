@@ -15,12 +15,12 @@ import {
   CToaster,
 
 } from '@coreui/react'
-import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
-import { useHistory, Link } from "react-router-dom";
+import { FaTrashAlt, FaPencilAlt } from "react-icons/fa"
+import { useHistory, Link } from "react-router-dom"
 
 import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
-import DeleteModal from '../../components/modals/DeleteModal';
+import DeleteModal from '../../components/modals/DeleteModal'
 import ExampleToast from '../../components/modals/toasts/Toasts'
 
 const Users = () => {
@@ -29,7 +29,7 @@ const Users = () => {
   const [search, setSearch] = useState(undefined)
   const [id, setId] = useState(undefined)
 
-  const history = useHistory();
+  const history = useHistory()
 
   const [toast, addToast] = useState(false)
   const toaster = useRef()
@@ -144,7 +144,9 @@ const Users = () => {
                     </CButton>
                   </CTableDataCell>
                   <CTableDataCell>
-                    <FaPencilAlt />
+                    <Link to={`/admin/users/${user.id}`} class=" mx-3 my-2 col-auto">
+                      <FaPencilAlt />
+                    </Link>
                   </CTableDataCell>
                 </CTableRow>
               )}
