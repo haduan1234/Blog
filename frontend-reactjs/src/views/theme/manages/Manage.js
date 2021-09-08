@@ -23,12 +23,12 @@ import {
   CToaster,
 
 } from '@coreui/react'
-import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
-import { useHistory , Link} from "react-router-dom";
+import { FaTrashAlt, FaPencilAlt } from "react-icons/fa"
+import { useHistory, Link } from "react-router-dom"
 
 import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
-import DeleteModal from '../../components/modals/DeleteModal';
+import DeleteModal from '../../components/modals/DeleteModal'
 
 const Manages = () => {
   const [visible, setVisible] = useState(false)
@@ -36,7 +36,7 @@ const Manages = () => {
   const [search, setSearch] = useState(undefined)
   const [id, setId] = useState(undefined)
 
-  const history = useHistory();
+  const history = useHistory()
 
   const [toast, addToast] = useState(0)
   const toaster = useRef()
@@ -113,9 +113,9 @@ const Manages = () => {
           <strong>Manages</strong>
         </CCardHeader>
         <div className="d-flex justify-content-between " xd={12}>
-          <Link to = "/admin/users" class=" mx-3 my-2 col-auto">
+          <Link to="/admin/users" class=" mx-3 my-2 col-auto">
             <button type="button"
-            className="btn btn-success"
+              className="btn btn-success"
               style={{
                 color: 'white ',
               }}
@@ -154,7 +154,7 @@ const Manages = () => {
                   <CTableDataCell >
                     <CButton onClick={() => {
                       setId(user.id),
-                      setVisible(!visible)
+                        setVisible(!visible)
                     }}
                       class="border border-none"
                       style={{
@@ -165,7 +165,9 @@ const Manages = () => {
                     </CButton>
                   </CTableDataCell>
                   <CTableDataCell>
-                    <FaPencilAlt />
+                    <Link to={`/admin/users/${user.id}`} class=" mx-3 my-2 col-auto">
+                      <FaPencilAlt />
+                    </Link>
                   </CTableDataCell>
                 </CTableRow>
               )}
