@@ -66,7 +66,7 @@ const routes = [
   { path: '/admin/manage', name: 'Manages', component: Manages },
   { path: '/admin/posts', name: 'Posts', component: Posts },
   { path: '/admin/users', name: 'Users', component: Users, exact: true},
-  { path: "/admin/users/:id", name: 'Userss', component: Users, exact: true },
+  { path: "/admin/users/:id", name: 'Users', component: Users, exact: true },
   { path: '/base', name: 'Base', component: Cards, exact: true },
   { path: '/base/accordion', name: 'Accordion', component: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', component: Breadcrumbs },
