@@ -39,7 +39,7 @@ const CreateUser = () => {
   const { id } = useParams()
   const history = useHistory()
 
-  const submitData = async () => {
+  const save = async () => {
     const body = {
       display_name: user.display_name,
       email: user.email,
@@ -80,6 +80,7 @@ const CreateUser = () => {
           avata: res.data.avatar,
         })
       }
+      console.log(user.birthday)
     } catch (error) {
       alert(error)
     }
@@ -252,7 +253,7 @@ const CreateUser = () => {
             <div className="px-2 py-3">
               <CButton color="primary"
                 type="submit"
-                onClick={submitData}
+                onClick={save}
               >
                 Save
               </CButton>

@@ -104,6 +104,7 @@ exports.findAll = (req, res) => {
     .then(data => {
       const response = getPagingData(data, page, limit)
       res.send(response)
+      console.log("data :", response )
     })
     .catch(err => {
       messageError(res, err)

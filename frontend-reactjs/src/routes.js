@@ -5,7 +5,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 const Posts = React.lazy(() => import('./views/theme/posts/Post'))
-const CreateUser = React.lazy(() => import('./views/admin/createUser/createUser'))
+const CreateUser = React.lazy(() => import('./views/admin/createUser/CreateUser'))
 const Users = React.lazy(() => import('./views/admin/users/User'))
 
 // Base
@@ -67,7 +67,7 @@ const routes = [
   { path: '/admin/users', name: 'Users', component: Users },
   { path: '/admin/posts', name: 'Posts', component: Posts },
   { path: '/admin/createUser', name: 'CreateUser', component: CreateUser, exact: true},
-  { path: "/admin/users/:id", name: 'Userss', component: Users, exact: true },
+  { path: "/admin/createUser/:id", name: 'createUser', component: CreateUser, exact: true },
   { path: '/base', name: 'Base', component: Cards, exact: true },
   { path: '/base/accordion', name: 'Accordion', component: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', component: Breadcrumbs },

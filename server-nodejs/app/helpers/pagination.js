@@ -1,5 +1,5 @@
 exports.getPagination = (page, size) => {
-    const limit = size ? +size : 10;
+    const limit = size ? +size : 2;
     if (page <= 0) {
       page = 1;
     }

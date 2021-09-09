@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
   CCard,
   CCardBody,
@@ -17,34 +17,41 @@ import {
 } from '@coreui/react'
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa"
 import { useHistory, Link } from "react-router-dom"
+import Moment from 'react-moment';
 
 import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 
 import DeleteModal from '../../components/modals/DeleteModal'
 import ExampleToast from '../../components/modals/toasts/Toasts'
+import Page from 'src/views/components/modals/pages/Page'
 
 const Users = () => {
   const [visible, setVisible] = useState(false)
   const [users, setUsers] = useState([])
   const [search, setSearch] = useState(undefined)
   const [id, setId] = useState(undefined)
+  const [totalPage, setTotalPage] = useState(undefined)
+  const [currentpage, setCurrentPage] = useState(1)
+  const sizePage = 5
 
   const history = useHistory()
 
   const [toast, addToast] = useState(false)
   const toaster = useRef()
 
-  const fetchUsers = async (search = undefined) => {
+  const fetchUsers = useCallback(async (search = undefined) => {
     try {
-      let res = await getUsers(search)
+      let res = await getUsers(search, currentpage, sizePage)
       if (!!res.data) {
+        setTotalPage(res.data.totalPages)
         setUsers([...res.data.items])
       }
+
     }
     catch (error) {
       alert(error)
     }
-  }
+  }, [search, currentpage])
 
   const fetchDelete = async () => {
     try {
@@ -67,7 +74,7 @@ const Users = () => {
 
   useEffect(() => {
     fetchUsers()
-  }, [])
+  }, [currentpage])
 
   const onSearchEnter = (e) => {
     if (e.key == 'Enter') {
@@ -118,6 +125,7 @@ const Users = () => {
                 <CTableHeaderCell scope="col">#</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Name</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Email</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Birthday</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Gender</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Edit</CTableHeaderCell>
@@ -129,6 +137,11 @@ const Users = () => {
                   <CTableHeaderCell scope="row">{index + 1}  </CTableHeaderCell>
                   <CTableDataCell>{user.display_name} </CTableDataCell>
                   <CTableDataCell>{user.email} </CTableDataCell>
+                  <CTableDataCell>
+                    <Moment format="DD/MM/YYYY">
+                      {new Date(user.birthday)}
+                    </Moment>
+                  </CTableDataCell>
                   <CTableDataCell>{user.gender} </CTableDataCell>
                   <CTableDataCell >
                     <CButton onClick={() => {
@@ -144,7 +157,7 @@ const Users = () => {
                     </CButton>
                   </CTableDataCell>
                   <CTableDataCell>
-                    <Link to={`/admin/users/${user.id}`} class=" mx-3 my-2 col-auto">
+                    <Link to={`/admin/createUser/${user.id}`} class=" mx-3 my-2 col-auto">
                       <FaPencilAlt />
                     </Link>
                   </CTableDataCell>
@@ -152,6 +165,14 @@ const Users = () => {
               )}
             </CTableBody>
           </CTable>
+          {
+
+            <Page
+              totalPage={totalPage}
+              setCurrentPage={setCurrentPage}
+              currentpage={currentpage}
+            />
+          }
         </CCardBody>
       </CCard>
     </CCol>
