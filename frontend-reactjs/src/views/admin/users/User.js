@@ -119,7 +119,7 @@ const Users = () => {
           />
         </div>
         <CCardBody xs={12} style={{ fontSize: 15 }}>
-          <CTable class="table table-success table-striped table table-hover">
+          <CTable class="table ">
             <CTableHead >
               <CTableRow>
                 <CTableHeaderCell scope="col">#</CTableHeaderCell>
@@ -148,9 +148,10 @@ const Users = () => {
                       setId(user.id),
                         setVisible(!visible)
                     }}
-                      class="border border-none"
                       style={{
                         color: 'red',
+                        backgroundColor:"white",
+                        border:'none'
                       }}
                     >
                       < FaTrashAlt />

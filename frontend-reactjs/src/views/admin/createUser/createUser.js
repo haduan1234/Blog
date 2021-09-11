@@ -19,9 +19,11 @@ import { registerLocale, setDefaultLocale } from "react-datepicker"
 import { useParams } from "react-router-dom"
 
 import { useHistory, Link } from "react-router-dom"
+import { useFileUpload } from 'use-file-upload'
 
 
 import { createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
+import UploadFile from '../uploadfile/UploadFile.js'
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -36,6 +38,8 @@ const CreateUser = () => {
     password: ""
   })
 
+  const [file, selectFile] = useFileUpload()
+
   const { id } = useParams()
   const history = useHistory()
 
@@ -46,7 +50,7 @@ const CreateUser = () => {
       phone: user.phone,
       address: user.address,
       gender: user.gender,
-      avatar: user.avata,
+      avatar: file.source,
       birthday: user.birthday.getTime(),
       password: user.password
     }
@@ -91,6 +95,10 @@ const CreateUser = () => {
       fetchGetUserById()
     }
   }, [id])
+
+  useEffect(() => {
+    console.log("file : ", file)
+  }, [file])
 
 
   return (
@@ -187,22 +195,12 @@ const CreateUser = () => {
             </CCol>
             <CRow className="px-2">
               <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
-              <div className="d-flex align-items-center">
-                <div className=" col-2 "  >
-                  <CFormInput
-                    type="file"
-                    id="validationTextarea"
-                    aria-label="file example"
-                    required
-                    value={user.avatar}
-                    onChange={e => setUser({
-                      ...user,
-                      avata: e.target.value
-                    })}
-                  />
-                </div>
-                {/* <img scr={user.avata} alt="avtar" className="px-3"></img> */}
-              </div>
+             <div>
+               <UploadFile 
+               file={file}
+               selectFile={selectFile}
+               />
+             </div>
               <CCol className="py-2">
                 <CFormLabel htmlFor="validationServer08"> Gender</CFormLabel>
                 <div className="d-flex">
