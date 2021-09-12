@@ -40,6 +40,7 @@ const CreateUser = () => {
   })
 
   const [file, selectFile] = useFileUpload()
+  const [imageFile, setImageFile ] =useState("")
 
   const { id } = useParams()
   const history = useHistory()
@@ -51,7 +52,7 @@ const CreateUser = () => {
       phone: user.phone,
       address: user.address,
       gender: user.gender,
-      avatar: user.avata,
+      avatar: imageFile,
       birthday: user.birthday.getTime(),
       password: user.password
     }
@@ -80,7 +81,7 @@ const CreateUser = () => {
           phone: res.data.phone,
           gender: res.data.gender,
           address: res.data.address,
-          avata: res.data.avatar,
+          avata: "http://localhost:8888/"+res.data.avatar,
         })
       }
     } catch (error) {
@@ -93,6 +94,7 @@ const CreateUser = () => {
     formData.append("image", file?.file)
     try {
       const image = await uploadFile(formData)
+      setImageFile(image.data.filename)
     } catch (error) {
       alert(error)
     }
