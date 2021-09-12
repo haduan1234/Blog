@@ -10,6 +10,7 @@ import {
   CFormInput,
   CFormLabel,
   CRow,
+  CFormSelect
 } from '@coreui/react'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -25,6 +26,7 @@ import { useFileUpload } from 'use-file-upload'
 import { createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
 import { uploadFile } from "../../../services/uploadFileService"
 import UploadFile from '../uploadfile/UploadFile.js'
+import { getRole } from 'src/services/roleService'
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -34,13 +36,14 @@ const CreateUser = () => {
     phone: "",
     gender: "",
     address: "",
-    // position: "user",
+    position: "",
     avata: "",
     password: ""
   })
 
   const [file, selectFile] = useFileUpload()
-  const [imageFile, setImageFile ] =useState("")
+  const [imageFile, setImageFile] = useState("")
+  const [role, setRole] = useState([])
 
   const { id } = useParams()
   const history = useHistory()
@@ -54,7 +57,8 @@ const CreateUser = () => {
       gender: user.gender,
       avatar: imageFile,
       birthday: user.birthday.getTime(),
-      password: user.password
+      password: user.password,
+      position: user.position
     }
     try {
       if (!!id) {
@@ -81,13 +85,26 @@ const CreateUser = () => {
           phone: res.data.phone,
           gender: res.data.gender,
           address: res.data.address,
-          avata: "http://localhost:8888/"+res.data.avatar,
+          avata: "http://localhost:8888/" + res.data.avatar,
         })
       }
     } catch (error) {
       alert(error)
     }
   }, [id])
+
+  const fetchGetRole = useCallback(async () => {
+    try {
+      const res = await getRole();
+      console.log("data:", res.data)
+      if (!!res) {
+        setRole([...res.data.items])
+      }
+    }
+    catch (error) {
+      alert(error)
+    }
+  })
 
   const uploadImage = useCallback(async () => {
     const formData = new FormData();
@@ -108,7 +125,7 @@ const CreateUser = () => {
   }, [id])
 
   useEffect(() => {
-    if(!!file) {
+    if (!!file) {
       setUser({
         ...user,
         avata: file.source
@@ -116,6 +133,12 @@ const CreateUser = () => {
       uploadImage()
     }
   }, [file])
+
+  useEffect(() => {
+    if (role == null) {
+      fetchGetRole()
+    }
+  })
 
 
   return (
@@ -210,61 +233,63 @@ const CreateUser = () => {
                   })} />
               </CCol>
             </CCol>
-            <CRow className="px-2">
-              <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
-             <div>
-               <UploadFile 
-               file={user.avata}
-               selectFile={selectFile}
-               />
-             </div>
-              <CCol className="py-2">
-                <CFormLabel htmlFor="validationServer08"> Gender</CFormLabel>
-                <div className="d-flex">
-                  <CFormCheck
-                    className="col-1"
-                    type="radio"
-                    name="flexRadioDisabled"
-                    id="flexRadioDisabled"
-                    value="Nam"
-                    label="Nam"
-                    defaultChecked
-                    onChange={e => setUser({
-                      ...user,
-                      gender: e.target.value
-                    })}
-                  />
-                  <CFormCheck
-                    className="col-1"
-                    type="radio"
-                    name="flexRadioDisabled"
-                    id="flexRadioCheckedDisabled"
-                    value="Nữ"
-                    label="Nữ"
-                    onChange={e => setUser({
-                      ...user,
-                      gender: e.target.value
-                    })}
-                  />
+            <CRow >
+              <div className="d-flex ">
+                <CCol className=" col-6 px-2">
+                  <CFormLabel htmlFor="validationServer01">Position</CFormLabel>
+                  <CFormSelect
+                    placeholder="Please choose position"
+                    onChange={e => {
+                      setUser({
+                        ...user,
+                        position: e.target.value
+                      })
+                    }}
+                    aria-label="Default select example">
+                    {!!role && role.map((r, index) =>
+                      <option key={index} value={r.name}>{r.name}</option>
+                    )}
+                  </CFormSelect>
+                </CCol>
+                <div className="px-2 col-6">
+                  <CFormLabel htmlFor="validationServer08"> Gender</CFormLabel>
+                  <div className="d-flex py-2">
+                    <CFormCheck
+                      className="col-2"
+                      type="radio"
+                      name="flexRadioDisabled"
+                      id="flexRadioDisabled"
+                      value="Nam"
+                      label="Nam"
+                      defaultChecked
+                      onChange={e => setUser({
+                        ...user,
+                        gender: e.target.value
+                      })}
+                    />
+                    <CFormCheck
+                      className="col-2   "
+                      type="radio"
+                      name="flexRadioDisabled"
+                      id="flexRadioCheckedDisabled"
+                      value="Nữ"
+                      label="Nữ"
+                      onChange={e => setUser({
+                        ...user,
+                        gender: e.target.value
+                      })}
+                    />
+                  </div>
                 </div>
-              </CCol>
+              </div>
+              <div className="mx-2">
+                <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
+                <UploadFile
+                  file={user.avata}
+                  selectFile={selectFile}
+                />
+              </div>
             </CRow>
-            {/* <CCol className="d-flex flex-column p-2">
-                <CFormLabel htmlFor="validationServer01">Position</CFormLabel>
-                <CFormSelect
-                  placeholder="Please choose position"
-                  onChange={e => {
-                    setUser({
-                      ...user,
-                      position: e.target.value
-                    })
-                  }}
-                  aria-label="Default select example">
-                  <option value="user">User</option>
-                  <option value="blogger">Blogger</option>
-                </CFormSelect>
-              </CCol>
-             */}
             <div className="px-2 py-3">
               <CButton color="primary"
                 type="submit"

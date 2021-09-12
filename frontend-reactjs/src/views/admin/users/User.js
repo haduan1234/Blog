@@ -23,7 +23,7 @@ import { getUsers, createUser, deleteUser, getUserById, updateUser } from "../..
 
 import DeleteModal from '../../components/modals/DeleteModal'
 import ExampleToast from '../../components/modals/toasts/Toasts'
-import Page from 'src/views/components/modals/pages/Page'
+import Page from 'src/views/components/paginations/Pagination'
 
 const Users = () => {
   const [visible, setVisible] = useState(false)
@@ -99,7 +99,7 @@ const Users = () => {
           <strong>Manages</strong>
         </CCardHeader>
         <div className="d-flex justify-content-between " xd={12}>
-          <Link to="/admin/createUser" class=" mx-3 my-2 col-auto">
+          <Link to="/admin/createUser" class=" mx-3 mt-2 col-auto">
             <button type="button"
               className="btn btn-success"
               style={{
@@ -110,7 +110,7 @@ const Users = () => {
             </button>
           </Link>
           <CFormInput
-            class="col-6 my-2 mx-3 border border-light px-2 rounded "
+            class="col-6 mt-2 mx-3 border border-light px-2 rounded "
             type="text"
             id="validationServer01"
             placeholder="Search"
@@ -123,6 +123,7 @@ const Users = () => {
             <CTableHead >
               <CTableRow>
                 <CTableHeaderCell scope="col">#</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Avartar</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Name</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Email</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Birthday</CTableHeaderCell>
@@ -133,8 +134,15 @@ const Users = () => {
             </CTableHead>
             <CTableBody>
               {!!users && users.map((user, index) =>
-                <CTableRow key={index}>
+                <CTableRow key={index} className="p-4">
                   <CTableHeaderCell scope="row">{index + 1}  </CTableHeaderCell>
+                  <CTableHeaderCell scope="row">
+                  <img src={"http://localhost:8888/"+user.avatar} alt='preview' width="40px" height="40px" style={{
+                        borderRadius: 100,
+                        border: '1px solid #0000001f'
+                    }} 
+                    />
+                      </CTableHeaderCell>
                   <CTableDataCell>{user.display_name} </CTableDataCell>
                   <CTableDataCell>{user.email} </CTableDataCell>
                   <CTableDataCell>
@@ -144,10 +152,11 @@ const Users = () => {
                   </CTableDataCell>
                   <CTableDataCell>{user.gender} </CTableDataCell>
                   <CTableDataCell >
-                    <CButton onClick={() => {
+                    <button onClick={() => {
                       setId(user.id),
                         setVisible(!visible)
                     }}
+                    class="d-flex align-items-center mt-1"
                       style={{
                         color: 'red',
                         backgroundColor:"white",
@@ -155,11 +164,11 @@ const Users = () => {
                       }}
                     >
                       < FaTrashAlt />
-                    </CButton>
+                    </button>
                   </CTableDataCell>
-                  <CTableDataCell>
-                    <Link to={`/admin/createUser/${user.id}`} class=" mx-3 my-2 col-auto">
-                      <FaPencilAlt />
+                  <CTableDataCell >
+                    <Link to={`/admin/createUser/${user.id}`} >
+                      <FaPencilAlt class="d-flex align-items-center mt-1"/>
                     </Link>
                   </CTableDataCell>
                 </CTableRow>

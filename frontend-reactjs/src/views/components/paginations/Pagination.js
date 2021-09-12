@@ -2,12 +2,6 @@ import React from 'react'
 
 const Page = ({ totalPage, setCurrentPage, currentpage }) => {
 
-    const styleLi = {
-        border: '1px solid #0000001f',
-        paddingRight: 10,
-        paddingLeft: 10
-    }
-
     const pageList = []
     for (let i = 1; i <= totalPage; i++) {
         pageList.push(i)
@@ -16,8 +10,8 @@ const Page = ({ totalPage, setCurrentPage, currentpage }) => {
     return (
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-end align-items-center">
-                <li class="page-item disabled "
-                    style={styleLi}
+                <li
+                    class="page"
                     onClick={() => {
                         if (currentpage > 1) {
                             setCurrentPage(currentpage - 1)
@@ -28,8 +22,7 @@ const Page = ({ totalPage, setCurrentPage, currentpage }) => {
                 {
                     pageList.map((p, index) => (
                         <li key={index}
-                            style={styleLi}
-                            class={currentpage == p ? "active-page page-item" : "page-item"}
+                            class={currentpage == p ? "active-page page" : "page"}
                             onClick={() => {
                                 setCurrentPage(p)
                             }}>
@@ -37,14 +30,14 @@ const Page = ({ totalPage, setCurrentPage, currentpage }) => {
                         </li>
                     ))
                 }
-                <li class="page-item"
-                    style={styleLi}
+                <li 
+                    class="page"
                     onClick={() => {
                         if (currentpage < totalPage) {
                             setCurrentPage(currentpage + 1)
                         }
                     }}
-                    >
+                >
                     <span aria-hidden="true">&raquo;</span>
                 </li>
             </ul>
