@@ -36,29 +36,21 @@ const CreateUser = () => {
     phone: "",
     gender: "",
     address: "",
-    position: "",
-    avata: "",
+    RoleId: 0,
+    avatar: "",
     password: ""
   })
 
   const [file, selectFile] = useFileUpload()
-  const [imageFile, setImageFile] = useState("")
-  const [role, setRole] = useState([])
+  const [roles, setRoles] = useState([])
 
   const { id } = useParams()
   const history = useHistory()
 
   const save = async () => {
     const body = {
-      display_name: user.display_name,
-      email: user.email,
-      phone: user.phone,
-      address: user.address,
-      gender: user.gender,
-      avatar: imageFile,
-      birthday: user.birthday.getTime(),
-      password: user.password,
-      position: user.position
+      ...user,
+      birthday: user.birthday.getTime()
     }
     try {
       if (!!id) {
@@ -78,6 +70,7 @@ const CreateUser = () => {
     try {
       const res = await getUserById(id)
       if (!!res && !!res.data) {
+        console.log("1")
         setUser({
           display_name: res.data.display_name,
           birthday: new Date(res.data.birthday),
@@ -85,7 +78,8 @@ const CreateUser = () => {
           phone: res.data.phone,
           gender: res.data.gender,
           address: res.data.address,
-          avata: "http://localhost:8888/" + res.data.avatar,
+          avatar:  res.data.avatar,
+          RoleId: res.data.RoleId
         })
       }
     } catch (error) {
@@ -96,22 +90,24 @@ const CreateUser = () => {
   const fetchGetRole = useCallback(async () => {
     try {
       const res = await getRole();
-      console.log("data:", res.data)
       if (!!res) {
-        setRole([...res.data.items])
+        setRoles([...res.data.items])
       }
     }
     catch (error) {
       alert(error)
     }
-  })
+  }, [])
 
   const uploadImage = useCallback(async () => {
     const formData = new FormData();
     formData.append("image", file?.file)
     try {
       const image = await uploadFile(formData)
-      setImageFile(image.data.filename)
+      setUser({
+        ...user,
+        avatar: image.data.filename
+      })
     } catch (error) {
       alert(error)
     }
@@ -126,19 +122,22 @@ const CreateUser = () => {
 
   useEffect(() => {
     if (!!file) {
-      setUser({
-        ...user,
-        avata: file.source
-      })
       uploadImage()
     }
   }, [file])
 
   useEffect(() => {
-    if (role == null) {
       fetchGetRole()
+  }, [])
+
+  useEffect(() => {
+    if(!!roles && roles.length > 0 && user.RoleId == 0) {
+      setUser({
+        ...user,
+        RoleId: roles[0].id
+      })
     }
-  })
+  }, [roles, user])
 
 
   return (
@@ -238,16 +237,16 @@ const CreateUser = () => {
                 <CCol className=" col-6 px-2">
                   <CFormLabel htmlFor="validationServer01">Position</CFormLabel>
                   <CFormSelect
-                    placeholder="Please choose position"
+                    placeholder="Please choose position "
                     onChange={e => {
                       setUser({
                         ...user,
-                        position: e.target.value
+                        RoleId: e.target.value
                       })
                     }}
                     aria-label="Default select example">
-                    {!!role && role.map((r, index) =>
-                      <option key={index} value={r.name}>{r.name}</option>
+                    {!!roles && roles.map((r, index) =>
+                      <option selected={user.RoleId == r.id} key={index}defaultValue value={r.id}>{r.name}</option>
                     )}
                   </CFormSelect>
                 </CCol>
@@ -285,7 +284,7 @@ const CreateUser = () => {
               <div className="mx-2">
                 <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
                 <UploadFile
-                  file={user.avata}
+                  file={user.avatar}
                   selectFile={selectFile}
                 />
               </div>

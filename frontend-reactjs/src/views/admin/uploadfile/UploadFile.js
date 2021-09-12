@@ -1,4 +1,4 @@
-import React,{useEffect, useCallback} from 'react'
+import React, { useEffect, useCallback } from 'react'
 
 const UploadFile = (props) => {
     const { selectFile, file } = props
@@ -16,10 +16,13 @@ const UploadFile = (props) => {
             </div>
             {!!file ? (
                 <div className=" px-3 manipulation " >
-                    <img src={file} alt='preview' width="40px" height="40px" style={{
-                        borderRadius: 100,
-                        border: '1px solid #0000001f'
-                    }} 
+                    <img src={"http://localhost:8888/" + file} onClick={() => {
+                        selectFile()
+                    }}
+                        alt='preview' width="40px" height="40px" style={{
+                            borderRadius: 100,
+                            border: '1px solid #0000001f'
+                        }}
                     />
                 </div>
             ) : (
