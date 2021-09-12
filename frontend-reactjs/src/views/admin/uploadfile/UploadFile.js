@@ -17,7 +17,7 @@ const UploadFile = (props) => {
             </div>
             {!!file ? (
                 <div className=" px-3 manipulation " >
-                    <img src={file.source} alt='preview' width="50px" height="50px" style={{
+                    <img src={file} alt='preview' width="50px" height="50px" style={{
                         borderRadius: 100,
                         border: '1px solid #0000001f'
                     }} 

@@ -53,7 +53,7 @@ db.sequelize.sync().then(() => {
   initial() // Just use it in development, at the first time execution!. Delete it in production
 })
 
-app.post('/uploads', upload.single('image'), function (req, res, next) {
+app.post('/api/uploads', upload.single('image'), function (req, res, next) {
   const img = req.file
   res.send(img)
 })

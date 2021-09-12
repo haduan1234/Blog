@@ -23,6 +23,7 @@ import { useFileUpload } from 'use-file-upload'
 
 
 import { createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
+import { uploadFile } from "../../../services/uploadFileService"
 import UploadFile from '../uploadfile/UploadFile.js'
 
 const CreateUser = () => {
@@ -50,11 +51,10 @@ const CreateUser = () => {
       phone: user.phone,
       address: user.address,
       gender: user.gender,
-      avatar: file.source,
+      avatar: user.avata,
       birthday: user.birthday.getTime(),
       password: user.password
     }
-
     try {
       if (!!id) {
         await updateUser(id, body)
@@ -72,7 +72,6 @@ const CreateUser = () => {
   const fetchGetUserById = useCallback(async () => {
     try {
       const res = await getUserById(id)
-      console.log(res.data)
       if (!!res && !!res.data) {
         setUser({
           display_name: res.data.display_name,
@@ -84,11 +83,21 @@ const CreateUser = () => {
           avata: res.data.avatar,
         })
       }
-      console.log(user.birthday)
     } catch (error) {
       alert(error)
     }
   }, [id])
+
+  const uploadImage = useCallback(async () => {
+    const formData = new FormData();
+    formData.append("image", file?.file)
+    try {
+      const image = await uploadFile(formData)
+    } catch (error) {
+      alert(error)
+    }
+
+  }, [file])
 
   useEffect(() => {
     if (!!id) {
@@ -97,7 +106,13 @@ const CreateUser = () => {
   }, [id])
 
   useEffect(() => {
-    console.log("file : ", file)
+    if(!!file) {
+      setUser({
+        ...user,
+        avata: file.source
+      })
+      uploadImage()
+    }
   }, [file])
 
 
@@ -197,7 +212,7 @@ const CreateUser = () => {
               <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
              <div>
                <UploadFile 
-               file={file}
+               file={user.avata}
                selectFile={selectFile}
                />
              </div>
