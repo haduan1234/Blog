@@ -3,31 +3,33 @@ import React, { useEffect, useCallback } from 'react'
 const UploadFile = (props) => {
     const { selectFile, file } = props
     return (
-        <div className="d-flex justify-content-start  align-items-center">
-            <div>
-                <button
-                    class="btn btn-secondary "
-                    onClick={() => {
-                        selectFile()
-                    }}
-                >
-                    Upload Avatar
-                </button>
-            </div>
+        <div className="uploadFile">
             {!!file ? (
-                <div className=" px-3 manipulation " >
-                    <img src={"http://localhost:8888/" + file} onClick={() => {
-                        selectFile()
-                    }}
-                        alt='preview' width="40px" height="40px" style={{
+                <div className="  manipulation " >
+                    <img src={"http://localhost:8888/" + file}
+                        onClick={() => {
+                            selectFile()
+                        }}
+                        alt='preview' width="60px" height="60px" style={{
                             borderRadius: 100,
                             border: '1px solid #0000001f'
                         }}
                     />
                 </div>
             ) : (
-                <span>No file selected</span>
+                <div onClick={() => {
+                    selectFile()
+                }}
+                    className="uploadFile-image " />
             )}
+
+            <div
+                className="selectFile my-2"
+                onClick={() => {
+                    selectFile()
+                }}>
+                Avatar
+            </div>
         </div>
     )
 }

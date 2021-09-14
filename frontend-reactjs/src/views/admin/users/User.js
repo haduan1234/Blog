@@ -16,6 +16,7 @@ import {
 
 } from '@coreui/react'
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa"
+import { IoWoman, IoManSharp } from "react-icons/io5"
 import { useHistory, Link } from "react-router-dom"
 import Moment from 'react-moment';
 
@@ -33,6 +34,7 @@ const Users = () => {
   const [totalPage, setTotalPage] = useState(undefined)
   const [currentpage, setCurrentPage] = useState(1)
   const sizePage = 5
+  let genderdefault = "Nam"
 
   const history = useHistory()
 
@@ -128,6 +130,7 @@ const Users = () => {
                 <CTableHeaderCell scope="col">Email</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Birthday</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Gender</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Position</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Edit</CTableHeaderCell>
               </CTableRow>
@@ -137,12 +140,12 @@ const Users = () => {
                 <CTableRow key={index} className="p-4">
                   <CTableHeaderCell scope="row">{index + 1}  </CTableHeaderCell>
                   <CTableHeaderCell scope="row">
-                  <img src={"http://localhost:8888/"+user.avatar} alt='preview' width="40px" height="40px" style={{
-                        borderRadius: 100,
-                        border: '1px solid #0000001f'
-                    }} 
+                    <img src={"http://localhost:8888/" + user.avatar} alt='preview' width="40px" height="40px" style={{
+                      borderRadius: 100,
+                      border: '1px solid #0000001f'
+                    }}
                     />
-                      </CTableHeaderCell>
+                  </CTableHeaderCell>
                   <CTableDataCell>{user.display_name} </CTableDataCell>
                   <CTableDataCell>{user.email} </CTableDataCell>
                   <CTableDataCell>
@@ -150,17 +153,24 @@ const Users = () => {
                       {new Date(user.birthday)}
                     </Moment>
                   </CTableDataCell>
-                  <CTableDataCell>{user.gender} </CTableDataCell>
+                  <CTableDataCell >
+                    {!!user.gender && user.gender.toLowerCase() == genderdefault.toLowerCase() ? (
+                        <IoManSharp />
+                      ) : (
+                        <IoWoman />
+                      )}
+                  </CTableDataCell>
+                  <CTableDataCell>{user.Role.name} </CTableDataCell>
                   <CTableDataCell >
                     <button onClick={() => {
                       setId(user.id),
                         setVisible(!visible)
                     }}
-                    class="d-flex align-items-center mt-1"
+                      class="d-flex align-items-center mt-1"
                       style={{
                         color: 'red',
-                        backgroundColor:"white",
-                        border:'none'
+                        backgroundColor: "white",
+                        border: 'none'
                       }}
                     >
                       < FaTrashAlt />
@@ -168,7 +178,7 @@ const Users = () => {
                   </CTableDataCell>
                   <CTableDataCell >
                     <Link to={`/admin/createUser/${user.id}`} >
-                      <FaPencilAlt class="d-flex align-items-center mt-1"/>
+                      <FaPencilAlt class="d-flex align-items-center mt-1" />
                     </Link>
                   </CTableDataCell>
                 </CTableRow>

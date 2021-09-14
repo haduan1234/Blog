@@ -70,7 +70,6 @@ const CreateUser = () => {
     try {
       const res = await getUserById(id)
       if (!!res && !!res.data) {
-        console.log("1")
         setUser({
           display_name: res.data.display_name,
           birthday: new Date(res.data.birthday),
@@ -260,7 +259,7 @@ const CreateUser = () => {
                       id="flexRadioDisabled"
                       value="Nam"
                       label="Nam"
-                      defaultChecked
+                      // defaultChecked
                       onChange={e => setUser({
                         ...user,
                         gender: e.target.value
@@ -281,7 +280,7 @@ const CreateUser = () => {
                   </div>
                 </div>
               </div>
-              <div className="mx-2">
+              <div className="mx-2 col-1">
                 <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
                 <UploadFile
                   file={user.avatar}
