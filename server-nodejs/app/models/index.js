@@ -27,37 +27,38 @@ db.sequelize = sequelize
 
 db.user = require("./user.model.js")(sequelize, Sequelize, DataTypes)
 db.role = require("./role.model.js")(sequelize, Sequelize, DataTypes)
-db.permission = require("./permission.model.js")(sequelize, Sequelize, DataTypes)
-db.scheduler = require("./scheduler.model.js")(sequelize, Sequelize, DataTypes)
-db.recipients_schedule = require("./recipients_schedule.model.js")(sequelize, Sequelize, DataTypes)
-db.label = require("./label.model.js")(sequelize, Sequelize, DataTypes)
+// db.permission = require("./permission.model.js")(sequelize, Sequelize, DataTypes)
+// db.scheduler = require("./scheduler.model.js")(sequelize, Sequelize, DataTypes)
+// db.recipients_schedule = require("./recipients_schedule.model.js")(sequelize, Sequelize, DataTypes)
+// db.label = require("./label.model.js")(sequelize, Sequelize, DataTypes)
 
-
+db.post_category = require("./post_category.model.js")(sequelize, Sequelize, DataTypes)
 db.post = require("./post.model.js")(sequelize, Sequelize, DataTypes)
-db.blogger= require("./blogger.model.js")(sequelize, Sequelize, DataTypes)
+db.post_like = require("./post_like.model.js")(sequelize, Sequelize, DataTypes)
+// db.blogger= require("./blogger.model.js")(sequelize, Sequelize, DataTypes)
 // db.comment= require("./comment.model.js")(sequelize, Sequelize, DataTypes)
 // db.content= require("./content.model.js")(sequelize, Sequelize, DataTypes)
 // db.group= require("./group.model.js")(sequelize, Sequelize, DataTypes)
 
 // reference scheduler with label
-db.label.hasMany(db.scheduler)
-db.scheduler.belongsTo(db.label)
-db.user.hasMany(db.label)
-db.label.belongsTo(db.user)
+// db.label.hasMany(db.scheduler)
+// db.scheduler.belongsTo(db.label)
+// db.user.hasMany(db.label)
+// db.label.belongsTo(db.user)
 
 //reference peremission and role
-db.user.hasMany(db.permission)
-db.permission.belongsTo(db.user)
+// db.user.hasMany(db.permission)
+// db.permission.belongsTo(db.user)
 
 //reference scheduler with recipients, user with recipients
-db.user.hasMany(db.recipients_schedule)
-db.recipients_schedule.belongsTo(db.user)
-db.scheduler.hasMany(db.recipients_schedule)
-db.recipients_schedule.belongsTo(db.scheduler)
+// db.user.hasMany(db.recipients_schedule)
+// db.recipients_schedule.belongsTo(db.user)
+// db.scheduler.hasMany(db.recipients_schedule)
+// db.recipients_schedule.belongsTo(db.scheduler)
 
 // reference scheduler with user
-db.scheduler.belongsTo(db.user)
-db.user.hasMany(db.scheduler)
+// db.scheduler.belongsTo(db.user)
+// db.user.hasMany(db.scheduler)
 
 // reference user and role
 db.user.belongsTo(db.role)
@@ -76,8 +77,25 @@ db.role.hasMany(db.user)
 
 // reference 
 
-db.post.belongsTo(db.blogger)
-db.blogger.hasMany(db.post)
+// reference user and post
+db.post.belongsTo(db.user)
+db.user.hasMany(db.post)
+
+
+// reference post and post_category
+db.post.belongsTo(db.post_category)
+db.post_category.hasMany(db.post)
+
+// reference post and post_like
+db.post_like.belongsTo(db.post)
+db.post.hasMany(db.post_like)
+
+// reference user and post_like
+db.post_like.belongsTo(db.user)
+db.user.hasMany(db.post_like)
+
+
+
 
 db.ROLES = ["user", "admin"]
 db.PERMISSIONS = ["read", "add", "edit", "delete", "no_permission"]

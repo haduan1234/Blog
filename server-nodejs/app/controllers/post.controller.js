@@ -11,7 +11,12 @@ exports.findAll = (req, res )=> {
 
     var condition = name ? { name: { [Op.like]: '%' + name + '%' } } : null;
 
-    Post.findAndCountAll({ where: condition, limit, offset})
+    Post.findAndCountAll({
+        include: [
+            {
+              model: db.user
+            }
+        ],where: condition, limit, offset})
     .then(data => {
         const response = getPagingData(data, page, limit);
         res.send(response)
