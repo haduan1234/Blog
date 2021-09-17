@@ -98,7 +98,7 @@ const Users = () => {
 
       <CCard className="m-1">
         <CCardHeader>
-          <strong>Manages</strong>
+          <strong>Users</strong>
         </CCardHeader>
         <div className="d-flex justify-content-between " xd={12}>
           <Link to="/admin/createUser" class=" mx-3 mt-2 col-auto">
@@ -155,10 +155,10 @@ const Users = () => {
                   </CTableDataCell>
                   <CTableDataCell >
                     {!!user.gender && user.gender.toLowerCase() == genderdefault.toLowerCase() ? (
-                        <IoManSharp />
-                      ) : (
-                        <IoWoman />
-                      )}
+                      <IoManSharp />
+                    ) : (
+                      <IoWoman />
+                    )}
                   </CTableDataCell>
                   <CTableDataCell>{user.Role.name} </CTableDataCell>
                   <CTableDataCell >

@@ -23,7 +23,7 @@ import { useHistory, Link } from "react-router-dom"
 import { useFileUpload } from 'use-file-upload'
 
 
-import { createUser, deleteUser, getUserById, updateUser } from "../../../services/userService"
+import { createUser,  getUserById, updateUser } from "../../../services/userService"
 import { uploadFile } from "../../../services/uploadFileService"
 import UploadFile from '../uploadfile/UploadFile.js'
 import { getRole } from 'src/services/roleService'

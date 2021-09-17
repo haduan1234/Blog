@@ -62,6 +62,12 @@ const _nav = [
     icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />,
   },
   {
+    component: CNavItem,
+    name: 'Post_categorys',
+    to: '/admin/post_categorys',
+    icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />,
+  },
+  {
     component: CNavTitle,
     name: 'Components',
   },

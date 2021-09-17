@@ -94,6 +94,10 @@ db.post.hasMany(db.post_like)
 db.post_like.belongsTo(db.user)
 db.user.hasMany(db.post_like)
 
+// // reference post and post_category
+// db.post.belongsTo(db.post_category)
+// db.post_category.hasMany(db.post)
+
 
 
 

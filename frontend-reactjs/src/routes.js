@@ -4,9 +4,14 @@ import { createUser } from './services/userService'
 // const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
+// User
 const Posts = React.lazy(() => import('./views/theme/posts/Post'))
-const CreateUser = React.lazy(() => import('./views/admin/createUser/CreateUser'))
+const CreateUser = React.lazy(() => import('./views/admin/users/CreateUser'))
 const Users = React.lazy(() => import('./views/admin/users/User'))
+
+// Post_category
+const Post_categorys = React.lazy(() => import('./views/admin/post_categorys/Post_category'))
+const CreatePost_category = React.lazy(() => import('./views/admin/post_categorys/CreatePost_category'))
 
 // Base
 const Accordion = React.lazy(() => import('./views/components/base/accordion/Accordion'))
@@ -68,6 +73,9 @@ const routes = [
   { path: '/admin/posts', name: 'Posts', component: Posts },
   { path: '/admin/createUser', name: 'CreateUser', component: CreateUser, exact: true},
   { path: "/admin/createUser/:id", name: 'createUser', component: CreateUser, exact: true },
+  { path: '/admin/post_categorys', name: 'Post_categorys', component: Post_categorys },
+  { path: '/admin/createPost_category', name: 'CreatePost_category', component: CreatePost_category, exact: true},
+  { path: '/admin/createPost_category/:id', name: 'CreatePost_category', component: CreatePost_category, exact: true},
   { path: '/base', name: 'Base', component: Cards, exact: true },
   { path: '/base/accordion', name: 'Accordion', component: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', component: Breadcrumbs },
