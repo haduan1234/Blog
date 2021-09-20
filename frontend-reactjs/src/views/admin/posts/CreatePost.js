@@ -42,7 +42,6 @@ const Post = () => {
         ...posts,
         userId: localStorage.id
       }
-      console.log("body:", body)
       if(!!id){
         await updatePost(body)
       }else{

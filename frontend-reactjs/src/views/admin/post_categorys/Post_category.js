@@ -99,7 +99,7 @@ const Post_categorys = () => {
                     <strong>Post categorys</strong>
                 </CCardHeader>
                 <div className="d-flex justify-content-between " xd={12}>
-                    <Link to="/admin/createPost_category" class=" mx-3 mt-2 col-auto">
+                    <Link to="/admin/createPost_category" className=" mx-3 mt-2 col-auto">
                         <button type="button"
                             className="btn btn-success"
                             style={{
@@ -110,7 +110,7 @@ const Post_categorys = () => {
                         </button>
                     </Link>
                     <CFormInput
-                        class="col-6 mt-2 mx-3 border border-light px-2 rounded "
+                        className="col-6 mt-2 mx-3 border border-light px-2 rounded "
                         type="text"
                         id="validationServer01"
                         placeholder="Search"
@@ -120,7 +120,7 @@ const Post_categorys = () => {
                 </div>
 
                 <CCardBody xs={12} style={{ fontSize: 15 }}>
-                    <CTable class="table" >
+                    <CTable className="table" >
                         <CTableHead >
                             <CTableRow>
                                 <CTableHeaderCell scope="col">#</CTableHeaderCell>
@@ -136,7 +136,7 @@ const Post_categorys = () => {
                                     <CTableHeaderCell>{p.name}</CTableHeaderCell>
                                     <CTableHeaderCell>
                                         <Link to={`/admin/createPost_category/${p.id}`} >
-                                            <FaPencilAlt class="d-flex align-items-center mt-1" />
+                                            <FaPencilAlt className="d-flex align-items-center mt-1" />
                                         </Link>
                                     </CTableHeaderCell>
                                     <CTableHeaderCell>
@@ -144,7 +144,7 @@ const Post_categorys = () => {
                                             setId(p.id)
                                             setVisible(!visible)
                                         }}
-                                            class="d-flex align-items-center mt-1"
+                                            className="d-flex align-items-center mt-1"
                                             style={{
                                                 color: 'red',
                                                 backgroundColor: "white",

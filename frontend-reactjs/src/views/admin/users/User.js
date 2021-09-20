@@ -111,7 +111,7 @@ const Users = () => {
             </button>
           </Link>
           <CFormInput
-            class="col-6 mt-2 mx-3 border border-light px-2 rounded "
+            className="col-6 mt-2 mx-3 border border-light px-2 rounded "
             type="text"
             id="validationServer01"
             placeholder="Search"
@@ -120,7 +120,7 @@ const Users = () => {
           />
         </div>
         <CCardBody xs={12} style={{ fontSize: 15 }}>
-          <CTable class="table ">
+          <CTable className="table ">
             <CTableHead >
               <CTableRow>
                 <CTableHeaderCell scope="col">#</CTableHeaderCell>
@@ -165,7 +165,7 @@ const Users = () => {
                       setId(user.id),
                         setVisible(!visible)
                     }}
-                      class="d-flex align-items-center mt-1"
+                      className="d-flex align-items-center mt-1"
                       style={{
                         color: 'red',
                         backgroundColor: "white",
@@ -177,7 +177,7 @@ const Users = () => {
                   </CTableDataCell>
                   <CTableDataCell >
                     <Link to={`/admin/createUser/${user.id}`} >
-                      <FaPencilAlt class="d-flex align-items-center mt-1" />
+                      <FaPencilAlt className="d-flex align-items-center mt-1" />
                     </Link>
                   </CTableDataCell>
                 </CTableRow>

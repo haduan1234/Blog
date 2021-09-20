@@ -72,9 +72,11 @@ exports.updatePassWord = async (req, res) => {
 
 
 exports.create = (req, res) => {
+  console.log()
   User.create({
     ...req.body,
     password: bcrypt.hashSync(req.body.password, 8),
+
   })
   .then(data => {
       res.send(data);
@@ -283,12 +285,13 @@ exports.getByUserId = async (id) => {
 
 exports.update = (req, res) => {
   const id = req.params.id
-  let {display_name, email, phone, birthday, gender, avatar, address, RoleId} = req.body
-  if (req.body.hasOwnProperty('password')) {
-    newUser.password = bcrypt.hashSync(req.body.password, 8)
-  }
+  // let {display_name, email, phone, birthday, gender, avatar, address, RoleId} = req.body
+  // if (req.body.hasOwnProperty('password')) {
+  //   newUser.password = bcrypt.hashSync(req.body.password, 8)
+  // }
   User.update({
-    ... req.body
+    ... req.body,
+    password: bcrypt.hashSync(req.body.password, 8)
   }, {
     where: { id: id }
   })
