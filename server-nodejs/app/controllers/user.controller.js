@@ -72,8 +72,10 @@ exports.updatePassWord = async (req, res) => {
 
 
 exports.create = (req, res) => {
-  console.log("body:", req.body)
-  User.create(req.body)
+  User.create({
+    ...req.body,
+    password: bcrypt.hashSync(req.body.password, 8),
+  })
   .then(data => {
       res.send(data);
   })

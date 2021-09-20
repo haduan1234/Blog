@@ -10,7 +10,6 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-  CButton,
   CFormInput,
   CToaster,
 
@@ -101,7 +100,7 @@ const Users = () => {
           <strong>Users</strong>
         </CCardHeader>
         <div className="d-flex justify-content-between " xd={12}>
-          <Link to="/admin/createUser" class=" mx-3 mt-2 col-auto">
+          <Link to="/admin/createUser" className=" mx-3 mt-2 col-auto">
             <button type="button"
               className="btn btn-success"
               style={{

@@ -45,7 +45,8 @@ exports.signin = async (req, res) => {
       }
     ],
     where: {
-      phone: req.body.phone
+      // phone: req.body.phone
+      email : req.body.email
     }
   })
     .then(async (user) => {
@@ -53,7 +54,7 @@ exports.signin = async (req, res) => {
         return res.status(404).send({ message: "User Not found." })
       }
 
-      let passwordIsValid = bcrypt.compareSync(
+      let passwordIsValid = (
         req.body.password,
         user.password
       )

@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Page = ({ totalPage, setCurrentPage, currentpage }) => {
-
     const pageList = []
     for (let i = 1; i <= totalPage; i++) {
         pageList.push(i)

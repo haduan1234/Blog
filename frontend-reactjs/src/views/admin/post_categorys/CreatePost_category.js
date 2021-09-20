@@ -67,7 +67,7 @@ const CreatePost_category = () => {
             <CCol>
                 <CCard>
                     <CCardHeader>
-                        <strong>Create Post_category</strong>
+                        <strong>Create Post category</strong>
                     </CCardHeader>
                     <CCardBody>
                         <CCol className="col-4">

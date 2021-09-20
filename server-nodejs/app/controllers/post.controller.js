@@ -5,16 +5,17 @@ const { getPagination, getPagingData } = require("../helpers/pagination");
 const { messageError } = require("../helpers/messageError");
 
 exports.findAll = (req, res )=> {
-    const name = req.query.name;
+    const search = req.query.search;
     const { page, size } = req.query;
     const { limit, offset } = getPagination(page, size);
 
-    var condition = name ? { name: { [Op.like]: '%' + name + '%' } } : null;
+    var condition = search ? { name: { [Op.like]: '%' + search + '%' } } : null;
 
     Post.findAndCountAll({
         include: [
             {
-              model: db.user
+              model: db.user,
+              model: db.post_category
             }
         ],where: condition, limit, offset})
     .then(data => {

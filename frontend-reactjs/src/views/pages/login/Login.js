@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -15,11 +15,46 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import { setUser, getUser, clearUser } from 'src/services/localStorageService'
+import { signinUser } from 'src/services/authServices'
 
 const Login = () => {
+  const [userSigin, setUserSigin] = useState()
+  const setUserInLocalStorage = async () => {
+    try {
+      const res = await signinUser(userSigin)
+      console.log("data:", res.data.user)
+      const user = {
+        id: res.data.user.id,
+        name: res.data.user.name,
+        phone: res.data.user.phone,
+        RoleId : res.data.user.RoleId
+      }
+      setUser(user)
+    }
+    catch (err) {
+      alert(err)
+    }
+
+
+  }
+
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
+        {/* <CButton color="primary" className="px-4" onClick={setUserInLocalStorage}>
+          setUser
+        </CButton>
+        <CButton color="primary" className="px-4" onClick={() => {
+          console.log("user : ", getUser())
+        }}>
+          getUser
+        </CButton>
+        <CButton color="primary" className="px-4" onClick={() => {
+          clearUser()
+        }}>
+          clearUser
+        </CButton> */}
         <CRow className="justify-content-center">
           <CCol md={8}>
             <CCardGroup>
@@ -32,7 +67,10 @@ const Login = () => {
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput placeholder="Email" autoComplete="username" onChange={e => setUserSigin({
+                        ...userSigin,
+                        email: e.target.value
+                      })} />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -42,24 +80,28 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        onChange={e => setUserSigin({
+                          ...userSigin,
+                          password: e.target.value
+                        })}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" onClick={setUserInLocalStorage} className="px-4">
                           Login
                         </CButton>
                       </CCol>
-                      <CCol xs={6} className="text-right">
+                      {/* <CCol xs={6} className="text-right">
                         <CButton color="link" className="px-0">
                           Forgot password?
                         </CButton>
-                      </CCol>
+                      </CCol> */}
                     </CRow>
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+              {/* <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
@@ -74,7 +116,7 @@ const Login = () => {
                     </Link>
                   </div>
                 </CCardBody>
-              </CCard>
+              </CCard> */}
             </CCardGroup>
           </CCol>
         </CRow>

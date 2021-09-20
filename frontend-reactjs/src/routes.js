@@ -1,11 +1,14 @@
 import React from 'react'
+import { createPost } from './services/postService'
 import { createUser } from './services/userService'
 
 // const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
+// Post
+const Posts = React.lazy(() => import('./views/admin/posts/Posts'))
+const CreatePost = React.lazy(() => import('./views/admin/posts/CreatePost'))
 // User
-const Posts = React.lazy(() => import('./views/theme/posts/Post'))
 const CreateUser = React.lazy(() => import('./views/admin/users/CreateUser'))
 const Users = React.lazy(() => import('./views/admin/users/User'))
 
@@ -71,6 +74,8 @@ const routes = [
   { path: '/admin', name: 'Admin', component: Posts, exact: true },
   { path: '/admin/users', name: 'Users', component: Users },
   { path: '/admin/posts', name: 'Posts', component: Posts },
+  { path: '/admin/createPost', name:'CreatePost', component: CreatePost, exact: true},
+  { path: '/admin/createPost/:id', name:'CreatePost', component: CreatePost, exact: true},
   { path: '/admin/createUser', name: 'CreateUser', component: CreateUser, exact: true},
   { path: "/admin/createUser/:id", name: 'createUser', component: CreateUser, exact: true },
   { path: '/admin/post_categorys', name: 'Post_categorys', component: Post_categorys },

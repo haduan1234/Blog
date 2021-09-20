@@ -13,40 +13,38 @@ import {
     CToaster,
 
 } from '@coreui/react'
-import { FaTrashAlt, FaPencilAlt } from "react-icons/fa"
-import { IoWoman, IoManSharp } from "react-icons/io5"
-import { useHistory, Link } from "react-router-dom"
-import Moment from 'react-moment';
 
-import { getPost_category, deletePost_category } from '../../../services/post_categoryServices'
+import { useHistory, Link } from "react-router-dom"
+
+import { FaTrashAlt, FaPencilAlt } from "react-icons/fa"
 
 import DeleteModal from '../../components/modals/DeleteModal'
 import ExampleToast from '../../components/modals/toasts/Toasts'
 import Page from '../../components/paginations/Pagination'
 
+import { getPost, deletePost } from 'src/services/postService'
 
-const Post_categorys = () => {
-    const [search, setSearch] = useState(undefined)
-    const [totalPage, setTotalPage] = useState(undefined)
-    const [currentpage, setCurrentPage] = useState(1)
+const Posts = () => {
+
+    const [posts, setPosts] = useState([])
     const [id, setId] = useState(undefined)
     const [visible, setVisible] = useState(false)
-    const [post_categorys, setPost_categorys] = useState([])
-
+    const [currentpage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(undefined)
+    const [search, setSearch] = useState(undefined)
+    
     const sizePage = 5
-
 
     const [toast, addToast] = useState(false)
     const toaster = useRef()
 
-    const fetchGetPost_category = useCallback(async (search = undefined) => {
+    const fetchGetPost = useCallback(async () => {
         try {
-            let res = await getPost_category(search, currentpage, sizePage)
+            let res = await getPost(search , currentpage, sizePage)
             if (!!res.data) {
+                setPosts([...res.data.items])
                 setTotalPage(res.data.totalPages)
-                setPost_categorys([...res.data.items])
             }
-
         }
         catch (err) {
             alert(err)
@@ -55,20 +53,22 @@ const Post_categorys = () => {
 
     const fetchDelete = async () => {
         try {
-            await deletePost_category(id)
-            setVisible(false)
-            addToast(
-                <ExampleToast
-                    title="Delete user"
-                    delay={2000}
-                    nameToast="Delete user"
-                    time="closes in 7 seconds"
-                    body="Delete successfuly"
-                />)
-            fetchGetPost_category()
+            if (!!id) {
+                await deletePost(id)
+                setVisible(false)
+                addToast(
+                    <ExampleToast
+                        title="Delete user"
+                        delay={2000}
+                        nameToast="Delete user"
+                        time="closes in 7 seconds"
+                        body="Delete successfuly"
+                    />)
+                fetchGetPost()
+            }
         }
-        catch (error) {
-            alert(error)
+        catch (err) {
+            alert(err)
         }
     }
 
@@ -79,10 +79,8 @@ const Post_categorys = () => {
     }
 
     useEffect(() => {
-        fetchGetPost_category()
+        fetchGetPost()
     }, [currentpage])
-
-
     return (
         <CCol>
             <CToaster ref={toaster} push={toast} placement="top-end" />
@@ -96,10 +94,10 @@ const Post_categorys = () => {
 
             <CCard className="m-1">
                 <CCardHeader>
-                    <strong>Post categorys</strong>
+                    <strong>Posts</strong>
                 </CCardHeader>
-                <div className="d-flex justify-content-between " xd={12}>
-                    <Link to="/admin/createPost_category" class=" mx-3 mt-2 col-auto">
+                <div className="d-flex justify-content-between " >
+                    <Link to="/admin/createPost" class=" mx-3 mt-2 col-auto">
                         <button type="button"
                             className="btn btn-success"
                             style={{
@@ -114,8 +112,8 @@ const Post_categorys = () => {
                         type="text"
                         id="validationServer01"
                         placeholder="Search"
-                    onKeyDown={onSearchEnter}
-                    onChange={e => setSearch(e.target.value)}
+                        onKeyDown={onSearchEnter}
+                        onChange={e => setSearch(e.target.value)}
                     />
                 </div>
 
@@ -125,17 +123,19 @@ const Post_categorys = () => {
                             <CTableRow>
                                 <CTableHeaderCell scope="col">#</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+                                <CTableHeaderCell scope="col">Post category</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Edit</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
                             </CTableRow>
                         </CTableHead>
                         <CTableBody>
-                            {!!post_categorys && post_categorys.map((p, index) =>
+                            {!!posts && posts.map((p, index) =>
                                 <CTableRow key={index} className="p-4">
                                     <CTableHeaderCell>{index + 1}</CTableHeaderCell>
                                     <CTableHeaderCell>{p.name}</CTableHeaderCell>
+                                    <CTableHeaderCell>{p.post_category.name}</CTableHeaderCell>
                                     <CTableHeaderCell>
-                                        <Link to={`/admin/createPost_category/${p.id}`} >
+                                        <Link to={`/admin/createPost/${p.id}`} >
                                             <FaPencilAlt class="d-flex align-items-center mt-1" />
                                         </Link>
                                     </CTableHeaderCell>
@@ -170,7 +170,6 @@ const Post_categorys = () => {
 
         </CCol>
     )
-
 }
 
-export default Post_categorys
+export default Posts

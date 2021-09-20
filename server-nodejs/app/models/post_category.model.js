@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
-  const Post_catepory = sequelize.define(
-    "post_cateporys", // Model name
+  const Post_category = sequelize.define(
+    "post_categorys", // Model name
     {
       id: {
         type: DataTypes.UUID,
@@ -21,5 +21,5 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
     }
   )
 
-  return Post_catepory
+  return Post_category
 }

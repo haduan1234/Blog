@@ -17,6 +17,7 @@ import {
   cibLetsEncrypt
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { FaLayerGroup } from "react-icons/fa";
 
 const _nav = [
   // {
@@ -65,7 +66,7 @@ const _nav = [
     component: CNavItem,
     name: 'Post_categorys',
     to: '/admin/post_categorys',
-    icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />,
+    icon: <FaLayerGroup className="icon_nav"/>,
   },
   {
     component: CNavTitle,

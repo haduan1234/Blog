@@ -19,6 +19,7 @@ registerLocale('vi', vi)
 import { registerLocale, setDefaultLocale } from "react-datepicker"
 import { useParams } from "react-router-dom"
 
+
 import { useHistory, Link } from "react-router-dom"
 import { useFileUpload } from 'use-file-upload'
 
@@ -50,7 +51,7 @@ const CreateUser = () => {
   const save = async () => {
     const body = {
       ...user,
-      birthday: user.birthday.getTime()
+      birthday: user.birthday.getTime(),
     }
     try {
       if (!!id) {
@@ -245,7 +246,7 @@ const CreateUser = () => {
                     }}
                     aria-label="Default select example">
                     {!!roles && roles.map((r, index) =>
-                      <option selected={user.RoleId == r.id} key={index}defaultValue value={r.id}>{r.name}</option>
+                      <option selected={user.RoleId == r.id} key={index} value={r.id}>{r.name}</option>
                     )}
                   </CFormSelect>
                 </CCol>
