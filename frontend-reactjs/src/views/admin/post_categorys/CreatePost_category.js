@@ -13,6 +13,7 @@ import {
 import { useParams } from "react-router-dom"
 
 import { useHistory, Link } from "react-router-dom"
+import { getUser } from 'src/services/localStorageService'
 
 import { createPost_category, updatePost_category, getPost_categoryById } from '../../../services/post_categoryServices'
 
@@ -55,6 +56,19 @@ const CreatePost_category = () => {
             alert(err)
         }
     }, [id])
+
+    const setLocale = () => {
+        let localStorage = getUser()
+        if (!localStorage) {
+            history.push('/login')
+        }
+        else {
+            history.push('/admin/createPost_category')
+        }
+    }
+    useEffect(() => {
+        setLocale()
+    }, [])
 
     useEffect(() => {
         if (!!id) {

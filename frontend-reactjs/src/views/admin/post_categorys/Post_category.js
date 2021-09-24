@@ -24,6 +24,9 @@ import DeleteModal from '../../components/modals/DeleteModal'
 import ExampleToast from '../../components/modals/toasts/Toasts'
 import Page from '../../components/paginations/Pagination'
 
+import Auth from 'src/views/middlewares/auth'
+import { getUser } from 'src/services/localStorageService'
+
 
 const Post_categorys = () => {
     const [search, setSearch] = useState(undefined)
@@ -34,6 +37,7 @@ const Post_categorys = () => {
     const [post_categorys, setPost_categorys] = useState([])
 
     const sizePage = 5
+    const history = useHistory()
 
 
     const [toast, addToast] = useState(false)
@@ -78,10 +82,23 @@ const Post_categorys = () => {
         }
     }
 
+    const setLocale = () => {
+        let localStorage = getUser()
+        if (!localStorage) {
+            history.push('/login')
+        }
+        else {
+            history.push('/admin/post_categorys')
+        }
+    }
+    useEffect(() => {
+        setLocale()
+    }, [])
+
+
     useEffect(() => {
         fetchGetPost_category()
     }, [currentpage])
-
 
     return (
         <CCol>
@@ -110,7 +127,7 @@ const Post_categorys = () => {
                         </button>
                     </Link>
                     <CFormInput
-                        className="col-6 mt-2 mx-3 border border-light px-2 rounded "
+                        className="col-6 mt-2 mx-3 border border-light px-2 rounded search_input"
                         type="text"
                         id="validationServer01"
                         placeholder="Search"

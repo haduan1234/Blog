@@ -17,15 +17,15 @@ import { useHistory, Link } from "react-router-dom"
 import { useParams } from "react-router-dom"
 
 import { getPost_category } from '../../../services/post_categoryServices'
-import { createPost , getPostById , updatePost} from 'src/services/postService';
-import { getUser} from 'src/services/localStorageService';
+import { createPost, getPostById, updatePost } from 'src/services/postService';
+import { getUser } from 'src/services/localStorageService';
 
 const Post = () => {
 
   const [posts, setPosts] = useState({
     name: "",
     postCategoryId: 0,
-    userId : 0,
+    userId: 0,
     content: "",
   })
   const [post_categorys, setPost_categorys] = useState([])
@@ -37,14 +37,14 @@ const Post = () => {
 
   const submitValue = async () => {
     try {
-      const localStorage =  getUser()
-      const body ={
+      const localStorage = getUser()
+      const body = {
         ...posts,
         userId: localStorage.id
       }
-      if(!!id){
+      if (!!id) {
         await updatePost(body)
-      }else{
+      } else {
         await createPost(body)
       }
       history.push('/admin/posts')
@@ -57,7 +57,7 @@ const Post = () => {
   const fetchGetPost_category = async () => {
     try {
       let res = await getPost_category()
-   
+
       if (!!res.data) {
         setPost_categorys([
           ...res.data.items
@@ -69,28 +69,41 @@ const Post = () => {
     }
   }
 
-  const fetchGetPostByID = useCallback(async() => {
-try{
- 
-  const res = await getPostById(id)
-  if(!!res.data) {
-    setPosts({
-      name: res.data.name,
-      postCategoryId: res.data.postCategoryId,
-      content: res.data.content,
-    })
+  const fetchGetPostByID = useCallback(async () => {
+    try {
+
+      const res = await getPostById(id)
+      if (!!res.data) {
+        setPosts({
+          name: res.data.name,
+          postCategoryId: res.data.postCategoryId,
+          content: res.data.content,
+        })
+      }
+    }
+    catch (err) {
+      alert(err)
+    }
+  }, [id])
+
+  const setLocale = () => {
+    let localStorage = getUser()
+    if (!localStorage) {
+      history.push('/login')
+    }
+    else {
+      history.push('/admin/createPost')
+    }
   }
-}
-catch(err) {
-  alert(err)
-}
-  },[id])
+  useEffect(() => {
+    setLocale()
+  }, [])
 
   useEffect(() => {
-    if(!!id){
-       fetchGetPostByID()
+    if (!!id) {
+      fetchGetPostByID()
     }
-  },[id])
+  }, [id])
 
   useEffect(() => {
     fetchGetPost_category()

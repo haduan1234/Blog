@@ -29,6 +29,8 @@ import { uploadFile } from "../../../services/uploadFileService"
 import UploadFile from '../uploadfile/UploadFile.js'
 import { getRole } from 'src/services/roleService'
 
+import { getUser } from 'src/services/localStorageService'
+
 const CreateUser = () => {
   const [user, setUser] = useState({
     display_name: "",
@@ -115,6 +117,15 @@ const CreateUser = () => {
     }
 
   }, [file])
+  const setLocale = () => {
+    let localStorage = getUser()
+    if (!localStorage) {
+      history.push('/login')
+    }
+    else {
+      history.push('/admin/createUser')
+    }
+  }
 
   useEffect(() => {
     if (!!id) {
@@ -130,6 +141,7 @@ const CreateUser = () => {
 
   useEffect(() => {
       fetchGetRole()
+      setLocale()
   }, [])
 
   useEffect(() => {

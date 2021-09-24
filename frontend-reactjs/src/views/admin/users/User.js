@@ -25,6 +25,8 @@ import DeleteModal from '../../components/modals/DeleteModal'
 import ExampleToast from '../../components/modals/toasts/Toasts'
 import Page from 'src/views/components/paginations/Pagination'
 
+import { getUser } from 'src/services/localStorageService'
+
 const Users = () => {
   const [visible, setVisible] = useState(false)
   const [users, setUsers] = useState([])
@@ -73,9 +75,23 @@ const Users = () => {
     }
   }
 
+  const setLocale = () => {
+   let localStorage =  getUser()
+   if(!localStorage) {
+     history.push('/login')
+   }
+   else{  
+      history.push('/admin/users')
+   }
+  }
+
   useEffect(() => {
     fetchUsers()
   }, [currentpage])
+  
+  useEffect(() => {
+    setLocale()
+  },[])
 
   const onSearchEnter = (e) => {
     if (e.key == 'Enter') {
@@ -111,7 +127,7 @@ const Users = () => {
             </button>
           </Link>
           <CFormInput
-            className="col-6 mt-2 mx-3 border border-light px-2 rounded "
+            className="col-6 mt-2 mx-3 border border-light px-2 rounded search_input"
             type="text"
             id="validationServer01"
             placeholder="Search"

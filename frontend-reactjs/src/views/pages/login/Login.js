@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link , useHistory} from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -20,10 +20,13 @@ import { signinUser } from 'src/services/authServices'
 
 const Login = () => {
   const [userSigin, setUserSigin] = useState()
+
+const history = useHistory()
+
   const setUserInLocalStorage = async () => {
     try {
       const res = await signinUser(userSigin)
-      console.log("data:", res.data.user)
+      console.log("data:", res.data)
       const user = {
         id: res.data.user.id,
         name: res.data.user.name,
@@ -31,6 +34,7 @@ const Login = () => {
         RoleId : res.data.user.RoleId
       }
       setUser(user)
+      history.push('/admin/createPost')
     }
     catch (err) {
       alert(err)

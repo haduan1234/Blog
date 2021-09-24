@@ -23,6 +23,7 @@ import ExampleToast from '../../components/modals/toasts/Toasts'
 import Page from '../../components/paginations/Pagination'
 
 import { getPost, deletePost } from 'src/services/postService'
+import { getUser } from 'src/services/localStorageService'
 
 const Posts = () => {
 
@@ -32,15 +33,33 @@ const Posts = () => {
     const [currentpage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(undefined)
     const [search, setSearch] = useState(undefined)
-    
+
     const sizePage = 5
 
     const [toast, addToast] = useState(false)
     const toaster = useRef()
 
+    const history = useHistory()
+
+    const createPost = () => {
+        try {
+            let checklocalStorage = getUser();
+            console.log("data: ", checklocalStorage)
+            if (!checklocalStorage) {
+                history.push("/login")
+            } else {
+                history.push("/admin/createPost")
+            }
+
+        }
+        catch (err) {
+            alert(err)
+        }
+    }
+
     const fetchGetPost = useCallback(async () => {
         try {
-            let res = await getPost(search , currentpage, sizePage)
+            let res = await getPost(search, currentpage, sizePage)
             if (!!res.data) {
                 setPosts([...res.data.items])
                 setTotalPage(res.data.totalPages)
@@ -78,9 +97,23 @@ const Posts = () => {
         }
     }
 
+    const setLocale = () => {
+        let localStorage = getUser()
+        if (!localStorage) {
+            history.push('/login')
+        }
+        else {
+            history.push('/admin/posts')
+        }
+    }
+    useEffect(() => {
+        setLocale()
+    }, [])
+
     useEffect(() => {
         fetchGetPost()
     }, [currentpage])
+
     return (
         <CCol>
             <CToaster ref={toaster} push={toast} placement="top-end" />
@@ -96,21 +129,20 @@ const Posts = () => {
                 <CCardHeader>
                     <strong>Posts</strong>
                 </CCardHeader>
-                <div className="d-flex justify-content-between " >
-                    <Link to="/admin/createPost" className=" mx-3 mt-2 col-auto">
-                        <button type="button"
-                            className="btn btn-success"
-                            style={{
-                                color: 'white ',
-                            }}
-                        >
-                            Create
-                        </button>
-                    </Link>
+                <div className="d-flex justify-content-between " md={12} >
+                    <button type="button"
+                        className="btn btn-success  mx-3 mt-2 col-auto"
+                        style={{
+                            color: 'white ',
+                        }}
+                        onClick={createPost}
+                    >
+                        Create
+                    </button>
                     <CFormInput
-                        className="col-6 mt-2 mx-3 border border-light px-2 rounded "
+                        className="mt-2 mx-3 border border-light px-2 rounded col-4 search_input"
                         type="text"
-                        id="validationServer01"
+                        // id="validationServer01"
                         placeholder="Search"
                         onKeyDown={onSearchEnter}
                         onChange={e => setSearch(e.target.value)}
