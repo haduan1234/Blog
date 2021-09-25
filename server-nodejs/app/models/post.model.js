@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
               unique: true
           },
           content: {
-              type: DataTypes.STRING
+              type: DataTypes.TEXT
           }
       },
       {

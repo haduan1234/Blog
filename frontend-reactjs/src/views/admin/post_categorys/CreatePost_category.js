@@ -57,18 +57,6 @@ const CreatePost_category = () => {
         }
     }, [id])
 
-    const setLocale = () => {
-        let localStorage = getUser()
-        if (!localStorage) {
-            history.push('/login')
-        }
-        else {
-            history.push('/admin/createPost_category')
-        }
-    }
-    useEffect(() => {
-        setLocale()
-    }, [])
 
     useEffect(() => {
         if (!!id) {

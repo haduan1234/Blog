@@ -75,23 +75,9 @@ const Users = () => {
     }
   }
 
-  const setLocale = () => {
-   let localStorage =  getUser()
-   if(!localStorage) {
-     history.push('/login')
-   }
-   else{  
-      history.push('/admin/users')
-   }
-  }
-
   useEffect(() => {
     fetchUsers()
   }, [currentpage])
-  
-  useEffect(() => {
-    setLocale()
-  },[])
 
   const onSearchEnter = (e) => {
     if (e.key == 'Enter') {

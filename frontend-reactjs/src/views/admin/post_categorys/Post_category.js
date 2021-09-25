@@ -82,20 +82,6 @@ const Post_categorys = () => {
         }
     }
 
-    const setLocale = () => {
-        let localStorage = getUser()
-        if (!localStorage) {
-            history.push('/login')
-        }
-        else {
-            history.push('/admin/post_categorys')
-        }
-    }
-    useEffect(() => {
-        setLocale()
-    }, [])
-
-
     useEffect(() => {
         fetchGetPost_category()
     }, [currentpage])
@@ -131,8 +117,8 @@ const Post_categorys = () => {
                         type="text"
                         id="validationServer01"
                         placeholder="Search"
-                    onKeyDown={onSearchEnter}
-                    onChange={e => setSearch(e.target.value)}
+                        onKeyDown={onSearchEnter}
+                        onChange={e => setSearch(e.target.value)}
                     />
                 </div>
 

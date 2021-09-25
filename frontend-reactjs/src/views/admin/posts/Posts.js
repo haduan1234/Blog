@@ -42,19 +42,7 @@ const Posts = () => {
     const history = useHistory()
 
     const createPost = () => {
-        try {
-            let checklocalStorage = getUser();
-            console.log("data: ", checklocalStorage)
-            if (!checklocalStorage) {
-                history.push("/login")
-            } else {
-                history.push("/admin/createPost")
-            }
-
-        }
-        catch (err) {
-            alert(err)
-        }
+        history.push("/admin/createPost")
     }
 
     const fetchGetPost = useCallback(async () => {
@@ -96,19 +84,6 @@ const Posts = () => {
             fetchGetPost(search)
         }
     }
-
-    const setLocale = () => {
-        let localStorage = getUser()
-        if (!localStorage) {
-            history.push('/login')
-        }
-        else {
-            history.push('/admin/posts')
-        }
-    }
-    useEffect(() => {
-        setLocale()
-    }, [])
 
     useEffect(() => {
         fetchGetPost()

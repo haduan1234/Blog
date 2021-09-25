@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
+import { useHistory, Link } from "react-router-dom"
+
+import { getUser } from 'src/services/localStorageService'
 
 const DefaultLayout = () => {
+  const user = getUser()
+  const history = useHistory()
+
+  useEffect(() => {
+    if (!user) {
+      history.push("/login")
+    }
+  })
+
+
   return (
     <div>
       <AppSidebar />

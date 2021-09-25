@@ -24,7 +24,7 @@ const Post = () => {
 
   const [posts, setPosts] = useState({
     name: "",
-    postCategoryId: 0,
+    postCategoryId: "",
     userId: 0,
     content: "",
   })
@@ -36,14 +36,16 @@ const Post = () => {
   const editorRef = useRef(null);
 
   const submitValue = async () => {
+    const content = editorRef.current.getContent()
     try {
       const localStorage = getUser()
       const body = {
         ...posts,
-        userId: localStorage.id
+        userId: localStorage.id,
+        content: content
       }
       if (!!id) {
-        await updatePost(body)
+        await updatePost(id, body)
       } else {
         await createPost(body)
       }
@@ -62,6 +64,12 @@ const Post = () => {
         setPost_categorys([
           ...res.data.items
         ])
+        if(!id && res.data.items.length > 0) {
+          setPosts({
+            ...posts,
+            postCategoryId: res.data.items[0].id
+          })
+        }
       }
     }
     catch (err) {
@@ -86,19 +94,6 @@ const Post = () => {
     }
   }, [id])
 
-  const setLocale = () => {
-    let localStorage = getUser()
-    if (!localStorage) {
-      history.push('/login')
-    }
-    else {
-      history.push('/admin/createPost')
-    }
-  }
-  useEffect(() => {
-    setLocale()
-  }, [])
-
   useEffect(() => {
     if (!!id) {
       fetchGetPostByID()
@@ -107,7 +102,7 @@ const Post = () => {
 
   useEffect(() => {
     fetchGetPost_category()
-  }, [posts])
+  }, [])
 
   return (
     <CForm
@@ -174,7 +169,7 @@ const Post = () => {
                   height: 500,
                   menubar: false,
                   plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
+                    'advlist autolink lists link image charmap print preview anchor | codesample',
                     'searchreplace visualblocks code fullscreen',
                     'insertdatetime media table paste code help wordcount'
                   ],
@@ -184,10 +179,6 @@ const Post = () => {
                     'removeformat | help',
                   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
-                onChange={e => setPosts({
-                  ...posts,
-                  content: editorRef.current.getContent()
-                })}
               />
             </div>
             <CButton color="primary"

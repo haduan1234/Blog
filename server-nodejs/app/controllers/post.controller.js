@@ -39,6 +39,9 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
     const id = req.params.id;
+    console.log("id", req.body)
+    const content = req.body.content
+    console.log(typeof content)
 
     Post.update(req.body, {
         where: { id: id }
@@ -46,7 +49,7 @@ exports.update = (req, res) => {
     .then(num => {
         if (num == 1 ){
             res.send({
-                message: " Role was updated successfully. "
+                message: " Post was updated successfully. "
             });
         }else {
             res.send({
