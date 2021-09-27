@@ -19,6 +19,7 @@ const UploadFile = (props) => {
             ) : (
                 <div onClick={() => {
                     selectFile()
+                    
                 }}
                     className="uploadFile-image " />
             )}

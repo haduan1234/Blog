@@ -12,7 +12,7 @@ const DefaultLayout = () => {
     if (!user) {
       history.push("/login")
     }
-  })
+  },[])
 
 
   return (

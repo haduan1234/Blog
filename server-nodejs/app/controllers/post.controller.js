@@ -28,6 +28,7 @@ exports.findAll = (req, res )=> {
 }
 
 exports.create = (req, res) => {
+    console.log("data body :" , req.body)
     Post.create(req.body)
     .then(data => {
         res.send(data);
