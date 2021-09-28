@@ -9,7 +9,8 @@ import {
   CForm,
   CFormInput,
   CFormLabel,
-  CFormSelect
+  CFormSelect,
+  CFormCheck
 } from '@coreui/react'
 
 import { useHistory, Link } from "react-router-dom"
@@ -17,10 +18,12 @@ import { useHistory, Link } from "react-router-dom"
 import { useParams } from "react-router-dom"
 
 import { getPost_category } from '../../../services/post_categoryServices'
-import { createPost, getPostById, updatePost } from 'src/services/postService';
+import {createPost, getPostById, updatePost } from 'src/services/postService';
 import { uploadFile } from 'src/services/uploadFileService'
 import { getUser } from 'src/services/localStorageService';
-import { render } from 'enzyme';
+
+import UploadFile from "../uploadfile/UploadFile"
+import { useFileUpload } from 'use-file-upload'
 
 const Post = () => {
 
@@ -29,8 +32,11 @@ const Post = () => {
     postCategoryId: "",
     userId: 0,
     content: "",
+    isHot: false,
+    avatar: ""
   })
   const [post_categorys, setPost_categorys] = useState([])
+  const [file, selectFile] = useFileUpload()
 
   const { id } = useParams()
   const history = useHistory()
@@ -39,21 +45,20 @@ const Post = () => {
 
   const submitValue = async () => {
     const content = editorRef.current.getContent()
-    console.log("content : ", content)
     try {
       const localStorage = getUser()
       const body = {
         ...posts,
         userId: localStorage.id,
-        content: content
+        content: content,
       }
       console.log("data:", body)
       if (!!id) {
         await updatePost(id, body)
       } else {
-        // await createPost(body)
+        await createPost(body)
       }
-      // history.push('/admin/posts')
+      history.push('/admin/posts')
     }
     catch (err) {
       alert(err)
@@ -90,6 +95,8 @@ const Post = () => {
           name: res.data.name,
           postCategoryId: res.data.postCategoryId,
           content: res.data.content,
+          avatar: res.data.avatar,
+          isHot: false
         })
       }
     }
@@ -97,6 +104,22 @@ const Post = () => {
       alert(err)
     }
   }, [id])
+
+  const uploadImage = useCallback(async () => {
+    const formData = new FormData();
+    formData.append("image", file?.file)
+    try {
+      const image = await uploadFile(formData)
+      setPosts({
+        ...posts,
+        avatar: image.data.filename
+      })
+    } catch (error) {
+      alert(error)
+    }
+
+  }, [file])
+
 
   useEffect(() => {
     if (!!id) {
@@ -107,6 +130,12 @@ const Post = () => {
   useEffect(() => {
     fetchGetPost_category()
   }, [])
+
+  useEffect(() => {
+    if (!!file) {
+      uploadImage()
+    }
+  }, [file])
 
   const imageUploadHandler = async (blobInfo, success, failure) => {
     let data = new FormData();
@@ -159,7 +188,7 @@ const Post = () => {
                   )}
                 </CFormSelect>
               </CCol>
-              <CCol className="d-flex align-items-end col-3 ">
+              <CCol className="d-flex align-items-end col-3 " >
                 <Link to="/admin/createPost_category" >
                   <button type="button"
                     className="btn btn-success"
@@ -171,7 +200,34 @@ const Post = () => {
                   </button>
                 </Link>
               </CCol>
-
+              <div>
+                  <div>Post title</div>
+                  <CFormCheck className=" mt-3 ml-2 "
+                   id="flexCheckChecked" 
+                   value="true"
+                   label="Title"
+                   onClick= {e => {
+                     {posts.isHot == false ?
+                    setPosts({
+                       ...posts,
+                       isHot: e.target.value
+                     })
+                     :
+                     setPosts({
+                      ...posts,
+                      isHot: false
+                    })
+                    }
+                   }}
+                   />
+              </div>
+            </div>
+            <div className="mx-2 col-1">
+              <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
+              <UploadFile
+                file={posts.avatar}
+                selectFile={selectFile}
+              />
             </div>
             <div className="m -3">
               <CFormLabel htmlFor="validationTextarea" className="form-label">
@@ -210,10 +266,10 @@ const Post = () => {
                         blobCache.add(blobInfo);
                         cb(blobInfo.blobUri(), { title: file.name });
                       };
-                      reader.readAsDataURL(file); 
-                      };
+                      reader.readAsDataURL(file);
+                    };
 
-                   input.click();
+                    input.click();
                   },
                   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}

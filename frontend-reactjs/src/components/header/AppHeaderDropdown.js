@@ -23,25 +23,22 @@ import {
 import CIcon from '@coreui/icons-react'
 
 import { getUserById } from 'src/services/userService'
-import { getUser } from 'src/services/localStorageService'
+import { getUser, clearUser } from 'src/services/localStorageService'
 
-import avatar8 from './../../assets/images/avatars/8.jpg'
 
 const AppHeaderDropdown = () => {
 
-  const [user, setUser] = useState([])
+  const [user, setUser] = useState()
 
   const fetchUserById = async () => {
     try {
-      const id = getUser().id
-      const res = await getUserById(id)
-      console.log("data", res)
-      // if (!!res.data) {
-      //   setUser([
-      //     ...res.data
-      //   ])
-      // }
-
+      const id = getUser()?.id
+      if (!!id) {
+        const res = await getUserById(id)
+        if (!!res.data) {
+          setUser(res.data.avatar)
+        }
+      }
     }
     catch (err) {
       alert(err)
@@ -55,11 +52,16 @@ const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        <CAvatar src={avatar8} size="md" />
+        {!!user ?
+          <CAvatar src={"http://localhost:8888/" + user} size="md" />
+          :
+          <div className="avatar_logo" />
+        }
+
       </CDropdownToggle>
-      {/* <CDropdownMenu className="pt-0" placement="bottom-end">
+      <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>
-        <CDropdownItem href="#">
+        {/* <CDropdownItem href="#">
           <CIcon icon={cilBell} className="me-2" />
           Updates
           <CBadge color="info" className="ms-2">
@@ -87,12 +89,12 @@ const AppHeaderDropdown = () => {
             42
           </CBadge>
         </CDropdownItem>
-        <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
-        <CDropdownItem href="#">
+        <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader> */}
+        <CDropdownItem href="/admin/users">
           <CIcon icon={cilUser} className="me-2" />
           Profile
         </CDropdownItem>
-        <CDropdownItem href="#">
+        {/* <CDropdownItem href="#">
           <CIcon icon={cilSettings} className="me-2" />
           Settings
         </CDropdownItem>
@@ -109,13 +111,15 @@ const AppHeaderDropdown = () => {
           <CBadge color="primary" className="ms-2">
             42
           </CBadge>
-        </CDropdownItem>
+        </CDropdownItem> */}
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem href="/login" onClick={() => {
+          clearUser()
+        }}>
           <CIcon icon={cilLockLocked} className="me-2" />
           Lock Account
         </CDropdownItem>
-      </CDropdownMenu> */}
+      </CDropdownMenu>
     </CDropdown>
   )
 }

@@ -13,6 +13,12 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
               type: DataTypes.STRING,
               unique: true
           },
+          avatar: {
+            type: DataTypes.STRING
+          },
+          isHot: {
+            type : DataTypes.BOOLEAN  
+          },
           content: {
               type: DataTypes.TEXT
           }

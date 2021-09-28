@@ -57,7 +57,6 @@ const CreateUser = () => {
     }
     try {
       if (!!id) {
-        console.log("body",)
         await updateUser(id, body)
         
       }
