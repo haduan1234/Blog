@@ -17,6 +17,7 @@ import {
 import { useHistory, Link } from "react-router-dom"
 
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa"
+import { BsCheck, BsX } from "react-icons/bs"
 
 import DeleteModal from '../../components/modals/DeleteModal'
 import ExampleToast from '../../components/modals/toasts/Toasts'
@@ -131,6 +132,7 @@ const Posts = () => {
                                 <CTableHeaderCell scope="col">#</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Name</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Post category</CTableHeaderCell>
+                                <CTableHeaderCell scope="col"  className="isHot">Post especially</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Edit</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
                             </CTableRow>
@@ -138,9 +140,13 @@ const Posts = () => {
                         <CTableBody>
                             {!!posts && posts.map((p, index) =>
                                 <CTableRow key={index} className="p-4">
+                                    {console.log("isHost", p.isHot)}
                                     <CTableHeaderCell>{index + 1}</CTableHeaderCell>
                                     <CTableHeaderCell>{p.name}</CTableHeaderCell>
-                                    <CTableHeaderCell>{p.post_category.name}</CTableHeaderCell>
+                                    <CTableHeaderCell>{p.post_category.name} </CTableHeaderCell>
+                                    <CTableHeaderCell className="isHot">
+                                        {p.isHot ? <BsCheck /> : <BsX />}
+                                    </CTableHeaderCell>
                                     <CTableHeaderCell>
                                         <Link to={`/admin/createPost/${p.id}`} >
                                             <FaPencilAlt className="d-flex align-items-center mt-1" />

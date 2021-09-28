@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   CAvatar,
   CBadge,
@@ -21,6 +21,7 @@ import {
   cilUser,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
+import { useHistory, Link } from "react-router-dom"
 
 import { getUserById } from 'src/services/userService'
 import { getUser, clearUser } from 'src/services/localStorageService'
@@ -28,20 +29,35 @@ import { getUser, clearUser } from 'src/services/localStorageService'
 
 const AppHeaderDropdown = () => {
 
-  const [user, setUser] = useState()
+  const [user, setUser] = useState({
+    id: "",
+    avatar: ""
+  })
 
-  const fetchUserById = async () => {
+  const history = useHistory()
+
+  const fetchUserById = useCallback(async () => {
     try {
       const id = getUser()?.id
       if (!!id) {
         const res = await getUserById(id)
+        console.log("user:", res)
         if (!!res.data) {
-          setUser(res.data.avatar)
+          setUser({
+            id: res.data.id,
+            avatar: res.data.avatar
+          })
         }
       }
     }
     catch (err) {
       alert(err)
+    }
+  }, [])
+
+  const profile = () => {
+    if (!!user) {
+      history.push(`/admin/createUser/${user.id}`)
     }
   }
 
@@ -52,8 +68,9 @@ const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
+        {console.log("user:", user)}
         {!!user ?
-          <CAvatar src={"http://localhost:8888/" + user} size="md" />
+          <CAvatar src={"http://localhost:8888/" + user.avatar} size="md" />
           :
           <div className="avatar_logo" />
         }
@@ -90,10 +107,10 @@ const AppHeaderDropdown = () => {
           </CBadge>
         </CDropdownItem>
         <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader> */}
-        <CDropdownItem href="/admin/users">
+        <CDropdownItem onClick={profile} >
           <CIcon icon={cilUser} className="me-2" />
           Profile
-        </CDropdownItem>
+        </CDropdownItem >
         {/* <CDropdownItem href="#">
           <CIcon icon={cilSettings} className="me-2" />
           Settings

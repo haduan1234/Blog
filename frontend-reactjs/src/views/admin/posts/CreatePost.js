@@ -22,7 +22,7 @@ import {createPost, getPostById, updatePost } from 'src/services/postService';
 import { uploadFile } from 'src/services/uploadFileService'
 import { getUser } from 'src/services/localStorageService';
 
-import UploadFile from "../uploadfile/UploadFile"
+import UploadImageTitle from "../uploadfile/UploadImage"
 import { useFileUpload } from 'use-file-upload'
 
 const Post = () => {
@@ -201,11 +201,11 @@ const Post = () => {
                 </Link>
               </CCol>
               <div>
-                  <div>Post title</div>
+                  <div>Post especially</div>
                   <CFormCheck className=" mt-3 ml-2 "
                    id="flexCheckChecked" 
                    value="true"
-                   label="Title"
+                   label="Especially"
                    onClick= {e => {
                      {posts.isHot == false ?
                     setPosts({
@@ -222,9 +222,10 @@ const Post = () => {
                    />
               </div>
             </div>
-            <div className="mx-2 col-1">
-              <CFormLabel htmlFor="validationServer07">Avatar</CFormLabel>
-              <UploadFile
+            <div>
+              <CFormLabel htmlFor="validationServer07">Image</CFormLabel>
+              <UploadImageTitle
+              className=""
                 file={posts.avatar}
                 selectFile={selectFile}
               />

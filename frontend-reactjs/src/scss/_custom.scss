@@ -62,3 +62,27 @@ cursor: pointer;
     width: 25px;
     height: 25px;
 }
+
+.isHot{
+    text-align: center;
+}
+
+.Image_Title{
+width: 120px;
+height: 90px;
+border: 1px solid #0000001f;
+background-color: beige;
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+border-radius: 5px;
+}
+.Image_Title_Cover {
+    width: 125px;
+    height: 95px;
+    border: 1px solid #0000001f;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
