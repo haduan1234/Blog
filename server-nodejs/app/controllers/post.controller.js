@@ -9,7 +9,12 @@ exports.findAll = (req, res) => {
     const { page, size } = req.query;
     const { limit, offset } = getPagination(page, size);
 
-    var condition = search ? { name: { [Op.like]: '%' + search + '%' } } : null;
+    var condition = search ? {
+        [Op.or]: [
+            { name : { [Op.like]: '%' + search + '%' } },
+            { postCategoryId: search },
+        ]
+    } : null
 
     Post.findAndCountAll({
         include: [

@@ -11,6 +11,7 @@ import {
     CTableRow,
     CFormInput,
     CToaster,
+    CFormSelect
 
 } from '@coreui/react'
 
@@ -24,7 +25,8 @@ import ExampleToast from '../../components/modals/toasts/Toasts'
 import Page from '../../components/paginations/Pagination'
 
 import { getPost, deletePost } from 'src/services/postService'
-import { getUser } from 'src/services/localStorageService'
+
+import { getPost_category } from 'src/services/post_categoryServices'
 
 const Posts = () => {
 
@@ -34,6 +36,7 @@ const Posts = () => {
     const [currentpage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(undefined)
     const [search, setSearch] = useState(undefined)
+    const [ postCategorys, setPostCategorys ] = useState([])
 
     const sizePage = 5
 
@@ -80,6 +83,20 @@ const Posts = () => {
         }
     }
 
+    const fetchPostCategory = async () => {
+        try {
+            const res = await getPost_category()
+            if (!!res.data) {
+                setSearch(res.data.items[0].id)
+                setPostCategorys([ ...res.data.items])
+            }
+
+        }
+        catch (err) {
+            alert(err)
+        }
+    }
+
     const onSearchEnter = (e) => {
         if (e.key == 'Enter') {
             fetchGetPost(search)
@@ -88,7 +105,11 @@ const Posts = () => {
 
     useEffect(() => {
         fetchGetPost()
-    }, [currentpage])
+    }, [currentpage, search])
+
+    useEffect(() => {
+        fetchPostCategory()
+    }, [])
 
     return (
         <CCol>
@@ -115,14 +136,27 @@ const Posts = () => {
                     >
                         Create
                     </button>
-                    <CFormInput
-                        className="mt-2 mx-3 border border-light px-2 rounded col-4 search_input"
-                        type="text"
-                        // id="validationServer01"
-                        placeholder="Search"
-                        onKeyDown={onSearchEnter}
-                        onChange={e => setSearch(e.target.value)}
-                    />
+                    <div className="d-flex justify-content-between">
+                        <CFormSelect
+                            className="mt-2"
+                            placeholder="Please choose position "
+                            onChange={e => {
+                              setSearch(e.target.value)
+                            }}
+                            aria-label="Default select example">
+                            {!!postCategorys && postCategorys.map((p, index) =>
+                                <option  key={index} value={p.id}>{p.name}</option>
+                            )}
+                        </CFormSelect>
+                        <CFormInput
+                            className="mt-2 mx-3 border border-light px-2 rounded col-4 search_input"
+                            type="text"
+                            // id="validationServer01"
+                            placeholder="Search"
+                            onKeyDown={onSearchEnter}
+                            onChange={e => setSearch(e.target.value)}
+                        />
+                    </div>
                 </div>
 
                 <CCardBody xs={12} style={{ fontSize: 15 }}>
@@ -132,7 +166,7 @@ const Posts = () => {
                                 <CTableHeaderCell scope="col">#</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Name</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Post category</CTableHeaderCell>
-                                <CTableHeaderCell scope="col"  className="isHot">Post especially</CTableHeaderCell>
+                                <CTableHeaderCell scope="col" className="isHot">Post especially</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Edit</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
                             </CTableRow>
@@ -140,7 +174,6 @@ const Posts = () => {
                         <CTableBody>
                             {!!posts && posts.map((p, index) =>
                                 <CTableRow key={index} className="p-4">
-                                    {console.log("isHost", p.isHot)}
                                     <CTableHeaderCell>{index + 1}</CTableHeaderCell>
                                     <CTableHeaderCell>{p.name}</CTableHeaderCell>
                                     <CTableHeaderCell>{p.post_category.name} </CTableHeaderCell>
