@@ -5,7 +5,6 @@ const { getPagination, getPagingData } = require("../helpers/pagination")
 const { messageError } = require("../helpers/messageError")
 
 exports.create = (req, res) => {
-    console.log("req.body :", req.body)
     RecipientSchedule.create(req.body)
         .then(data => {
             res.send(data)

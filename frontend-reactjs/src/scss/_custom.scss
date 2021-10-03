@@ -1,9 +1,8 @@
 // Here you can add other styles
 .active-page {
     background-color: #0000001f;
-    color:red;
+    color: red;
     cursor: pointer;
-    
 }
 .page {
     border: 1px solid #0000001f;
@@ -11,19 +10,19 @@
     cursor: pointer;
 }
 .page:hover {
-border: 1px solid #00000049 ;
-cursor: pointer;
+    border: 1px solid #00000049;
+    cursor: pointer;
 }
 
 .simplebar-scollbar {
-    width: 3px  !important;
+    width: 3px !important;
     background-color: darkgrey !important;
 }
 .uploadFile-image {
     width: 60px;
     height: 60px;
     border-radius: 100%;
-    background-color:  darkgrey;
+    background-color: darkgrey;
     cursor: pointer;
 }
 
@@ -43,7 +42,7 @@ cursor: pointer;
     border-radius: 2px;
 }
 
-.icon_nav{
+.icon_nav {
     width: 47px;
     padding-right: 8px;
 }
@@ -58,22 +57,22 @@ cursor: pointer;
     border-radius: 100%;
     background-color: aquamarine;
 }
-.radio_check{
+.radio_check {
     width: 25px;
     height: 25px;
 }
 
-.isHot{
+.isHot {
     text-align: center;
 }
 
-.Image_Title{
-width: 120px;
-height: 90px;
-border: 1px solid #0000001f;
-background-color: beige;
-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-border-radius: 5px;
+.Image_Title {
+    width: 120px;
+    height: 90px;
+    border: 1px solid #0000001f;
+    background-color: beige;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
 }
 .Image_Title_Cover {
     width: 125px;
@@ -85,4 +84,69 @@ border-radius: 5px;
     justify-content: center;
 }
 
+// css App client 
 
+.cssApp_content {
+    height: 100vh;
+    width: 100vw;
+}
+
+//  css herder App Client
+
+.header_cleint {
+    height: 70px;
+    background-color: #000;
+    margin-top: 5px;
+    width: 100vw;
+}
+
+.headerName_client {
+    color: white;
+}
+
+.Search_icon {
+    width: 70px;
+    height: 20px;
+    border: 2px solid white;
+    border-radius: 5rem;
+    background-color: white;
+    font-size: 10px;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+
+.style_icon {
+    color: white;
+}
+
+.icon_user {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+// css input search 
+
+.hidden {
+    display: none;
+}
+
+.style_divSearch_true {
+    width: 80px;
+    height: 100%;
+    background-color: #d7bdc638;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.style_divSearch_false {
+    width: 80px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content_input {
+    background-color: #d7bdc638;
+}

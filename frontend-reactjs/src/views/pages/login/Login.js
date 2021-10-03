@@ -30,7 +30,8 @@ const Login = () => {
         id: res.data.user.id,
         name: res.data.user.name,
         phone: res.data.user.phone,
-        RoleId: res.data.user.RoleId
+        RoleId: res.data.user.RoleId,
+        RoleName: res.data.user.Role.name
       }
       setUser(user)
       history.push('/admin/users')
@@ -49,7 +50,6 @@ const Login = () => {
           setUser
         </CButton>
         <CButton color="primary" className="px-4" onClick={() => {
-          console.log("user : ", getUser())
         }}>
           getUser
         </CButton>

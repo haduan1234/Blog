@@ -72,7 +72,6 @@ exports.updatePassWord = async (req, res) => {
 
 
 exports.create = (req, res) => {
-  console.log()
   User.create({
     ...req.body,
     password: bcrypt.hashSync(req.body.password, 8),
@@ -108,7 +107,6 @@ exports.findAll = (req, res) => {
     .then(data => {
       const response = getPagingData(data, page, limit)
       res.send(response)
-      console.log("data :", response )
     })
     .catch(err => {
       messageError(res, err)

@@ -6,7 +6,6 @@ const { getPagination, getPagingData } = require("../helpers/pagination");
 const { messageError } = require("../helpers/messageError");
 
 exports.create = (req, res) => {
-    console.log("req.body : ", req.body);
     Permission.create(req.body)
         .then(data => {
             res.send(data);
@@ -30,7 +29,6 @@ const getAllReceiverId = async (sharerId) => {
 }
 
 exports.getAllUserByReceiverId = async (req, res) => {
-    console.log("===============================getAllUserByReceiverId");
     const { sharerId } = req.query;
     let userIds = await getAllReceiverId(sharerId);
     let users = await User.findAll({

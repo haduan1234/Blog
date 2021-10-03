@@ -11,9 +11,13 @@ const DefaultLayout = () => {
   useEffect(() => {
     if (!user) {
       history.push("/login")
+    }else if(user.RoleName == 'user'){
+       history.push("/home")
     }
   },[])
-
+  // .hidden{
+  //   display: none
+  // }
 
   return (
     <div>

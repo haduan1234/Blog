@@ -29,7 +29,6 @@ exports.findAll = (req, res) => {
 
 
 exports.create = (req, res) => {
-  console.log("req.body : ", req.body)
     Blogger.create(req.body)
     .then(data => {
         res.send(data);
@@ -89,7 +88,6 @@ exports.update = (req, res) => {
 
 exports.deleteOne = (req, res) => {
   const id = req.params.id;
-  console.log("id la:" , id)
   Blogger.destroy({
     where: { id:id }
   })

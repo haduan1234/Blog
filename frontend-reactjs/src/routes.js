@@ -1,6 +1,4 @@
 import React from 'react'
-import { createPost } from './services/postService'
-import { createUser } from './services/userService'
 
 // const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))

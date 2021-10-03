@@ -52,7 +52,6 @@ const Post = () => {
         userId: localStorage.id,
         content: content,
       }
-      console.log("data:", body)
       if (!!id) {
         await updatePost(id, body)
       } else {
@@ -143,7 +142,6 @@ const Post = () => {
     uploadFile
     try {
       const image = await uploadFile(formData)
-      console.log("image : ", image)
     } catch (error) {
 
     }

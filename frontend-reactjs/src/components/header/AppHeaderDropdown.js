@@ -41,7 +41,6 @@ const AppHeaderDropdown = () => {
       const id = getUser()?.id
       if (!!id) {
         const res = await getUserById(id)
-        console.log("user:", res)
         if (!!res.data) {
           setUser({
             id: res.data.id,
