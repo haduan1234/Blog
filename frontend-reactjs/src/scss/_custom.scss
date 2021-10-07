@@ -84,7 +84,7 @@
     justify-content: center;
 }
 
-// css App client 
+// css App client
 
 .cssApp_content {
     height: 100vh;
@@ -92,11 +92,13 @@
 }
 
 //  css herder App Client
+.style_conten_header {
+    position: fixed;
+}
 
 .header_cleint {
     height: 70px;
-    background-color: #000;
-    margin-top: 5px;
+    background-color: #009cd7;
     width: 100vw;
 }
 
@@ -112,7 +114,6 @@
     background-color: white;
     font-size: 10px;
     cursor: pointer;
-    border: 1px solid #000;
 }
 
 .style_icon {
@@ -126,7 +127,7 @@
     cursor: pointer;
 }
 
-// css input search 
+// css input search
 
 .hidden {
     display: none;
@@ -135,7 +136,7 @@
 .style_divSearch_true {
     width: 80px;
     height: 100%;
-    background-color: #d7bdc638;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,5 +149,57 @@
     align-items: center;
 }
 .content_input {
+    background-color: white;
+}
+
+//  css foorter
+
+.style_foorter {
+    width: 100vw;
+    padding: 0px 100px;
+    font-size: 13px;
+}
+
+// css name  Category
+
+.name_category {
+    height: 30px;
     background-color: #d7bdc638;
+    font-weight: bolder;
+    width: 100vw;
+    justify-content: center;
+    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+// css content hot post
+
+.style_content {
+    margin-top: 25px;
+}
+
+.style_hot_name {
+    padding: 10px 0;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.style_div_content_hot {
+    width: 660px;
+}
+
+// css  post hot
+
+.style_div_postHot {
+    width: 300px;
+   
+    margin: 5px;
+    height: 100vh;
+    background-color: white;
+}
+
+.style_div_post_hot {
+    padding: 10px;
+    border-bottom: 2px solid #d7bdc638; 
+    font-size: 10px;
 }

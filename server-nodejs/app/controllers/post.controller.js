@@ -11,7 +11,7 @@ exports.findAll = (req, res) => {
 
     var condition = search ? {
         [Op.or]: [
-            { name : { [Op.like]: '%' + search + '%' } },
+            { name: { [Op.like]: '%' + search + '%' } },
             { postCategoryId: search },
         ]
     } : null
@@ -59,8 +59,68 @@ exports.create = async (req, res) => {
 
 }
 
-exports.update = (req, res) => {
+exports.findIsHot = (req, res) => {
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(page, size);
+    Post.findAndCountAll({
+        include: [
+            {
+                model: db.post,
+                model: db.post_category
+            }
+        ],
+        where: { isHot: true }
+    })
+        .then(data => {
+            const createdDate = []
+            if (!!data) {
+                data.rows.map((d, index) => createdDate.push(d.created_at))
+            }
+            const isHotDate = new Date(Math.max.apply(null, createdDate))
+
+            Post.findOne({
+                where: {
+                    [Op.and]: [
+                        { isHot: true },
+                        { created_at: isHotDate }
+                    ]
+                }
+            })
+                .then(dataHot => {
+                    const response = getPagingData(data, page, limit)
+                    const responseNew = {
+                        hotEspecially: dataHot,
+                        hot: response
+                    }
+                    res.send(responseNew)
+                })
+
+            console.log("data:", isHotDate)
+
+        })
+        .catch(err => {
+            messageError(res, err)
+        })
+}
+
+exports.update = async (req, res) => {
     const id = req.params.id;
+    const isHot = req.body.isHot
+    const postCategoryId = req.body.postCategoryId
+    if (isHot) {
+        const post = {
+            isHot: false
+        }
+
+        await Post.update(post, {
+            where: {
+                [Op.and]: [
+                    { isHot: true },
+                    { postCategoryId: postCategoryId }
+                ]
+            }
+        })
+    }
     Post.update(req.body, {
         where: { id: id }
     })

@@ -9,6 +9,10 @@ export const getPost =(search, page = 1, size = 10) => {
     return axios.get(url);
 }
 
+export const getIsHot = () =>{
+    return axios.get(`${USER_URL}/ishot`)
+}
+
 
 export const getPostById = (id) => {
     return axios.get(`${USER_URL}/${id}`);

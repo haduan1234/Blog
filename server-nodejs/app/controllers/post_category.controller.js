@@ -31,66 +31,68 @@ exports.create = (req, res) => {
         });
 };
 
+
+
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
     Post_category.findOne({
-      where: { id: id }
+        where: { id: id }
     })
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: `Error retrieving Post_category with id = ${id}`
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `Error retrieving Post_category with id = ${id}`
+            });
         });
-      });
 }
 
-exports.update =(req, res) => {
-const id =  req.params.id;
+exports.update = (req, res) => {
+    const id = req.params.id;
 
-Post_category.update(req.body, {
-    where: { id: id }
-})
-.then(num => {
-    if(num ==  1) {
-        res.send({
-            message: " Post_category was update successfully."
+    Post_category.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: " Post_category was update successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Post_category with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error  updating Post_category with id =" + id
+            });
         });
-    } else {
-        res.send({
-            message:`Cannot update Post_category with id=${id}.`
-        });
-    }
-})
-.catch(err => {
-    res.status(500).send({
-        message: "Error  updating Post_category with id =" +id
-    });
-});
 };
 
 exports.delete = (req, res) => {
     const id = req.params.id
 
     Post_category.destroy({
-        where: {id : id}
+        where: { id: id }
     })
-    .then( num => {
-        if(num == 1 ) {
-            res.send({
-                message: "Post_category was deleted successfully."
-            })
-        }else{
-            res.send({
-                message: `Cannot delete Post_category with id=${id}`
-            })
-        };
-    })
-    .catch(err => {
-        res.status(500).send({
-            message:"Could not delete Post_category with id="+id
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Post_category was deleted successfully."
+                })
+            } else {
+                res.send({
+                    message: `Cannot delete Post_category with id=${id}`
+                })
+            };
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Post_category with id=" + id
+            });
         });
-    });
 };

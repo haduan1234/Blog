@@ -1,18 +1,51 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import {
+    CAvatar,
+} from '@coreui/react'
 
 import Logo from "../../assets/images/avatars/Logo.jpg"
 
 import { GrSearch } from "react-icons/gr";
 import { ImUser } from "react-icons/im";
 
+import { getUser } from "src/services/localStorageService";
+
+import { getUserById } from "src/services/userService";
+
 
 const AppHeaderClient = () => {
     const [classSearch, setClassSearch] = useState(false)
+    const [user, setUser] = useState(undefined)
+
+    const userLocall = getUser()
+
+    const fetchGetUserById = async () => {
+        try {
+            if (!!userLocall) {
+                const id = userLocall.id
+                const res = await getUserById(id)
+                console.log(res.data)
+                if (!!res.data) {
+                    setUser(res.data)
+                }
+            }
+        }
+        catch (err) {
+            alert(err)
+        }
+    }
+
+    useEffect(() => {
+        fetchGetUserById()
+    }, [])
+
+
+
+
     return (
-        <div>
+        <div className="style_conten_header">
             <div className="header_cleint d-flex justify-content-between ">
-                <div className="d-flex align-items-center px-2">
-                    <img src={Logo} width=" 100px" height="70px" />
+                <div className="d-flex align-items-center px-5">
                     <h5 className="headerName_client">BÁO MỚI </h5>
                 </div>
                 <div>Name category </div>
@@ -27,22 +60,38 @@ const AppHeaderClient = () => {
                             < GrSearch className="style_icon  " />
                         </div>
                     </div>
-                    <div className="px-3" style={{ textAlign: "center" }}>
-                        <ImUser className="icon_user" />
-                        <p style={{
-                            color: "white",
-                            cursor: "pointer"
-                        }}>Đăng nhập</p>
+                    {
+                        !!user ?
+                            <div className="px-3" style={{ textAlign: "center" }}>
+                                {!!user.avatar ? 
+                                 <CAvatar src={"http://localhost:8888/" + user.avatar} size="md" />
+                                 :
+                                 <ImUser className="icon_user" />
+                            }
+                               
+                                <div style={{
+                                    color: "white",
+                                    cursor: "pointer",
+                                    marginBottom: 0
+                                }}> {user.display_name}</div>
 
-                    </div>
+                            </div>
+                            :
+                            <div className="px-3" style={{ textAlign: "center" }}>
+                                <ImUser className="icon_user" />
+                                <div >Đăng nhập</div>
+
+                            </div>
+                    }
+
                 </div>
             </div>
             <div className="content_input">
                 {
                     !!classSearch && classSearch == true ?
-                        <div className="py-2 px-3"> <input placeholder="Tìm kiếm"
+                        <div className="py-3 px-3"> <input placeholder="Tìm kiếm"
                             type="text"
-                            class="form-control" /></div>
+                            className="form-control" /></div>
                         :
                         <div />
 
