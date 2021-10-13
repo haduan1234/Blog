@@ -5,6 +5,7 @@ module.exports = app => {
     router.get('/', controller.findAll)
     router.post('/', controller.create)
     router.get("/ishot", controller.findIsHot)
+    router.get("/categoryId", controller.findInCategoryId)
 
 
     router.put("/:id", controller.update)

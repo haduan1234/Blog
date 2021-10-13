@@ -13,6 +13,9 @@ export const getIsHot = () =>{
     return axios.get(`${USER_URL}/ishot`)
 }
 
+export const getfindInCategoryId  = () =>{
+    return axios.get(`${USER_URL}/categoryId`)
+}
 
 export const getPostById = (id) => {
     return axios.get(`${USER_URL}/${id}`);

@@ -67,8 +67,7 @@ const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        {console.log("user:", user)}
-        {!!user ?
+s        {!!user ?
           <CAvatar src={"http://localhost:8888/" + user.avatar} size="md" />
           :
           <div className="avatar_logo" />

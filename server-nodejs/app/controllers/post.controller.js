@@ -1,8 +1,10 @@
 const db = require("../models");
 const Post = db.post;
+const Category = db.post_category;
 const Op = db.Op;
 const { getPagination, getPagingData } = require("../helpers/pagination");
 const { messageError } = require("../helpers/messageError");
+const { post } = require("../models");
 
 exports.findAll = (req, res) => {
     const search = req.query.search;
@@ -20,9 +22,12 @@ exports.findAll = (req, res) => {
         include: [
             {
                 model: db.user,
-                model: db.post_category
+                model: db.post_category,
+                model: db.post_like
             }
-        ], where: condition, limit, offset
+        ],
+        where: condition, limit, offset,
+        // group: ['posts.postCategoryId']
     })
         .then(data => {
             const response = getPagingData(data, page, limit);
@@ -95,12 +100,29 @@ exports.findIsHot = (req, res) => {
                     res.send(responseNew)
                 })
 
-            console.log("data:", isHotDate)
 
         })
         .catch(err => {
             messageError(res, err)
         })
+}
+
+exports.findInCategoryId = (req, res) => {
+
+    Category.findAll({
+        include: [
+            {
+                model: db.post,
+            }, 
+        ],
+    })
+        .then(data => {
+            res.send(data)
+        })
+        .catch(err => {
+            messageError(res, err)
+        })
+
 }
 
 exports.update = async (req, res) => {
@@ -145,6 +167,15 @@ exports.update = async (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
     Post.findOne({
+        include: [
+            {
+                model: db.post_like
+                
+            },
+            {
+                model: db.user
+            }
+        ],
         where: { id: id }
     })
         .then(data => {

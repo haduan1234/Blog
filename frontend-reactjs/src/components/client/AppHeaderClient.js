@@ -24,7 +24,6 @@ const AppHeaderClient = () => {
             if (!!userLocall) {
                 const id = userLocall.id
                 const res = await getUserById(id)
-                console.log(res.data)
                 if (!!res.data) {
                     setUser(res.data)
                 }
@@ -53,37 +52,38 @@ const AppHeaderClient = () => {
                     <div className={!!classSearch && classSearch == true ? 'style_divSearch_true' : 'style_divSearch_false'}>
                         <div className="Search_icon d-flex align-items-center"
                             onClick={() => {
-                                { classSearch == false ? setClassSearch(true) : setClassSearch(false) }
+                                setClassSearch(!classSearch)
                             }}
                         >
                             <p className="pt-3 mx-1">Tìm kiếm</p>
                             < GrSearch className="style_icon  " />
                         </div>
                     </div>
-                    {
-                        !!user ?
-                            <div className="px-3" style={{ textAlign: "center" }}>
-                                {!!user.avatar ? 
-                                 <CAvatar src={"http://localhost:8888/" + user.avatar} size="md" />
-                                 :
-                                 <ImUser className="icon_user" />
-                            }
-                               
-                                <div style={{
-                                    color: "white",
-                                    cursor: "pointer",
-                                    marginBottom: 0
-                                }}> {user.display_name}</div>
+                    <div style={{fontSize:10}}>
+                        {
+                            !!user ?
+                                <div className="px-3" style={{ textAlign: "center" }}>
+                                    {!!user.avatar ?
+                                        <CAvatar src={"http://localhost:8888/" + user.avatar} size="md" />
+                                        :
+                                        <ImUser className="icon_user" />
+                                    }
 
-                            </div>
-                            :
-                            <div className="px-3" style={{ textAlign: "center" }}>
-                                <ImUser className="icon_user" />
-                                <div >Đăng nhập</div>
+                                    <div style={{
+                                        color: "white",
+                                        cursor: "pointer",
+                                        marginBottom: 0
+                                    }}> {user.display_name}</div>
 
-                            </div>
-                    }
+                                </div>
+                                :
+                                <div className="px-3" style={{ textAlign: "center" }}>
+                                    <ImUser className="icon_user" />
+                                    <div >Đăng nhập</div>
 
+                                </div>
+                        }
+                    </div>
                 </div>
             </div>
             <div className="content_input">
