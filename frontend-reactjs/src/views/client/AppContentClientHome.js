@@ -72,7 +72,7 @@ const AppContentClientHome = () => {
         <div className="style_content">
             <div className="d-flex name_category">
                 {!!postCategorys && postCategorys.map((p, index) =>
-                    <Link key={index} className="name-list-category" to={`/home/post/${p.id}`}>
+                    <Link key={index} className="name-list-category" to={`/home/postCategory/${p.id}`}>
                         <div className="px-2"
                         >
                             {p.name}
@@ -86,6 +86,7 @@ const AppContentClientHome = () => {
                         {
 
                             !!hotEspeciallys ?
+                            <Link className="name-list-category" to={`/home/post/${hotEspeciallys.id}`}>
                                 < Especially
                                     name={hotEspeciallys.name}
                                     image={hotEspeciallys.avatar}
@@ -93,6 +94,7 @@ const AppContentClientHome = () => {
                                     width="660px"
                                     height="370px"
                                 />
+                                </Link>
                                 :
                                 <div />
 
@@ -100,11 +102,13 @@ const AppContentClientHome = () => {
                         {
                             !!relatedNews && relatedNews.map((r, index) =>
                                 <div key={index} className="my-2" style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
+                                   <Link className="name-list-category" to={`/home/post/${r.id}`}> 
                                     <ComponentIsHot
                                         image={r.avatar}
                                         name={r.name}
                                         time={r.created_at}
                                     />
+                                    </Link>
                                 </div>
                             )
                         }
@@ -113,11 +117,13 @@ const AppContentClientHome = () => {
                         {
                             !!isHots && isHots.map((isHot, index) =>
                                 <div key={index}  className="style_div_post_hot">
+                                    <Link className="name-list-category" to={`/home/post/${isHot.id}`}>
                                     <ComponentIsHot
                                         name={isHot.name}
                                         image={isHot.avatar}
                                         time={isHot.created_at}
                                     />
+                                    </Link>
                                 </div>
                             )
                         }
@@ -134,11 +140,11 @@ const AppContentClientHome = () => {
                             >  * {postFindCategory.name}</h3>
                             <div className="d-flex component-content">
                                 {
-
                                     !!postFindCategory.posts && postFindCategory.posts.filter((number) => {
                                         return number.isHot == true
                                     }).map((p, index) =>
                                         <div className="especially-pageHome">
+                                            <Link className="name-list-category" to={`/home/post/${p.id}`}>
                                             <Especially
                                                 className="especially-pageHome"
                                                 key={index}
@@ -148,6 +154,7 @@ const AppContentClientHome = () => {
                                                 width="390px"
                                                 height="245px"
                                             />
+                                            </Link>
                                         </div>
                                     )
 
@@ -158,12 +165,14 @@ const AppContentClientHome = () => {
                                             return number.isHot == false
                                         }).map((p, index) =>
                                             <div key={index} className="component-ishot mx-3 mb-3">
+                                                <Link className="name-list-category" to={`/home/post/${p.id}`}>
                                                 <ComponentIsHot
                                                     style={{ boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}
                                                     name={p.name}
                                                     image={p.avatar}
                                                     time={p.created_at}
                                                 />
+                                                </Link>
                                             </div>
                                         )
                                     }

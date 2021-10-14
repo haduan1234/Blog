@@ -9,9 +9,9 @@ const ClientPosts = React.lazy(() => import('./views/client/CilentPost'))
 
 
 const routers = [
-    // { path: '/home', name: 'Home',component: AppContentClientHomes, exact: true },
-    { path: '/home/post/:id', name: 'Category',component: ClientCategorys },
-    { path: '/home', name: 'ClientPost',component: ClientPosts, exact: true },
+    { path: '/home', name: 'Home',component: AppContentClientHomes, exact: true },
+    { path: '/home/postCategory/:id', name: 'Category',component: ClientCategorys },
+    { path: '/home/post/:id', name: 'ClientPost',component: ClientPosts, exact: true },
 ]
 
 export default routers

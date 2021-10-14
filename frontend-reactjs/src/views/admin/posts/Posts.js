@@ -172,6 +172,7 @@ const Posts = () => {
                             </CTableRow>
                         </CTableHead>
                         <CTableBody>
+                            {console.log("data podt :", posts[0])}
                             {!!posts && posts.map((p, index) =>
                                 <CTableRow key={index} className="p-4">
                                     <CTableHeaderCell>{index + 1}</CTableHeaderCell>

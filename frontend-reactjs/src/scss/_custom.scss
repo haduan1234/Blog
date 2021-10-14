@@ -212,7 +212,6 @@
 .especially-pageHome {
     width: 390px;
     font-size: 15px !important;
-    
 }
 
 .component-content {
@@ -230,10 +229,9 @@
     padding: 10px 192px;
 }
 
-//  css page post 
+//  css page post
 
-.categoryTrue{
-
+.categoryTrue {
     color: cadetblue;
 }
 
@@ -244,9 +242,8 @@
     background-color: #f7f7f7;
 }
 
-.content-post-center{
+.content-post-center {
     width: 1020px;
-
 }
 
 .information-blog {
@@ -262,4 +259,38 @@
     height: 55px;
     border-radius: 100%;
     border: 1px solid #389b9b5e;
+}
+
+// css viwe post
+
+.post-like-button {
+    background-color: #009cd7;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    height: 30px;
+}
+
+.post-like {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7f7f7;
+    margin: 15px;
+    height: 50px;
+}
+
+.post-content-viwe {
+    font-size: 15px !important;
+    width: 667px;
+    word-break: break-all !important;
+}
+
+.Read-more {
+    height: 50px;
+    background-color: #f7f7f786;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    border-top:  1px solid #009cd7;
 }

@@ -21,8 +21,13 @@ exports.findAll = (req, res) => {
     Post.findAndCountAll({
         include: [
             {
-                model: db.user,
-                model: db.post_category,
+                model: db.user
+
+            },
+            {
+                model: db.post_category
+            },
+            {
                 model: db.post_like
             }
         ],
@@ -113,7 +118,7 @@ exports.findInCategoryId = (req, res) => {
         include: [
             {
                 model: db.post,
-            }, 
+            },
         ],
     })
         .then(data => {
@@ -170,7 +175,7 @@ exports.findOne = (req, res) => {
         include: [
             {
                 model: db.post_like
-                
+
             },
             {
                 model: db.user

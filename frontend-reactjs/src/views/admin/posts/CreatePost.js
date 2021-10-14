@@ -241,7 +241,7 @@ const Post = () => {
                   menubar: false,
                   // images_upload_handler: imageUploadHandler,
                   plugins: ['image'],
-                  toolbar: 'undo redo | formatselect | ' +
+                  toolbar: 'undo redo | formatselect | fontsizeselect  ' +
                     'bold italic backcolor link image| alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | ' +
                     'removeformat | help',

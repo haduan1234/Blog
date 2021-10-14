@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import {
     CAvatar,
 } from '@coreui/react'
+import { Link } from "react-router-dom";
 
 import Logo from "../../assets/images/avatars/Logo.jpg"
 
@@ -45,7 +46,9 @@ const AppHeaderClient = () => {
         <div className="style_conten_header">
             <div className="header_cleint d-flex justify-content-between ">
                 <div className="d-flex align-items-center px-5">
-                    <h5 className="headerName_client">BÁO MỚI </h5>
+                    <Link className="name-list-category"  to={`/home`}>
+                        <h5 className="headerName_client">BÁO MỚI </h5>
+                    </Link>
                 </div>
                 <div>Name category </div>
                 <div className="d-flex align-items-center px-3">
@@ -59,7 +62,7 @@ const AppHeaderClient = () => {
                             < GrSearch className="style_icon  " />
                         </div>
                     </div>
-                    <div style={{fontSize:10}}>
+                    <div style={{ fontSize: 10 }}>
                         {
                             !!user ?
                                 <div className="px-3" style={{ textAlign: "center" }}>

@@ -3,6 +3,8 @@ import {
     CAvatar,
 } from '@coreui/react'
 
+import { Link } from "react-router-dom";
+
 import { useParams } from "react-router-dom"
 import { GiArchiveRegister } from "react-icons/gi";
 import { BsPencilSquare } from "react-icons/bs";
@@ -11,7 +13,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { getPost_category } from "src/services/post_categoryServices";
 import { getPost } from "src/services/postService";
 import { getUser } from "src/services/localStorageService";
-import { getUserById  } from "src/services/userService";
+import { getUserById } from "src/services/userService";
 
 import Especially from "src/components/client/componentClients/EspeciallyComponent";
 import ComponentIsHot from "../../components/client/componentClients/ComponentIsHot"
@@ -21,10 +23,9 @@ import { Editor } from '@tinymce/tinymce-react';
 const ClientPostCategory = () => {
     const [postCategorys, setPostCategorys] = useState([])
     const [posts, setPosts] = useState([])
-    const [ user , setUser ]=  useState()
+    const [user, setUser] = useState()
 
-    // const { id } = useParams()
-    const id = "58567756-d85c-4fb7-afc1-5177b387629e"
+    const { id } = useParams()
 
     const fetchGetPostCategory = async () => {
         try {
@@ -53,17 +54,17 @@ const ClientPostCategory = () => {
         }
     }
 
-    const fetchGetUser = async() =>{
-        try{
-            const user =  getUser()
+    const fetchGetUser = async () => {
+        try {
+            const user = getUser()
             const id = user.id
 
-            const res =  await getUserById(id)
-            if(!! res.data) {
+            const res = await getUserById(id)
+            if (!!res.data) {
                 setUser(res.data)
             }
         }
-        catch(err) {
+        catch (err) {
             alert(err)
         }
     }
@@ -81,12 +82,14 @@ const ClientPostCategory = () => {
     return (
         <div className="style_content">
             <div className="d-flex name_category ">
-                {!!postCategorys && postCategorys.map((p, index) =>
-                    <div key={index} className={!!id && id == p.id ? "px- 2 categoryTrue" : "px-2"}
-                    >
-                        {p.name}
-                    </div>
-                )}
+                {/* {!!postCategorys && postCategorys.map((p, index) =>
+                    <Link className="name-list-category" to={`/home/postCategory/${p.id}`}>
+                        <div key={index} className={!!id && id == p.id ? "px- 2 categoryTrue" : "px-2"}
+                        >
+                            {p.name}
+                        </div>
+                        </Link>
+                )} */}
             </div>
             <div className="content-post" >
                 <div className="content-post-center m-3">
@@ -96,13 +99,15 @@ const ClientPostCategory = () => {
                         }).map((p, index) =>
                             <div key={index} className="d-flex">
                                 <div className="style_div_content_hot">
-                                    <Especially
-                                        name={p.name}
-                                        image={p.avatar}
-                                        time={p.created_at}
-                                        width="660px"
-                                        height="370px"
-                                    />
+                                    <Link className="name-list-category" to={`/home/post/${p.id}`}>
+                                        <Especially
+                                            name={p.name}
+                                            image={p.avatar}
+                                            time={p.created_at}
+                                            width="660px"
+                                            height="370px"
+                                        />
+                                    </Link>
 
                                 </div>
                                 <div className="information-blog">
@@ -116,12 +121,12 @@ const ClientPostCategory = () => {
                                     </div>
                                     <div>
                                         {
-                                            !!user ? 
-                                            <div className="d-flex align-self-end px-3 ">
-                                            <img className="image-user-blog " src={"http://localhost:8888/" + user.avatar} size="md" />
-                                            <div className="-flex align-self-end px-3">{user.display_name} </div>
-                                            </div>
-                                            : <div />
+                                            !!user ?
+                                                <div className="d-flex align-self-end px-3 ">
+                                                    <img className="image-user-blog " src={"http://localhost:8888/" + user.avatar} size="md" />
+                                                    <div className="-flex align-self-end px-3">{user.display_name} </div>
+                                                </div>
+                                                : <div />
                                         }
 
                                     </div>
@@ -136,11 +141,15 @@ const ClientPostCategory = () => {
                             !!posts && posts.filter((number) => {
                                 return number.isHot == false;
                             }).map((p, index) =>
-                                <div key={index} className="my-2 style_div_content_hot" style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
-                                    <ComponentIsHot
-                                        image={p.avatar}
-                                        name={p.name}
-                                        time={p.created_at} />
+                                <div key={index} className="my-2 style_div_content_hot"
+                                    style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
+                                    <Link className="name-list-category" to={`/home/post/${p.id}`}>
+                                        <ComponentIsHot
+                                            image={p.avatar}
+                                            name={p.name}
+                                            time={p.created_at}
+                                        />
+                                    </Link>
                                 </div>
 
                             )}
