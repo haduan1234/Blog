@@ -77,19 +77,21 @@ const ClientPostCategory = () => {
         if (!!id) {
             fetchGetPost()
         }
-    }, [])
+    }, [id])
+
+    
 
     return (
         <div className="style_content">
             <div className="d-flex name_category ">
-                {/* {!!postCategorys && postCategorys.map((p, index) =>
+                {!!postCategorys && postCategorys.map((p, index) =>
                     <Link className="name-list-category" to={`/home/postCategory/${p.id}`}>
                         <div key={index} className={!!id && id == p.id ? "px- 2 categoryTrue" : "px-2"}
                         >
                             {p.name}
                         </div>
                         </Link>
-                )} */}
+                )}
             </div>
             <div className="content-post" >
                 <div className="content-post-center m-3">

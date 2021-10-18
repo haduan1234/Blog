@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom"
 import Moment from 'react-moment';
 
 import { BiLike } from "react-icons/bi";
+import { BsCheck } from "react-icons/bs";
 
 import { InlineInputEdit } from 'react-inline-input-edit';
 
 import { getPost_category } from "src/services/post_categoryServices";
 import { getPostById, getPost } from "src/services/postService";
 import ComponentIsHot from "src/components/client/componentClients/ComponentIsHot";
+import { getUser } from "src/services/localStorageService";
+import { createPost_like, getPost_like, deletePost_like } from "src/services/postLikeService";
 
 const CilentPosts = () => {
 
     const [postCategorys, setPostCategorys] = useState([])
     const [post, setPost] = useState()
     const [postFindCategoryIds, setPostFindCategoryIds] = useState([])
+    const [like, setLike] = useState(false)
+    const [post_like, setPost_like] = useState([])
 
-    const { id } = useParams()
+    const { id } = useParams();
+
+    const userLocal = getUser();
 
     const fetchGetPostCategory = async () => {
         try {
@@ -34,35 +41,82 @@ const CilentPosts = () => {
 
     const fetchGetPostById = async () => {
         try {
-            const res = await getPostById(id)
-            if (!!res.data) {
-                setPost(res.data)
-                console.log("data post", res.data)
-                const search = res.data.postCategoryId
-                const resPostFindCategoryId = await getPost(search)
-                if (!!resPostFindCategoryId.data) {
-                    setPostFindCategoryIds([...resPostFindCategoryId.data.items])
+            if (!!id) {
+                const res = await getPostById(id)
+                if (!!res.data) {
+                    setPost(res.data)
+                    var postLikes = res.data.post_likes.filter((number) => {
+                        return number.userId == userLocal.id
+                    })
+                    console.log("data userId:", postLikes)
+                    if (postLikes.length > 0) {
+                        setLike(true)
+                        setPost_like([...postLikes])
+                    }
+                    const search = res.data.postCategoryId
+                    const resPostFindCategoryId = await getPost(search)
+                    if (!!resPostFindCategoryId.data) {
+                        setPostFindCategoryIds([...resPostFindCategoryId.data.items])
+                    }
                 }
             }
         }
+
         catch (err) {
             alert(err)
         }
     }
 
+    const fetchLike = async () => {
+        try {
+            const body = {
+                postId: post.id,
+                userId: userLocal.id
+            }
+            if (!like) {
+                const id = post_like.id
+                if (!!id) {
+                    await deletePost_like(id)
+                }
+            }
+            else {
+                await createPost_like(body)
+            }
+
+        }
+        catch (err) {
+            alert(err)
+        }
+
+    }
+
     useEffect(() => {
-        fetchGetPostCategory()
-        fetchGetPostById()
-    }, [])
+        if (!!id) {
+            fetchGetPostCategory()
+        }
+    }, [id])
+
+    useEffect(() => {
+        fetchLike()
+    }, [like])
+
+    useEffect(() => {
+        if (!!id) {
+            fetchGetPostById()
+        }
+
+    }, [id, like])
+
+
     return (
         <div className="style_content">
             <div className="d-flex name_category ">
                 {!!postCategorys && postCategorys.map((p, index) =>
-                   <Link className="name-list-category"  to={`/home/postCategory/${p.id}`}>
-                    <div key={index} className={!!id && id == p.id ? "px- 2 categoryTrue" : "px-2"}
-                    >
-                        {p.name}
-                    </div>
+                    <Link key={index} className="name-list-category" to={`/home/postCategory/${p.id}`}>
+                        <div className={!!id && id == p.id ? "px- 2 categoryTrue" : "px-2"}
+                        >
+                            {p.name}
+                        </div>
                     </Link>
                 )}
             </div>
@@ -79,8 +133,14 @@ const CilentPosts = () => {
                                 </div>
                             </div>
                             <div className="post-like">
-                                <button className="d-flex align-items-center mx-3 post-like-button ">
-                                    <BiLike />
+                                {console.log("like ", like)}
+                                <button
+                                    onClick={() => {
+                                        setLike(!like)
+                                    }}
+                                    className="d-flex align-items-center mx-3 post-like-button ">
+                                    {like ? <BsCheck /> : <BiLike />}
+
                                     <div className="px-2" >  like </div>
                                     <div >{post.post_likes.length}</div>
 
@@ -93,14 +153,31 @@ const CilentPosts = () => {
                                 </div>
                             </div>
 
-                            <div>
+                            <div className="post-content-viwe px-3">
                                 <div>
                                     <img src={"http://localhost:8888/" + post.avatar} width="667px" height="478pxs" />
                                 </div>
                                 <div
-                                    className="post-content-viwe px-3"
                                     dangerouslySetInnerHTML={{ __html: post.content }}>
 
+                                </div>
+                                <div className="post-like">
+                                    <button
+                                        onClick={() => {
+                                            setLike(!like)
+                                        }}
+                                        className="d-flex align-items-center mx-3 post-like-button ">
+                                        <BiLike />
+                                        <div className="px-2" >  like </div>
+                                        <div >{post.post_likes.length}</div>
+
+                                    </button>
+
+                                    <div className="mx-3">
+                                        <Moment format="H:mm DD/MM/YYYY ">
+                                            {new Date(post.created_at)}
+                                        </Moment>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -112,18 +189,18 @@ const CilentPosts = () => {
                     </div>
                     <div className="p-3">
                         {!!postFindCategoryIds && postFindCategoryIds.map((p, index) =>
-                            <div>
+                            <div key={index}>
                                 {
-                                    p.id == id ?
+                                    !!id && p.id == id ?
                                         <div /> :
-                                        <Link className="name-list-category"  to={`/home/post/${p.id}`}>
-                                        < ComponentIsHot
-                                            image={p.avatar}
-                                            name={p.name}
-                                            width="390px"
-                                            height="245px"
-                                            time={p.created_at}
-                                        />
+                                        <Link className="name-list-category" to={`/home/post/${p.id}`}>
+                                            < ComponentIsHot
+                                                image={p.avatar}
+                                                name={p.name}
+                                                width="390px"
+                                                height="245px"
+                                                time={p.created_at}
+                                            />
                                         </Link>
                                 }
 
