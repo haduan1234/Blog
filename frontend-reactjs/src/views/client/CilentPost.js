@@ -14,6 +14,7 @@ import { getPostById, getPost } from "src/services/postService";
 import ComponentIsHot from "src/components/client/componentClients/ComponentIsHot";
 import { getUser } from "src/services/localStorageService";
 import { createPost_like, getPost_like, deletePost_like } from "src/services/postLikeService";
+import { number } from "prop-types";
 
 const CilentPosts = () => {
 
@@ -21,7 +22,8 @@ const CilentPosts = () => {
     const [post, setPost] = useState()
     const [postFindCategoryIds, setPostFindCategoryIds] = useState([])
     const [like, setLike] = useState(false)
-    const [post_like, setPost_like] = useState([])
+    const [post_like, setPost_like] = useState()
+    const [user_like, setUser_like] = useState([])
 
     const { id } = useParams();
 
@@ -45,13 +47,13 @@ const CilentPosts = () => {
                 const res = await getPostById(id)
                 if (!!res.data) {
                     setPost(res.data)
+                    setPost_like(res.data.post_likes.length)
                     var postLikes = res.data.post_likes.filter((number) => {
-                        return number.userId == userLocal.id
+                        return number.userId == userLocal?.id
                     })
-                    console.log("data userId:", postLikes)
                     if (postLikes.length > 0) {
                         setLike(true)
-                        setPost_like([...postLikes])
+                        setUser_like([...postLikes])
                     }
                     const search = res.data.postCategoryId
                     const resPostFindCategoryId = await getPost(search)
@@ -70,18 +72,25 @@ const CilentPosts = () => {
     const fetchLike = async () => {
         try {
             const body = {
-                postId: post.id,
-                userId: userLocal.id
+                postId: post?.id,
+                userId: userLocal?.id
             }
-            if (!like) {
-                const id = post_like.id
-                if (!!id) {
-                    await deletePost_like(id)
+            if (!!user_like) {
+                if (!like) {
+                        setPost_like(post_like-1)
+                        console.log("heloo:", post_like-1)
+                        // await deletePost_like(userLocal.id)
                 }
-            }
+          
             else {
-                await createPost_like(body)
-            }
+                if (!!like) {
+                    await createPost_like(body)
+                    const res=  await getPostById(id)
+                    if(!!res.data){
+                        setPost_like(res.data.post_likes.length)
+                    }
+                }
+            }  }
 
         }
         catch (err) {
@@ -91,21 +100,14 @@ const CilentPosts = () => {
     }
 
     useEffect(() => {
-        if (!!id) {
-            fetchGetPostCategory()
-        }
+            fetchGetPostCategory() 
+               fetchGetPostById()
     }, [id])
 
     useEffect(() => {
         fetchLike()
     }, [like])
-
-    useEffect(() => {
-        if (!!id) {
-            fetchGetPostById()
-        }
-
-    }, [id, like])
+    
 
 
     return (
@@ -142,7 +144,7 @@ const CilentPosts = () => {
                                     {like ? <BsCheck /> : <BiLike />}
 
                                     <div className="px-2" >  like </div>
-                                    <div >{post.post_likes.length}</div>
+                                    <div >{post_like}</div>
 
                                 </button>
 
@@ -169,7 +171,7 @@ const CilentPosts = () => {
                                         className="d-flex align-items-center mx-3 post-like-button ">
                                         <BiLike />
                                         <div className="px-2" >  like </div>
-                                        <div >{post.post_likes.length}</div>
+                                        <div >{post_like}</div>
 
                                     </button>
 

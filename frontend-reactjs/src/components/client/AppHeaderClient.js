@@ -8,17 +8,22 @@ import Logo from "../../assets/images/avatars/Logo.jpg"
 
 import { GrSearch } from "react-icons/gr";
 import { ImUser } from "react-icons/im";
+import { useSelector } from "react-redux";
 
 import { getUser } from "src/services/localStorageService";
 
 import { getUserById } from "src/services/userService";
-
+import { category} from '../../reducer/categoryReducer'
 
 const AppHeaderClient = () => {
     const [classSearch, setClassSearch] = useState(false)
     const [user, setUser] = useState(undefined)
 
     const userLocall = getUser()
+
+    const category =  useSelector(state => state.categorys.listCategory)
+    console.log("category" , category)
+
 
     const fetchGetUserById = async () => {
         try {
@@ -40,8 +45,6 @@ const AppHeaderClient = () => {
     }, [])
 
 
-
-
     return (
         <div className="style_conten_header">
             <div className="header_cleint d-flex justify-content-between ">
@@ -50,7 +53,13 @@ const AppHeaderClient = () => {
                         <h5 className="headerName_client">BÁO MỚI </h5>
                     </Link>
                 </div>
-                <div>Name category </div>
+                {
+                    !!category ? 
+                    <div>{category} </div>
+                    :
+                    <div></div>
+                }
+                
                 <div className="d-flex align-items-center px-3">
                     <div className={!!classSearch && classSearch == true ? 'style_divSearch_true' : 'style_divSearch_false'}>
                         <div className="Search_icon d-flex align-items-center"
