@@ -1,18 +1,21 @@
 import { ADD_CATEGORY, REMOVE_CATEGORY } from './action'
 
 const initital = {
-    listCategory: [],
-    categoryId : null
+    items:[]
 }
+
 const categorysReducer = (state = initital, action) => {
     switch (action.type) {
         case ADD_CATEGORY:
-            const newList =[...state.listCategory];
-            newList.push(action.payload);
           return {
               ...state,
-              listCategory: newList
+              items: [...state.items , action.payload]
           }
+        case REMOVE_CATEGORY:
+            const stateNew ={
+                items:[]
+            }
+            return stateNew;
         default:
             return state;
     }

@@ -75,7 +75,6 @@ exports.findIsHot = (req, res) => {
     Post.findAndCountAll({
         include: [
             {
-                model: db.post,
                 model: db.post_category
             }
         ],
@@ -89,6 +88,10 @@ exports.findIsHot = (req, res) => {
             const isHotDate = new Date(Math.max.apply(null, createdDate))
 
             Post.findOne({
+                include:
+                    [{
+                        model: db.post_category
+                    }],
                 where: {
                     [Op.and]: [
                         { isHot: true },
@@ -179,7 +182,11 @@ exports.findOne = (req, res) => {
             },
             {
                 model: db.user
+            },
+            {
+                model: db.post_category
             }
+
         ],
         where: { id: id }
     })

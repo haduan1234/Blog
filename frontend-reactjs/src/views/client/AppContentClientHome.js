@@ -9,7 +9,6 @@ import action from "src/reducer/action"
 
 import ComponentIsHot from "../../components/client/componentClients/ComponentIsHot"
 import Especially from "../../components/client/componentClients/EspeciallyComponent"
-import { number } from "prop-types"
 import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux"
 
@@ -68,15 +67,6 @@ const AppContentClientHome = () => {
         }
     }
 
-    const addCategory = () => {
-        const category = {
-            listCategory: hotEspeciallys.name,
-            id: 1
-        }
-        dispatch(action.addCategory(category))
-    }
-
-
     useEffect(() => {
         fetchGetPostCategory()
         fetchGetIsHot()
@@ -87,7 +77,12 @@ const AppContentClientHome = () => {
             <div className="d-flex name_category">
                 {!!postCategorys && postCategorys.map((p, index) =>
                     <Link key={index} className="name-list-category" to={`/home/postCategory/${p.id}`}>
-                        <div className="px-2"
+                        <div
+                            className="px-2"
+                            onClick={() => {
+                                dispatch(action.removeCart())
+                                dispatch(action.addCategory(p.name))
+                            }}
                         >
                             {p.name}
                         </div>
@@ -98,11 +93,13 @@ const AppContentClientHome = () => {
                 <div className="d-flex justify-content-center pt-3 " >
                     <div className="style_div_content_hot">
                         {
-
                             !!hotEspeciallys ?
                                 <Link className="name-list-category"
                                     to={`/home/post/${hotEspeciallys.id}`}
-                                    onClick={addCategory} >
+                                    onClick={() => {
+                                        dispatch(action.addCategory(hotEspeciallys.post_category.name))
+                                    }}
+                                >
                                     < Especially
                                         name={hotEspeciallys.name}
                                         image={hotEspeciallys.avatar}
@@ -117,8 +114,14 @@ const AppContentClientHome = () => {
                         }
                         {
                             !!relatedNews && relatedNews.map((r, index) =>
-                                <div key={index} className="my-2" style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
-                                    <Link className="name-list-category" to={`/home/post/${r.id}`}>
+                                <div key={index} className="my-2"
+                                    style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
+                                    <Link className="name-list-category" to={`/home/post/${r.id}`}
+                                onClick={() => {
+                                    dispatch(action.removeCart())
+                                    dispatch(action.addCategory(r.post_category.name))
+                                }}
+                                    >
                                         <ComponentIsHot
                                             image={r.avatar}
                                             name={r.name}
@@ -133,7 +136,12 @@ const AppContentClientHome = () => {
                         {
                             !!isHots && isHots.map((isHot, index) =>
                                 <div key={index} className="style_div_post_hot">
-                                    <Link className="name-list-category" to={`/home/post/${isHot.id}`}>
+                                    <Link className="name-list-category" to={`/home/post/${isHot.id}`}
+                                      onClick={() => {
+                                        dispatch(action.removeCart())
+                                        dispatch(action.addCategory(isHot.post_category.name))
+                                    }}
+                                    >
                                         <ComponentIsHot
                                             name={isHot.name}
                                             image={isHot.avatar}
@@ -160,7 +168,12 @@ const AppContentClientHome = () => {
                                         return number.isHot == true
                                     }).map((p, index) =>
                                         <div className="especially-pageHome">
-                                            <Link className="name-list-category" to={`/home/post/${p.id}`}>
+                                            <Link className="name-list-category" to={`/home/post/${p.id}`}
+                                              onClick={() => {
+                                                dispatch(action.removeCart())
+                                                dispatch(action.addCategory(postFindCategory.name))
+                                            }}
+                                            >
                                                 <Especially
                                                     className="especially-pageHome"
                                                     key={index}
@@ -181,7 +194,12 @@ const AppContentClientHome = () => {
                                             return number.isHot == false
                                         }).map((p, index) =>
                                             <div key={index} className="component-ishot mx-3 mb-3">
-                                                <Link className="name-list-category" to={`/home/post/${p.id}`}>
+                                                <Link className="name-list-category" to={`/home/post/${p.id}`}
+                                                  onClick={() => {
+                                                    dispatch(action.removeCart())
+                                                    dispatch(action.addCategory(postFindCategory.name))
+                                                }}
+                                                >
                                                     <ComponentIsHot
                                                         style={{ boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}
                                                         name={p.name}

@@ -18,9 +18,14 @@ import { getUserById } from "src/services/userService";
 import Especially from "src/components/client/componentClients/EspeciallyComponent";
 import ComponentIsHot from "../../components/client/componentClients/ComponentIsHot"
 
-import { Editor } from '@tinymce/tinymce-react';
+import { useDispatch } from "react-redux";
+
+import action from "src/reducer/action"
 
 const ClientPostCategory = () => {
+    const dispatch = useDispatch()
+
+
     const [postCategorys, setPostCategorys] = useState([])
     const [posts, setPosts] = useState([])
     const [user, setUser] = useState()
@@ -44,7 +49,6 @@ const ClientPostCategory = () => {
         try {
             const search = id
             const res = await getPost(search)
-            console.log("data res :", res.data.items)
             if (!!res.data) {
                 setPosts([...res.data.items])
             }
@@ -85,8 +89,14 @@ const ClientPostCategory = () => {
         <div className="style_content">
             <div className="d-flex name_category ">
                 {!!postCategorys && postCategorys.map((p, index) =>
-                    <Link className="name-list-category" to={`/home/postCategory/${p.id}`}>
-                        <div key={index} className={!!id && id == p.id ? "px- 2 categoryTrue" : "px-2"}
+                    <Link className="name-list-category" to={`/home/postCategory/${p.id}`}
+                    onClick={()=>{
+                        dispatch(action.removeCart())
+                        dispatch(action.addCategory(p.name))
+                    }}
+                    >
+                        <div key={index} className={!!id && id == p.id ? "px- 2 categoryTrue" : "px-2"
+                        }
                         >
                             {p.name}
                         </div>
@@ -101,7 +111,12 @@ const ClientPostCategory = () => {
                         }).map((p, index) =>
                             <div key={index} className="d-flex">
                                 <div className="style_div_content_hot">
-                                    <Link className="name-list-category" to={`/home/post/${p.id}`}>
+                                    <Link className="name-list-category" to={`/home/post/${p.id}`}
+                                    onClick={()=>{
+                                        dispatch(action.removeCart())
+                                        dispatch(action.addCategory(p.post_category.name))
+                                    }}
+                                    >
                                         <Especially
                                             name={p.name}
                                             image={p.avatar}
@@ -145,7 +160,12 @@ const ClientPostCategory = () => {
                             }).map((p, index) =>
                                 <div key={index} className="my-2 style_div_content_hot"
                                     style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
-                                    <Link className="name-list-category" to={`/home/post/${p.id}`}>
+                                    <Link className="name-list-category" to={`/home/post/${p.id}`}
+                                      onClick={()=>{
+                                        dispatch(action.removeCart())
+                                        dispatch(action.addCategory(p.post_category.name))
+                                    }}
+                                    >
                                         <ComponentIsHot
                                             image={p.avatar}
                                             name={p.name}

@@ -16,7 +16,12 @@ import { getUser } from "src/services/localStorageService";
 import { createPost_like, getPost_like, deletePost_like } from "src/services/postLikeService";
 import { number } from "prop-types";
 
+import { useDispatch } from "react-redux";
+
+import action from '../../reducer/action'
+
 const CilentPosts = () => {
+    const dispatch = useDispatch()
 
     const [postCategorys, setPostCategorys] = useState([])
     const [post, setPost] = useState()
@@ -63,13 +68,12 @@ const CilentPosts = () => {
                 }
             }
         }
-
         catch (err) {
             alert(err)
         }
     }
 
-    const fetchLike = async () => {
+    const fetchLike = useCallback(async () => {
         try {
             const body = {
                 postId: post?.id,
@@ -77,44 +81,53 @@ const CilentPosts = () => {
             }
             if (!!user_like) {
                 if (!like) {
-                        setPost_like(post_like-1)
-                        console.log("heloo:", post_like-1)
-                        // await deletePost_like(userLocal.id)
+                    setPost_like(post_like - 1)
+                    // try{
+                    //      await deletePost_like(userLocal.id)
+                    // }
+                    // catch(err){
+                    //     alert(err)
+                    // }
+
                 }
-          
-            else {
-                if (!!like) {
-                    await createPost_like(body)
-                    const res=  await getPostById(id)
-                    if(!!res.data){
-                        setPost_like(res.data.post_likes.length)
+
+                else {
+                    if (!!like) {
+                        await createPost_like(body)
+                        const res = await getPostById(id)
+                        if (!!res.data) {
+                            setPost_like(res.data.post_likes.length)
+                        }
                     }
                 }
-            }  }
+            }
 
         }
         catch (err) {
             alert(err)
         }
 
-    }
+    }, [like])
 
     useEffect(() => {
-            fetchGetPostCategory() 
-               fetchGetPostById()
+        fetchGetPostCategory()
+        fetchGetPostById()
     }, [id])
 
     useEffect(() => {
         fetchLike()
     }, [like])
-    
-
 
     return (
         <div className="style_content">
             <div className="d-flex name_category ">
                 {!!postCategorys && postCategorys.map((p, index) =>
-                    <Link key={index} className="name-list-category" to={`/home/postCategory/${p.id}`}>
+                    <Link key={index} className="name-list-category" to={`/home/postCategory/${p.id}`}
+                        onClick={() => {
+                            dispatch(action.removeCart())
+                            dispatch(action.addCategory(p.name))
+                        }}
+                    >
                         <div className={!!id && id == p.id ? "px- 2 categoryTrue" : "px-2"}
                         >
                             {p.name}
@@ -135,7 +148,6 @@ const CilentPosts = () => {
                                 </div>
                             </div>
                             <div className="post-like">
-                                {console.log("like ", like)}
                                 <button
                                     onClick={() => {
                                         setLike(!like)
@@ -145,9 +157,7 @@ const CilentPosts = () => {
 
                                     <div className="px-2" >  like </div>
                                     <div >{post_like}</div>
-
                                 </button>
-
                                 <div className="mx-3">
                                     <Moment format="H:mm DD/MM/YYYY ">
                                         {new Date(post.created_at)}
@@ -195,7 +205,12 @@ const CilentPosts = () => {
                                 {
                                     !!id && p.id == id ?
                                         <div /> :
-                                        <Link className="name-list-category" to={`/home/post/${p.id}`}>
+                                        <Link className="name-list-category" to={`/home/post/${p.id}`}
+                                            onClick={() => {
+                                                dispatch(action.removeCart())
+                                                dispatch(action.addCategory(p.post_category.name))
+                                            }}
+                                        >
                                             < ComponentIsHot
                                                 image={p.avatar}
                                                 name={p.name}
@@ -205,11 +220,9 @@ const CilentPosts = () => {
                                             />
                                         </Link>
                                 }
-
                             </div>
                         )}
                     </div>
-
                 </div>
             </div>
         </div>
